@@ -1,7 +1,7 @@
 # Problem solving with PyCUDA
 
 <p align="center">
-  <img src="shockWave.jpg.jpg" width="400">
+  <img src="shockWave.jpg" width="400">
 </p>
 
 The idea behind the use of parallel programming on GPU is accelerating the most computationally burdened parts of a code. In [Writing CUDA kernels for interpolation](https://vitalitylearning2021.github.io/interpolationCUDA/) and [Numerical quadrature in CUDA with reusable software](https://vitalitylearning2021.github.io/quadratureCUDA/), we have seen how this can be performed using proper CUDA kernels, fully dealing with approaches implemented in C/Python/CUDA language. The initialization of parameters or arrays, the load/write of data files or else the handling of the code execution flow was performed in C/Python language whereas the computationally burdened part (interpolation or integration) was accelerated by CUDA.  
@@ -84,7 +84,7 @@ for att, value in atts:
   print("  %s: %s" % (att, value))
 ```
 <p align="center" id="dumpPyCUDA" >
-     <em>Listing 1. Dumping the GPU properties in PyCUDA</em>
+     <em>Listing 1. Dumping the GPU properties in PyCUDA.</em>
 </p>
 
 However, before launching the code, it is necessary to install PyCUDA under the Google Colab environment. This can be done by the following snippet
@@ -200,35 +200,21 @@ In the following section, we will provide more details of PyCUDA programming, sh
 
 ## Getting started with PyCUDA: five different ways to sum vectors in PyCUDA
 
-In order to construct the five examples, we will consider different
-possibilities offered by PyCUDA. In particular:
+In order to construct the five examples, we will consider different possibilities offered by PyCUDA. In particular:
 
 1.  the `SourceModule` module;
-
 2.  the `ElementwiseKernel` module;
-
 3.  the elementwise sum of two `gpuarray`’s by a natural mathematical
     expression.
 
-The above different possibilities may have different performance so that
-we will incidentally assess it during the presentation.  
-Let us begin with the first possibility offered by the use of
-`SourceModule`.
+The above different possibilities may have different performance so that we will incidentally assess it during the presentation.  
+Let us begin with the first possibility offered by the use of `SourceModule`.
 
 ### Version \# 1: using `SourceModule`
 
-The `SourceModule` module enables coding GPU processing by defining
-`__global__` functions as Python strings. As previously mentioned
-concerning the possibility of compiling CUDA code transparently to the
-User, the kernels defined as strings are compiled and then can be
-launched as regular Python functions. For the launch, there is only the
-need to define the launch grid on the GPU. In the following, we will
-illustrate such first possibility in detail. The full code is contained
-in the `fivedifferentways_version1.py` file. Let us note that, for the
-sake of convenience, we will comment the instructions in an order
-different from that appearing in the `.py` file.  
-The first necessary step, as in all Python codes, is that of importing
-the libraries. This is done by the following rows
+The `SourceModule` module enables coding GPU processing by defining `__global__` functions as Python strings. As previously mentioned concerning the possibility of compiling CUDA code transparently to the User, the kernels defined as strings are compiled and then can be launched as regular Python functions. For the launch, there is only the
+need to define the launch grid on the GPU. In the following, we will illustrate such first possibility in detail. The full code is contained in the `fivedifferentways_version1.py` file. Let us note that, for the sake of convenience, we will comment the instructions in an order different from that appearing in the `.py` file.  
+The first necessary step, as in all Python codes, is that of importing the libraries. This is done by the following rows
 
     import numpy as np
     
@@ -236,15 +222,8 @@ the libraries. This is done by the following rows
     import pycuda.autoinit
     from pycuda.compiler import SourceModule
 
-At variance with the previous section, we note that the `numpy` library
-and the `SourceModule` module are now also imported. The `numpy` library
-will serve to initialize the arrays on CPU. It should be noticed that
-there is a full compatibility between PyCUDA and `numpy` as it will be
-clarified in the subsequent sections.  
-The following rows define the length `N` of the involved arrays along
-with the size `BLOCKSIZE` of a block of the GPU execution grid and to
-initialize the two CPU arrays to be summed up, namely, `h_a` and `h_b`.
-Such two arrays are cast to single precision.
+At variance with the previous section, we note that the `numpy` library and the `SourceModule` module are now also imported. The `numpy` library will serve to initialize the arrays on CPU. It should be noticed that there is a full compatibility between PyCUDA and `numpy` as it will be clarified in the subsequent sections.  
+The following rows define the length `N` of the involved arrays along with the size `BLOCKSIZE` of a block of the GPU execution grid and to initialize the two CPU arrays to be summed up, namely, `h_a` and `h_b`. Such two arrays are cast to single precision.
 
 ``` 
 
@@ -259,10 +238,7 @@ h_a = h_a.astype(np.float32)
 h_b = h_b.astype(np.float32)
 ```
 
-Subsequently, the space for the two arrays `d_a` and `d_b` to be summed
-up on GPU and for the result `d_c` is allocated. The two arrays to be
-summed up are transferred from the host to the device. This is performed
-thanks to the following rows :
+Subsequently, the space for the two arrays `d_a` and `d_b` to be summed up on GPU and for the result `d_c` is allocated. The two arrays to be summed up are transferred from the host to the device. This is performed thanks to the following rows :
 
 ``` python
 d_a = cuda.mem_alloc(h_a.nbytes)
@@ -272,10 +248,11 @@ d_c = cuda.mem_alloc(h_a.nbytes)
 cuda.memcpy_htod(d_a, h_a)
 cuda.memcpy_htod(d_b, h_b)
 ```
+<p align="center" id="deviceAllocAndCopies" >
+     <em>Listing 2. GPU allocation and memory copies from host to device.</em>
+</p>
 
-The kernel function, as said, is defined as a Python string assigned,
-after being decorated with `SourceModule`, to a certain variable, say
-`mod` in this example:
+The kernel function, as said, is defined as a Python string assigned, after being decorated with `SourceModule`, to a certain variable, say `mod` in this example:
 
 ``` c++
 mod = SourceModule("""
@@ -288,29 +265,24 @@ mod = SourceModule("""
   } 
   """)
 ```
+<p align="center" id="SourceModuleVersion1" >
+     <em>Listing 3. Defining a `SourceModule` function out of a `__global__` function.</em>
+</p>
 
-Once defined the kernel function as a string, it is necessary to “pull
-out” a reference to it that can be used in the pythonic workflow. This
-is achieved with the `get_function` method as
-follows`PyCUDA!get_function`:
+Once defined the kernel function as a string, it is necessary to “pull out” a reference to it that can be used in the pythonic workflow. This is achieved with the `get_function` method as follows:
 
 ``` python
 deviceAdd = mod.get_function("deviceAdd")
 ```
 
-At this point, we are almost ready to launch the kernel function. Before
-doing that, it is necessary to define the launch grid`PyCUDA!launch
-grid`:
+At this point, we are almost ready to launch the kernel function. Before doing that, it is necessary to define the launch grid:
 
 ``` python
 blockDim  = (BLOCKSIZE, 1, 1)
 gridDim   = (int(iDivUp(N, BLOCKSIZE)), 1, 1)
 ```
 
-As it can be seen, the launch grid is defined using the `iDivUp`
-function which is the analogous to that already presented in the initial
-chapters. In any case, its pythonic definition is reported in the
-following`PyCUDA!iDivUp`:
+As it can be seen, the launch grid is defined using the `iDivUp` function which is the analogous to that already presented in the initial chapters. In any case, its pythonic definition is reported in the following:
 
 ``` python
 def iDivUp(a, b):
@@ -320,15 +292,13 @@ def iDivUp(a, b):
     return (a / b + 1) if (a % b != 0) else (a / b)
 ```
 
-We are now ready to launch the `deviceAdd` function as it were an
-ordinary Python function as
+We are now ready to launch the `deviceAdd` function as it were an ordinary Python function as
 
 ``` python
 deviceAdd(d_c, d_a, d_b, np.int32(N), block = blockDim, grid = gridDim)
 ```
 
-In order to measure the execution times and to assess the performance,
-the invokation to `deviceAdd` is decorated as follows`PyCUDA!timing`:
+In order to measure the execution times and to assess the performance, the invokation to `deviceAdd` is decorated as follows:
 
 ``` python
 start = cuda.Event()
@@ -341,14 +311,15 @@ secs = start.time_till(end) * 1e-3
 print("Processing time = %fs" % (secs))
 ```
 
-In the last algorithmic steps, the CPU array `h_c` which will be in
-charge to hosting the results of the GPU processing is defined and the
-data are moved from the device to the host.
+In the last algorithmic steps, the CPU array `h_c` which will be in charge to hosting the results of the GPU processing is defined and the data are moved from the device to the host.
 
 ``` python
 h_c = np.empty_like(h_a)
 cuda.memcpy_dtoh(h_c, d_c)
 ```
+<p align="center" id="resultCopy" >
+     <em>Listing 4. Allocating host space and copying the computation results from device to host.</em>
+</p>
 
 Finally, the device processing results are checked:
 
@@ -359,29 +330,18 @@ else :
   print("Error!")
 ```
 
-and the context `printf` buffer is flushed. Without flushing, no
-printout may be returned:
+and the context `printf` buffer is flushed. Without flushing, no printout may be returned:
 
 ``` python
 cuda.Context.synchronize()
 ```
 
-It should be noticed that, to consistently measure the processing time,
-a first empty warm up  execution must be performed for the `deviceAdd`
-function. The execution time for the `deviceAdd` function has been
-`0.000102s`.
+It should be noticed that, to consistently measure the processing time, a first empty warm up  execution must be performed for the `deviceAdd` function. The execution time for the `deviceAdd` function has been `0.000102s`.
 
 ### Version \# 2: using `SourceModule` and copying data from host to device on-the-fly
 
-The second version is the same as the foregoing one with the only
-exception that the copies from host to device and vice versa are not
-performed explicitly before the kernel launch, but rather implicitly.
-Implicit copies are executed on-the-fly by applying `cuda.In` to the
-host input arrays and `cuda.Out` to the output host array. In other
-words, the lines in Listing
-[\[deviceAllocAndCopies\]](#deviceAllocAndCopies) and that referring to
-the explicit device-to-host copy in Listing
-[\[resultCopy\]](#resultCopy) are not necessary. Moreover, the call
+The second version is the same as the foregoing one with the only exception that the copies from host to device and vice versa are not performed explicitly before the kernel launch, but rather implicitly. Implicit copies are executed on-the-fly by applying `cuda.In` to the host input arrays and `cuda.Out` to the output host array. In other
+words, the lines in Listing [2](#deviceAllocAndCopies) and that referring to the explicit device-to-host copy in Listing [4](#resultCopy) are not necessary. Moreover, the call
 
 ``` python
 deviceAdd(d_c, d_a, d_b, np.int32(N), block = blockDim, grid = gridDim)
@@ -393,60 +353,31 @@ of the previous code is changed by the line
 deviceAdd(cuda.Out(h_c), cuda.In(h_a), cuda.In(h_b), np.int32(N), block = blockDim, grid = gridDim)
 ```
 
-The code is now shorter, but simplicity is paid with execution times.
-Indeed, memory transfers now affect the computation time which becomes
-`0.000964s`.  
+The code is now shorter, but simplicity is paid with execution times. Indeed, memory transfers now affect the computation time which becomes `0.000964s`.  
 The full code is contained in the `fiveDifferentWays_version2.py` file.
 
 ### Version \# 3: using `gpuarray`s
 
-In the third version, GPU arrays are dealt with by the `gpuarray`
-class.  
-By such a class, PyCUDA is capable to automatically manage memory
-allocations, deallocations, data transfers and cleanup based on the
-lifetime in a transparent way to the User, so that there is no need to
-worry about freeing `gpuarray` objects where we are done with them.  
-`gpuarray` works similarly to `numpy` and integrates with it. For
-example, to automatically create a `gpuarray` object and transfer a
-`numpy` array from host to device, it is enough to use the `to_gpu`
-method.  
-Using the `gpuarray` class, the up to now discussed code is even
-simpler:
+In the third version, GPU arrays are dealt with by the `gpuarray` class.  
+By such a class, PyCUDA is capable to automatically manage memory allocations, deallocations, data transfers and cleanup based on the lifetime in a transparent way to the User, so that there is no need to worry about freeing `gpuarray` objects where we are done with them.  
+`gpuarray` works similarly to `numpy` and integrates with it. For example, to automatically create a `gpuarray` object and transfer a `numpy` array from host to device, it is enough to use the `to_gpu` method.  
+Using the `gpuarray` class, the up to now discussed code is even simpler:
 
-  - as compared to the previous versions, there is no need to define the
-    kernel function;
-
-  - as compared to Version \# 1, the allocations and the transfers from
-    host to device are dealt with in a simple way using two lines of
-    code:
-    
+  - as compared to the previous versions, there is no need to define the kernel function;
+  - as compared to Version \# 1, the allocations and the transfers from host to device are dealt with in a simple way using two lines of code:
     ``` python
     d_a = gpuarray.to_gpu(h_a)
         d_b = gpuarray.to_gpu(h_b)
     ```
+  - the elementwise sum is then performed by using the possibility offered by such a class of expressing array operations on the GPU with a natural mathematical expression without explicitly coding a `__global__` function using `SourceModule`.
 
-  - the elementwise sum is then performed by using the possibility
-    offered by such a class of expressing array operations on the GPU
-    with a natural mathematical expression without explicitly coding a
-    `__global__` function using `SourceModule`.
-
-Once again, simplicity is paid with computation time: the execution time
-is now `1.117813s`.  
-The full code of this Version is contained in the
-`fiveDifferentWays_version3.py` file.
+Once again, simplicity is paid with computation time: the execution time is now `1.117813s`.  
+The full code of this Version is contained in the `fiveDifferentWays_version3.py` file.
 
 ### Version \# 4: using `ElementwiseKernel`
 
-The PyCUDA `ElementwiseKernel` class allows to define inlined CUDA code
-to be executed elementwise. Since the `__global__` `deviceAdd` function
-contains operations to be executed elementwise on the involved vectors,
-we are suggested to replace the use of `SourceModule` with
-`ElementwiseKernel`.  
-As for Version \# 3, the arrays are allocated using the `gpuarray`
-class. Differently from Version \#1, the definition of the
-`SourceModule` function in Listing
-[\[SourceModuleVersion1\]](#SourceModuleVersion1) is changed by that in
-the `ElementwiseKernel` function as:
+The PyCUDA `ElementwiseKernel` class allows to define inlined CUDA code to be executed elementwise. Since the `__global__` `deviceAdd` function contains operations to be executed elementwise on the involved vectors, we are suggested to replace the use of `SourceModule` with `ElementwiseKernel`.  
+As for Version \# 3, the arrays are allocated using the `gpuarray` class. Differently from Version \#1, the definition of the `SourceModule` function in Listing [3](#SourceModuleVersion1) is changed by that in the `ElementwiseKernel` function as:
 
 ``` python
 lin_comb = ElementwiseKernel(
@@ -454,112 +385,75 @@ lin_comb = ElementwiseKernel(
         "d_c[i] = a * d_a[i] + b * d_b[i]")
 ```
 
-Actually, differently from the `SourceModule` function in Listing
-[\[SourceModuleVersion1\]](#SourceModuleVersion1), now a linear
-combination of the involved vectors instead of a simple elementwise sum
-is performed. The function `lin_comb` can be then called as:
+Actually, differently from the `SourceModule` function in Listing [3](#SourceModuleVersion1), now a linear combination of the involved vectors instead of a simple elementwise sum is performed. The function `lin_comb` can be then called as:
 
 ``` python
 lin_comb(d_c, d_a, d_b, 2, 3)
 ```
 
-As it can be seen, the call to the `lin_comb` function foresees also to
-pass constants. It should be noticed that, in the above defined
-`ElementwiseKernel` function, PyCUDA automatically sets up the integer
-index `i`. When we index the arrays by the index `i`,
-`ElementwiseKernel` automatically parallelizes the computation over
-`i`.  
+As it can be seen, the call to the `lin_comb` function foresees also to pass constants. It should be noticed that, in the above defined `ElementwiseKernel` function, PyCUDA automatically sets up the integer index `i`. When we index the arrays by the index `i`, `ElementwiseKernel` automatically parallelizes the computation over `i`.  
 The computation time is `0.000092s` so that, as compared to Version \#
-1, the use of `ElementwiseKernel` seems not to give rise to a loss of
-performance as compared to `SourceModule`.  
-The full code of this Version is contained in the
-`fiveDifferentWays_version4.py` file.
+1, the use of `ElementwiseKernel` seems not to give rise to a loss of performance as compared to `SourceModule`.  
+The full code of this Version is contained in the `fiveDifferentWays_version4.py` file.
 
 ### Version \# 5: using `SourceModule` while handling vectors by gpuarray
 
-With the aim of verifying whether `gpuarray` is responsible of any
-increase of the execution times of Version \# 1, we reconsider Version
-\#1 again while now dealing with the involved vectors by `gpuarray`
-instead of `mem_alloc`.  
-The execution time keeps `0.000182s`, just like Version \# 1, so that
-the use of the `gpuarray` class is not responsible of any execution
-overhead.  
-The full code of this version is contained in the
-`fiveDifferentWays_version5.py` file.  
-Once introduced the main features of PyCUDA, let us now turn to the
-problem of evaluating the main features of the inviscid Burgers’
-equation.
+With the aim of verifying whether `gpuarray` is responsible of any increase of the execution times of Version \# 1, we reconsider Version \#1 again while now dealing with the involved vectors by `gpuarray` instead of `mem_alloc`.  
+The execution time keeps `0.000182s`, just like Version \# 1, so that the use of the `gpuarray` class is not responsible of any execution overhead.  
+The full code of this version is contained in the `fiveDifferentWays_version5.py` file.  
+Once introduced the main features of PyCUDA, let us now turn to the problem of evaluating the main features of the inviscid Burgers’ equation.
 
 ## Solving the inviscid Burgers’ equation with PyCUDA
 
-In this section, we will consider a somewhat more advanced project as
-compared to the simple elementwise sum considered in the foregoing
-section. We will face the numerical solution of the inviscid Burgers’
-equation by exploiting the MacCormack scheme.  
-We will firstly illustrate the essentials of the inviscid Burger’s
-equation. Later on, we will see how such equation can give rise to the
-so-called *shock waves*, namely, to a discontinuity of the solution
-occurring after a certain *breaking time*. Moreover, we will shortly
-illustrate the MacCormack scheme for the numerical solution of the
-inviscid Burgers’ equation. Finally, it will be the turn of the
-sequential (Python) and parallel (PyCUDA) implementations.  
+In this section, we will consider a somewhat more advanced project as compared to the simple elementwise sum considered in the foregoing section. We will face the numerical solution of the inviscid Burgers’ equation by exploiting the MacCormack scheme.  
+We will firstly illustrate the essentials of the inviscid Burger’s equation. Later on, we will see how such equation can give rise to the so-called *shock waves*, namely, to a discontinuity of the solution occurring after a certain *breaking time*. Moreover, we will shortly illustrate the MacCormack scheme for the numerical solution of the
+inviscid Burgers’ equation. Finally, it will be the turn of the sequential (Python) and parallel (PyCUDA) implementations.  
 It is now time for short recalls on the inviscid Burgers’ equation.
 
 ### The inviscid Burgers’ equation
 
-Burgers’ equation, also known as Bateman–Burgers equation, is a
-non-linear partial differential equation arising in many application
-fields as fluid mechanics and nonlinear heat transfer , nonlinear
-acoustics , gas dynamics  and traffic flow .  
-Burgers’ equation can be derived as simplification of the Navier-Stokes
-equations . On assuming the viscosity of the fluid vanishing, the
-Burgers’ equation particularizes in its *inviscid* version, for a simple
-one-dimensional problem, as
+Burgers’ equation, also known as Bateman–Burgers equation, is a non-linear partial differential equation arising in many application fields as fluid mechanics and nonlinear heat transfer, nonlinear acoustics, gas dynamics and traffic flow.  
+Burgers’ equation can be derived as simplification of the Navier-Stokes equations. On assuming the viscosity of the fluid vanishing, the Burgers’ equation particularizes in its *inviscid* version, for a simple one-dimensional problem, as
 
-\[\label{burgersEquation}
-\frac{\partial u(x,t)}{\partial t}=-u(x,t)\frac{\partial u(x,t)}{\partial x},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u(x,t)}{\partial t}=-u(x,t)\frac{\partial u(x,t)}{\partial x}," id="burgersEquation">       [1]
+</p>
 
-where \(u(x,t)\) is the flow velocity, \(x\) is the space and \(t\) is
-the time. Such equation is thus a first order, nonlinear Partial
-Differential Equation.  
-In next subsection, we will see how this equation can give rise to the
-so-called shock waves.
+where <img src="https://render.githubusercontent.com/render/math?math=u(x,t)"> is the flow velocity, <img src="https://render.githubusercontent.com/render/math?math=x"> is the space and <img src="https://render.githubusercontent.com/render/math?math=t"> is the time. Such equation is thus a first order, nonlinear Partial Differential Equation.  
+In next subsection, we will see how this equation can give rise to the so-called shock waves.
 
 ### The inviscid Burgers’ equation and the shock waves
 
-In order to show how the inviscid Burgers’ equation can give rise to
-shock waves, we use the so-called *method of characteristics*. It
-consists into searching for the curve \((t,x(t))\) along which a PDE
-transforms into an ordinary differential equation. To this end, we let
+In order to show how the inviscid Burgers’ equation can give rise to shock waves, we use the so-called *method of characteristics*. It consists into searching for the curve <img src="https://render.githubusercontent.com/render/math?math=(t,x(t))"> along which a PDE transforms into an ordinary differential equation. To this end, we let
 
-\[g(s)=u(x(s),t(s))\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=g(s)=u(x(s),t(s))," id="xxx">       [2]
+</p>
 
 and search for a solution of the following equation
 
-\[\frac{dg}{ds}(s)=0,\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dg}{ds}(s)=0," id="xxx">       [3]
+</p>
 
 namely
 
-\[\label{methodOfCharacteristics}
-\frac{dg}{ds}(s)=\frac{dx}{ds}(s)\frac{\partial u}{\partial x}(x(s), t(s))+\frac{dt}{ds}(s)\frac{\partial u}{\partial t}(x(s),t(s))=0.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dg}{ds}(s)=\frac{dx}{ds}(s)\frac{\partial u}{\partial x}(x(s), t(s))+\frac{dt}{ds}(s)\frac{\partial u}{\partial t}(x(s),t(s))=0." id="methodOfCharacteristics">       [4]
+</p>
 
-Equation ([\[methodOfCharacteristics\]](#methodOfCharacteristics)) is
-verified if we force
+Equation [\[4\]](#methodOfCharacteristics) is verified if we force
 
-\[\label{methodOfCharacteristicsConditions}
-    \left\{
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
                   \frac{dx}{ds}(s)=u(x(s),t(s))\\
                   \frac{dt}{ds}(s)=1.
                   \end{array}
-              \right.\]
+              \right." id="methodOfCharacteristicsConditions">       [5]
+</p>
 
-The second of equations
-([\[methodOfCharacteristicsConditions\]](#methodOfCharacteristicsConditions))
-can be obtained by considering \(t=s\), while, following such position,
-the first of equations
-([\[methodOfCharacteristicsConditions\]](#methodOfCharacteristicsConditions))
-becomes
+The second of equations [\[5\]](#methodOfCharacteristicsConditions) can be obtained by considering <img src="https://render.githubusercontent.com/render/math?math=t=s">, while, following such position, the first of equations [\[5\]](#methodOfCharacteristicsConditions) becomes
 
 \[\label{methodOfCharacteristicsSolution}
     \frac{dx}{dt}(t)=u(x(t),t).\]
