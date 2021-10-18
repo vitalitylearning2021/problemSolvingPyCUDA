@@ -44,49 +44,27 @@ In order to illustrate the potentialities of the PyCUDA library, for didactic pu
 
 ## Google Colaboratory
 
-Google Colaboratory, or Colab, is a totally free development environment
-based on Notebook Jupiter.  
-Jupyter notebook is an open-source, free web application permitting to
-create and share documents containing codes, equations, text, plots,
-tables and images and that enables sharing codes on the GitHub platform.
-In particular, the code is any time modifiable and executable in real
-time. What implemented can be later exported as Python or `ipynb`
-source, where `ipynb` is a format capable to host all the content of the
-Jupyter Notebook web application session and including the inputs and
-outputs of the computations, the images and the comments and that can be
-finally exported as `html`, `pdf` and `LaTeX`.  
-Google Colab supports `Python 2.7` and `3.6`, does not request any
-configuration and accommodates the CPU, GPU or Tensor Processing Unit
-(TPU) execution, depending on the needs. It hosts libraries like
-PyTorch, TensorFlow, Keras and OpenCV, so that it is much used for
-Machine Learning, Deep Learning and also experiments for Computer
-Vision. It is possible, however, to install also other modules if
-necessary.  
-In order to exploit Google Colab, it is enough to have a Google account
-and all the work can be saved on Google Drive.  
-The first screen that is visualized when Google Colab is launched is a
-welcome project in which the different possibilities offered by the
-platform (figure [1.2](#Colab1)) appear.
+Google Colaboratory, or Colab, is a totally free development environment based on Notebook Jupiter.  
+Jupyter notebook is an open-source, free web application permitting to create and share documents containing codes, equations, text, plots, tables and images and that enables sharing codes on the GitHub platform. In particular, the code is any time modifiable and executable in real time. What implemented can be later exported as Python or `ipynb`
+source, where `ipynb` is a format capable to host all the content of the Jupyter Notebook web application session and including the inputs and outputs of the computations, the images and the comments and that can be finally exported as `html`, `pdf` and `LaTeX`.  
+Google Colab supports `Python 2.7` and `3.6` at the time of writing, does not request any configuration and accommodates the CPU, GPU or Tensor Processing Unit (TPU) execution, depending on the needs. It hosts libraries like PyTorch, TensorFlow, Keras and OpenCV, so that it is much used for Machine Learning, Deep Learning and also experiments for Computer Vision. It is possible, however, to install also other modules if necessary.  
+In order to exploit Google Colab, it is enough to have a Google account and all the work can be saved on Google Drive.  
+The first screen that is visualized when Google Colab is launched is a welcome project in which the different possibilities offered by the platform (figure [2](#Colab1)) appear.
 
-![Google Colab welcome page.](Pictures/Chapter05/Colab1.JPG)
+<p align="center">
+  <img src="Colab1.JPG" width="400" id="Colab1">
+  <br>
+     <em>Figure 2. Google Colab welcome page.</em>
+</p>
 
-It is possible to create a new notebook, for example in `Python 3.6`, by
-selecting `New notebook` from the `File` menu. To enable the current
-session to use the GPU, it is enough to click on `Change runtime type`
-of the `Runtime` menu and select `GPU` from the `Hardware accelerator`
-drop down menu. It is understood that, from now on, such selection
-should be operated to correctly run the shown examples. Obviously, the
-examples that will be described could also be executed locally on a PC.
-In the Windows case, the use of `Visual Studio Code` is highly
-recommended.  
+It is possible to create a new notebook, for example in `Python 3.6`, by selecting `New notebook` from the `File` menu. To enable the current session to use the GPU, it is enough to click on `Change runtime type` of the `Runtime` menu and select `GPU` from the `Hardware accelerator` drop down menu. It is understood that, from now on, such selection should be operated to correctly run the shown examples. Obviously, the examples that will be described could also be executed locally on a PC.
+In the Windows case, the use of `Visual Studio Code` is highly recommended.  
 In next section, we will see how it is possible to list the properties
 of the GPU on which the computation is performed.
 
 ## Dumping the GPU properties
 
-The first, very simple example that we will show in this chapter enables
-to dump the properties of the GPU card in use. The example is entirely
-shown in Listing [\[dumpPyCUDA\]](#dumpPyCUDA).
+The first, very simple example that we will show in this chapter enables to dump the properties of the GPU card in use. The example is entirely shown in Listing [\[dumpPyCUDA\]](#dumpPyCUDA).
 
 ``` python
 import pycuda.driver as cuda
@@ -105,39 +83,26 @@ atts.sort()
 for att, value in atts:
   print("  %s: %s" % (att, value))
 ```
+<p align="center" id="dumpPyCUDA" >
+     <em>Listing 1. Dumping the GPU properties in PyCUDA</em>
+</p>
 
-However, before launching the code, it is necessary to install PyCUDA
-under the Google Colab environment. This can be done by the following
-snippet
+However, before launching the code, it is necessary to install PyCUDA under the Google Colab environment. This can be done by the following snippet
 
 ``` python
 !pip install pycuda
 ```
 
-Going back to the code in Listing [\[dumpPyCUDA\]](#dumpPyCUDA), it
-permits to illustrate the normal workflow of a PyCUDA code.  
-In particular, the first step is to load the libraries as in a standard
-Python code. In the above example, two libraries are imported:
+Going back to the code in Listing [1](#dumpPyCUDA), it permits to illustrate the normal workflow of a PyCUDA code.  
+In particular, the first step is to load the libraries as in a standard Python code. In the above example, two libraries are imported:
 
-1.  `pycuda.driver`: contains functions for memory handling, as
-    allocation, deallocation and transfers, for the dumping of
-    information on the GPU card etc.; in the example, the `cuda`
-    shorthand is given to `pycuda.driver`;
+1.  `pycuda.driver`: contains functions for memory handling, as allocation, deallocation and transfers, for the dumping of information on the GPU card etc.; in the example, the `cuda` shorthand is given to `pycuda.driver`;
+2.  `pycuda.autoinit`: does not use a shorthand notation and this call serves for the device initialization, memory cleanup and context creation;
 
-2.  `pycuda.autoinit`: does not use a shorthand notation and this call
-    serves for the device initialization, memory cleanup and context
-    creation;
-
-The first operation performed in Listing [\[dumpPyCUDA\]](#dumpPyCUDA)
-is that of counting the number of available devices by means of
-`cuda.Device.count()`.  
-The second is that of dumping the properties of the only available GPU,
-namely, GPU number `0`, in the `dev` variable.  
-Later on, the GPU name stored in `dev.name()`, the compute capability
-stored in `dev.compute_capability()` and the available free memory (in
-bytes) stored in `dev.total_memory()` are shown.  
-Finally, all the GPU attributes are ordered in an alphabetical order and
-displayed on screen.  
+The first operation performed in Listing [1](#dumpPyCUDA) is that of counting the number of available devices by means of `cuda.Device.count()`.  
+The second is that of dumping the properties of the only available GPU, namely, GPU number `0`, in the `dev` variable.  
+Later on, the GPU name stored in `dev.name()`, the compute capability stored in `dev.compute_capability()` and the available free memory (in bytes) stored in `dev.total_memory()` are shown.  
+Finally, all the GPU attributes are ordered in an alphabetical order and displayed on screen.  
 An example of output is shown in the following Listing:
 
 ``` python
@@ -231,9 +196,7 @@ Device: %s Tesla P100-PCIE-16GB
   WARP_SIZE: 32
 ```
 
-In the following section, we will provide more details of PyCUDA
-programming, showing five different ways to perform an elementwise
-vector summation.
+In the following section, we will provide more details of PyCUDA programming, showing five different ways to perform an elementwise vector summation.
 
 ## Getting started with PyCUDA: five different ways to sum vectors in PyCUDA
 
