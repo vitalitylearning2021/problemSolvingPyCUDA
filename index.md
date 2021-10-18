@@ -24,56 +24,23 @@ In conclusion, in the present project we will deal with:
 
 ## Getting started
 
-In the following, we will provide an introduction to the PyCUDA library
-and short sample projects will be developed from which its main features
-can be gathered. More complex examples will be presented in the
-following chapters. From a theoretical point of view, no particular
-prerequisites are requested, apart from a basic knowledge of partial and
-ordinary differential equations and of gravitation laws. The necessary
-theoretical recalls will be provided anyways. From the programming point
-of view, we assume a basic knowledge of Python language.  
-The GitHub link for all the code files is as below:
-<https://github.com/CIuliusC/CUDA_Book/tree/master/Chapter%2005>.  
+In the following, we will provide an introduction to the PyCUDA library and short sample projects will be developed from which its main features can be gathered. From a theoretical point of view, no particular prerequisites are requested, apart from a basic knowledge of partial and ordinary differential equations and of gravitation laws. The necessary theoretical recalls will be provided anyways. From the programming point of view, we assume a basic knowledge of Python language.  
 We begin, in the following section, to introduce the PyCUDA library.
 
 ## What is PyCUDA?
 
-PyCUDA is a library developed by Andreas Kl<span>ö</span>ckner *et al.* 
-allowing to write CUDA codes and compiling, optimizing and using them as
-ordinary Python functions in a totally transparent way to the User. The
-User, indeed, does not need to manage the CUDA compiler unless he
-explicitly requests it.  
-PyCUDA uses the concept of GPU run-time code generation (RTCG) enabling
-the execution of low-level code launched by the high-level scripting
-language offered by Python. The use of RTCG increases the User’s
-productivity from different points of view.  
-A first advantage of RTCG is related to the possibility of a low-level
-programming by writing CUDA kernels only for the portions of the code to
-be accelerated while using, for the remaining ones, all the
-functionalities of a high-level language, as graphics or I/O. RTCG
-enables a run-time code optimization instead of a compile-time one. The
-former occurs at a more favorable time, when all the information on the
-machine on which the code must be executed is available. Also, the
-result of the compilation process is cached and reused if possible,
-initiating recompilation only when necessary. This is illustrated in
-figure [1.1](#PyCUDA_flow) where the compilation and caching operations
-in the gray box are performed transparently to the User. Finally, it is
-possible to fully exploit the potentialities of CUDA libraries thanks to
-the readiness of many wrappers in publicly available libraries or to
-construct such wrappers by oneself. In next chapters, we will provide an
-example of the wrapper availability for using the cuFFT library and of
-wrapper constructability for exploiting the cuSparse library.  
-A second advantage of RTCG is associated to the possibility of using,
-within certain limits, a high-level, mathematical-like syntax for GPU
-executions.  
-In order to illustrate the potentialities of the PyCUDA library, for
-didactic purposes, we illustrate some simple examples prior to move to
-true projects. However, first, some words are given on the environment
-which we will use to develop some of the examples and the projects
-below, namely, Google Colaboratory.
+PyCUDA is a library developed by Andreas Kl<span>ö</span>ckner *et al.* allowing to write CUDA codes and compiling, optimizing and using them as ordinary Python functions in a totally transparent way to the User. The User, indeed, does not need to manage the CUDA compiler unless he explicitly requests it.  
+PyCUDA uses the concept of GPU run-time code generation (RTCG) enabling the execution of low-level code launched by the high-level scripting language offered by Python. The use of RTCG increases the User’s productivity from different points of view.  
+A first advantage of RTCG is related to the possibility of a low-level programming by writing CUDA kernels only for the portions of the code to be accelerated while using, for the remaining ones, all the functionalities of a high-level language, as graphics or I/O. RTCG enables a run-time code optimization instead of a compile-time one. The
+former occurs at a more favorable time, when all the information on the machine on which the code must be executed is available. Also, the result of the compilation process is cached and reused if possible, initiating recompilation only when necessary. This is illustrated in figure [1](#PyCUDA_flow) where the compilation and caching operations in the gray box are performed transparently to the User. Finally, it is possible to fully exploit the potentialities of CUDA libraries thanks to the readiness of many wrappers in publicly available libraries or to construct such wrappers by oneself. In next chapters, we will provide an example of the wrapper availability for using the cuFFT library and of wrapper constructability for exploiting the cuSparse library. 
+A second advantage of RTCG is associated to the possibility of using, within certain limits, a high-level, mathematical-like syntax for GPU executions.  
+In order to illustrate the potentialities of the PyCUDA library, for didactic purposes, we illustrate some simple examples prior to move to true projects. However, first, some words are given on the environment which we will use to develop some of the examples and the projects below, namely, Google Colaboratory.
 
-![PyCUDA GPU program compilation
-workflow.](Pictures/Chapter05/PyCUDA_v2.JPG)
+<p align="center">
+  <img src="PyCUDA_v2.JPG" width="400" id="PyCUDA_flow">
+  <br>
+     <em>Figure 1. PyCUDA GPU program compilation workflow.</em>
+</p>
 
 ## Google Colaboratory
 
