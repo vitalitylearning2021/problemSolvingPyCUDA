@@ -1,73 +1,25 @@
 # Problem solving with PyCUDA
 
-The idea behind the use of parallel programming on GPU is accelerating
-the most computationally burdened parts of a code. In chapters I and II,
-we have seen how this can be performed using proper CUDA kernels, fully
-dealing with approaches implemented in C/Python/CUDA language. The
-initialization of parameters or arrays, the load/write of data files or
-else the handling of the code execution flow was performed in C/Python
-language whereas the computationally burdened part (interpolation or
-integration) was accelerated by CUDA.  
-In many cases of practical interest, the initialization, data exchange
-or management phases are unburdened, so that the use of a language of
-higher level than C does not penalize the execution times. Moreover,
-exploiting off-the-shelf routines available in higher level languages
-as, for example, data load/write or graphics, could be convenient being
-them more easily used than C/Python.  
-Python is one of the higher level languages that has taken hold in the
-last years since high-performance routines are available, it is free and
-it benefits of a large audience of developers and users. Python has
-nowadays succeeded to be a standard for machine learning and artificial
-intelligence applications. On the heels of these considerations, the
-PyCUDA library has been developed which enables to write and compile
-kernels in CUDA language and to integrate them with Python. In this way,
-such kernels are executed as they were ordinary Python functions, thus
-strongly simplifying the programming and the development of applications
-with acceleration achieved by parallel programming on GPU.  
-In this chapter, we will provide an introduction to the PyCUDA library
-using a series of short examples in which we will illustrate the
-simplicity and the different possibilities to integrate CUDA programming
-in Python. Later on, we will describe the development of a couple of
-small projects of practical interest using PyCUDA. In particular, we
-will set up an approach to solve a simple first order, non-linear
-partial differential equation. To this end, the inviscid Burgers’
-equation will be considered. Such an equation is physically meaningful
-and interesting since it enables dealing with the simulation of an
-amazing phenomenon known as *shock wave*. Finally, we will consider a
-simple approach for the particle simulation of an \(N\)-body system
-based on the use of the Runge-Kutta scheme. The \(N\)-body problem is,
-indeed, very common in applications since, depending on the relevant
-forces, it is of interest in many fields of science like gravitation or
-plasma physics, to mention only a couple of examples. Moreover, the
-Runge-Kutta method represents a widespread numerical scheme for the
-solution of ordinary differential equations. Finally, we will deal with
-a two-dimensional \(N\)-body problem, leaving the extension to the
-three-dimensional case to the following chapters. We will also size the
-opportunity to illustrate a real-time visualization modality of the
-results based on the `pygame` library.  
-Another indirect advantage of Python is that, recently, many services
-providing free Jupyter notebook environments have flourished requiring
-no setup and entirely running on the cloud. Examples are Google
-Colaboratory or Kaggle which enable also the parallel programming on
-GPU. These services enable any User having a simple internet connection
-and a browser, but no significant computation facility at disposal, to
-access a virtual machine running PyCUDA among other libraries.  
-In conclusion, in the present chapter we will deal with:
+<p align="center">
+  <img src="shockWave.jpg.jpg" width="400">
+</p>
+
+The idea behind the use of parallel programming on GPU is accelerating the most computationally burdened parts of a code. In [Writing CUDA kernels for interpolation](https://vitalitylearning2021.github.io/interpolationCUDA/) and [Numerical quadrature in CUDA with reusable software](https://vitalitylearning2021.github.io/quadratureCUDA/), we have seen how this can be performed using proper CUDA kernels, fully dealing with approaches implemented in C/Python/CUDA language. The initialization of parameters or arrays, the load/write of data files or else the handling of the code execution flow was performed in C/Python language whereas the computationally burdened part (interpolation or integration) was accelerated by CUDA.  
+In many cases of practical interest, the initialization, data exchange or management phases are unburdened, so that the use of a language of higher level than C does not penalize the execution times. Moreover, exploiting off-the-shelf routines available in higher level languages as, for example, data load/write or graphics, could be convenient being them more easily used than C/Python.  
+Python is one of the highest level languages that has taken hold in the last years since high-performance routines are available, it is free and it benefits of a large audience of developers and users. Python has nowadays succeeded to be a standard for machine learning and artificial intelligence applications. On the heels of these considerations, the
+PyCUDA library has been developed which enables to write and compile kernels in CUDA language and to integrate them with Python. In this way, such kernels are executed as they were ordinary Python functions, thus strongly simplifying the programming and the development of applications with acceleration achieved by parallel programming on GPU.  
+In this project, we will provide an introduction to the PyCUDA library using a series of short examples in which we will illustrate the simplicity and the different possibilities to integrate CUDA programming in Python. Later on, we will describe the development of a couple of small projects of practical interest using PyCUDA. In particular, we will set up an approach to solve a simple first order, non-linear partial differential equation. To this end, the inviscid Burgers’ equation will be considered. Such an equation is physically meaningful and interesting since it enables dealing with the simulation of an amazing phenomenon known as *shock wave*. Finally, we will consider a simple approach for the particle simulation of an <img src="https://render.githubusercontent.com/render/math?math=N">-body system based on the use of the Runge-Kutta scheme. The <img src="https://render.githubusercontent.com/render/math?math=N">-body problem is, indeed, very common in applications since, depending on the relevant forces, it is of interest in many fields of science like gravitation or plasma physics, to mention only a couple of examples. Moreover, the Runge-Kutta method represents a widespread numerical scheme for the solution of ordinary differential equations. Finally, we will deal with a two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem. We will also size the opportunity to illustrate a real-time visualization modality of the results based on the `pygame` library.  
+Another indirect advantage of Python is that, recently, many services providing free Jupyter notebook environments have flourished requiring no setup and entirely running on the cloud. Examples are Google Colaboratory or Kaggle which enable also the parallel programming on GPU. These services enable any User having a simple internet connection
+and a browser, but no significant computation facility at disposal, to access a virtual machine running PyCUDA among other libraries.  
+In conclusion, in the present project we will deal with:
 
   - The PyCUDA library;
-
   - Integration of CUDA code in Python;
-
   - Inviscid Burgers’ equation and shock waves;
-
   - Runge-Kutta;
-
-  - Simple \(N\)-body problem;
-
+  - Simple <img src="https://render.githubusercontent.com/render/math?math=N">-body problem;
   - An Ordinary Differential Equation (ODE);
-
   - A Partial Differential Equations (PDE);
-
   - `pygame` library.
 
 ## Getting started
