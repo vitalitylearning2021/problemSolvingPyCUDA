@@ -455,42 +455,34 @@ Equation [\[4\]](#methodOfCharacteristics) is verified if we force
 
 The second of equations [\[5\]](#methodOfCharacteristicsConditions) can be obtained by considering <img src="https://render.githubusercontent.com/render/math?math=t=s">, while, following such position, the first of equations [\[5\]](#methodOfCharacteristicsConditions) becomes
 
-\[\label{methodOfCharacteristicsSolution}
-    \frac{dx}{dt}(t)=u(x(t),t).\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}(t)=u(x(t),t)." id="methodOfCharacteristicsSolution">       [6]
+</p>
 
-Physically, since \(\frac{dx}{dt}(t)\) can be interpreted as the speed
-of the perturbation, equation
-([\[methodOfCharacteristicsSolution\]](#methodOfCharacteristicsSolution))
-tells us that \(u(x(t),t)\) is a measure of such velocity.  
-In order to illustrate the meaning of the method of characteristics and
-by assuming \(t=0\) as initial time, let us consider the following
-initial condition:
+Physically, since <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}(t)"> can be interpreted as the speed of the perturbation, equation
+[\[6\]](#methodOfCharacteristicsSolution) tells us that <img src="https://render.githubusercontent.com/render/math?math=u(x(t),t)"> is a measure of such velocity.  
+In order to illustrate the meaning of the method of characteristics and by assuming <img src="https://render.githubusercontent.com/render/math?math=t=0"> as initial time, let us consider the following initial condition:
 
-\[u(x,0)=u_0\sin(\pi x).\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=u(x,0)=u_0\sin(\pi x)." id="xxx">       [7]
+</p>
 
-In this case, equation
-([\[methodOfCharacteristicsSolution\]](#methodOfCharacteristicsSolution)),
-at \(t=0\), rewrites as
+In this case, equation ([\[6\]](#methodOfCharacteristicsSolution)), at <img src="https://render.githubusercontent.com/render/math?math=t=0">, rewrites as 
 
-\[\label{methodOfCharacteristicsInitial}
-\frac{dx}{dt}(0)=u_0\sin(\pi x).\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}(0)=u_0\sin(\pi x)." id="methodOfCharacteristicsInitial">       [8]
+</p>
 
-Equation
-([\[methodOfCharacteristicsInitial\]](#methodOfCharacteristicsInitial))
-has a precise meaning: for \(x\in(0,1)\), \(\frac{dx}{dt}\) is positive
-so that, at those points, the perturbation moves in the positive
-direction of the \(x\) axis, while for \(x\in(1,2)\), \(\frac{dx}{dt}\)
-is negative so that, at those points, the perturbation moves along the
-negative direction of the \(x\) axis. Moreover, as long as the amplitude
-of \(sin(\pi x)\) increases, the perturbation moves faster.  
-The method of characteristics, for the examined case, is illustrated in
-the following figure [1.3](#methodOfCharacteristicsFigure):
+Equation ([\[8\]](#methodOfCharacteristicsInitial)) has a precise meaning: for <img src="https://render.githubusercontent.com/render/math?math=x\in(0,1)">, <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}"> is positive so that, at those points, the perturbation moves in the positive direction of the <img src="https://render.githubusercontent.com/render/math?math=x"> axis, while for <img src="https://render.githubusercontent.com/render/math?math=x\in(1,2)">, <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}"> is negative so that, at those points, the perturbation moves along the negative direction of the <img src="https://render.githubusercontent.com/render/math?math=x"> axis. Moreover, as long as the amplitude of <img src="https://render.githubusercontent.com/render/math?math=sin(\pi x)"> increases, the perturbation moves faster.  
+The method of characteristics, for the examined case, is illustrated in the following figure [3](#methodOfCharacteristicsFigure):
 
-![Illustrating the method of
-characteristics.](Pictures/Chapter05/shockWave.png)
+<p align="center">
+  <img src="shockWave.png" width="400" id="methodOfCharacteristicsFigure">
+  <br>
+     <em>Figure 3. Illustrating the method of characteristics.</em>
+</p>
 
-The left subfigure shows what above mentioned. For \(x \in(0,1)\), the
-slope of the characteristic curve is positive, while, for
+The left subfigure shows what above mentioned. For \(x \in(0,1)\), the slope of the characteristic curve is positive, while, for
 \(x \in(1,2)\), it is negative. The right subfigure illustrates how the
 points in \((0,1)\) move right even faster depending on the amplitude of
 \(\sin(\pi x)\), while the points in \((1,2)\) move left even faster,
