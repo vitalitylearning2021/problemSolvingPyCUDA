@@ -533,70 +533,57 @@ In next subsection, we will illustrate the numerical scheme for the solution of 
 
 ### Solution to the inviscid Burgers’ equation using the MacCormack method
 
-In order to describe the numerical scheme associated to MacCormack’s
-approach , we rewrite the inviscid Burgers’ equation as
+In order to describe the numerical scheme associated to MacCormack’s approach , we rewrite the inviscid Burgers’ equation as
 
-\[\label{conservationLaw}
-\frac{\partial u}{\partial t}=-\frac{\partial f}{\partial x}(u(x, t)),\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u}{\partial t}=-\frac{\partial f}{\partial x}(u(x, t))," id="conservationLaw">       [14]
+</p>
 
 where
 
-\[\label{inviscidBurgersFunction}
-f(u)=\frac{u^2}{2}.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=f(u)=\frac{u^2}{2}." id="inviscidBurgersFunction">       [15]
+</p>
 
-Actually, equation ([\[conservationLaw\]](#conservationLaw)) represents
-a more general *conservation law* and the MacCormack’s scheme that we
-are going to illustrate holds true for equation
-([\[conservationLaw\]](#conservationLaw)) in general.  
-Moreover, on assuming to solve equation
-([\[conservationLaw\]](#conservationLaw)) for \(t\geq t_0\) and
-\(x\geq x_0\), where \(t_0\) is the initial time and \(x_0\) is the left
-boundary of the domain of interest, we will flank Burgers’ equation with
-the initial condition
+Actually, equation [\[14\]](#conservationLaw) represents a more general *conservation law* and the MacCormack’s scheme that we are going to illustrate holds true for equation
+[\[14\]](#conservationLaw) in general.  
+Moreover, on assuming to solve equation [\[14\]](#conservationLaw) for <img src="https://render.githubusercontent.com/render/math?math=t\geq t_0"> and <img src="https://render.githubusercontent.com/render/math?math=x\geq x_0">, where <img src="https://render.githubusercontent.com/render/math?math=t_0"> is the initial time and <img src="https://render.githubusercontent.com/render/math?math=x_0"> is the left boundary of the domain of interest, we will flank Burgers’ equation with the initial condition
 
-\[\label{inviscidBurgerInitialCondition}
-u(x,t_0)=u_0(x), \;\;\; x\geq x_0\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=u(x,t_0)=u_0(x), \;\;\; x\geq x_0" id="inviscidBurgerInitialCondition">       [16]
+</p>
 
 and the boundary condition
 
-\[\label{inviscidBurgerBoundaryCondition}
-u(x_0, t)=g(t), \;\;\; t\geq t_0.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=u(x_0, t)=g(t), \;\;\; t\geq t_0." id="inviscidBurgerBoundaryCondition">       [17]
+</p>
 
-To research a numerical solution, let us define the following
-spatio-temporal discretization:
+To research a numerical solution, let us define the following spatio-temporal discretization:
 
-\[\label{discretizzazioneInviscid}
-    \left\{
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=   \left\{
                 \begin{array}{ll}
                   x_n=x_0+n\Delta x & n=0,1,\ldots, N\\
                   t_m=t_0+m\Delta t & m=0,1,\ldots,M
                 \end{array}
-              \right..\]
+              \right.." id="discretizzazioneInviscid">       [18]
+</p>
 
-We have therefore \(N+1\) spatial discretization points and \(M+1\)
-temporal discretization points, so that we are going to solve the
-equation of interest in a finite spatio-temporal domain. The unknowns of
-the problem are therefore the samples \(u(x_n,t_m)\), \(n=0,1,\ldots,N\)
-and \(m=0,1,\ldots,M\). For the sake of simplicity, in the following, we
-will denote such samples by \(u_n^m\), understanding that the subscript
-\(n\) refers to the spatial discretization, while the superscript \(m\)
-to the temporal one. Consequently, in order to store the solution at all
-spatial locations and all times, we will use a \((M+1)\times (N+1)\)
-matrix. The first row of the matrix, namely that with index \(0\), hosts
-the initial condition, while the first column, again that with index
-\(0\), hosts the boundary condition at the left border.  
+We have therefore <img src="https://render.githubusercontent.com/render/math?math=N+1"> spatial discretization points and <img src="https://render.githubusercontent.com/render/math?math=M+1"> temporal discretization points, so that we are going to solve the equation of interest in a finite spatio-temporal domain. The unknowns of the problem are therefore the samples <img src="https://render.githubusercontent.com/render/math?math=u(x_n,t_m)">, <img src="https://render.githubusercontent.com/render/math?math=n=0,1,\ldots,N"> and <img src="https://render.githubusercontent.com/render/math?math=m=0,1,\ldots,M">. For the sake of simplicity, in the following, we will denote such samples by <img src="https://render.githubusercontent.com/render/math?math=u_n^m">, understanding that the subscript
+<img src="https://render.githubusercontent.com/render/math?math=n"> refers to the spatial discretization, while the superscript <img src="https://render.githubusercontent.com/render/math?math=m"> to the temporal one. Consequently, in order to store the solution at all spatial locations and all times, we will use a <img src="https://render.githubusercontent.com/render/math?math=(M+1)\times (N+1)"> matrix. The first row of the matrix, namely that with index <img src="https://render.githubusercontent.com/render/math?math=0">, hosts the initial condition, while the first column, again that with index <img src="https://render.githubusercontent.com/render/math?math=0">, hosts the boundary condition at the left border.  
 MacCormack’s scheme consists of a two steps approach:
 
 1.  a predictor step;
-
 2.  a corrector step.
 
 #### The predictor step
 
-The predictor step consists of approximating the time and space
-derivatives by forward differencing as
+The predictor step consists of approximating the time and space derivatives by forward differencing as
 
-\[\frac{u_n^{\overline{m+1}}-u_{n}^{m}}{\Delta t}= -\frac{f(u_{n+1}^{\overline{m+1}})-f(u_{n}^{\overline{m+1}})}{\Delta x},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{u_n^{\overline{m+1}}-u_{n}^{m}}{\Delta t}= -\frac{f(u_{n+1}^{\overline{m+1}})-f(u_{n}^{\overline{m+1}})}{\Delta x}," id="discretizzazioneInviscid">       [19]
+</p>
 
 where \(u_n^{\overline{m+1}}\) is a “provisional” estimate of
 \(u_n^{m+1}\). Accordingly, the following update rule is set up:
