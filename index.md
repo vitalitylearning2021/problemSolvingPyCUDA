@@ -482,62 +482,54 @@ The method of characteristics, for the examined case, is illustrated in the foll
      <em>Figure 3. Illustrating the method of characteristics.</em>
 </p>
 
-The left subfigure shows what above mentioned. For \(x \in(0,1)\), the slope of the characteristic curve is positive, while, for
-\(x \in(1,2)\), it is negative. The right subfigure illustrates how the
-points in \((0,1)\) move right even faster depending on the amplitude of
-\(\sin(\pi x)\), while the points in \((1,2)\) move left even faster,
-once again, depending on the amplitude of \(\sin(\pi x)\). Figure
-[1.3](#methodOfCharacteristicsFigure), moreover, suggests that, since
-the points to the left of \(x=1\) move with speed (in part) increasing
-towards right and the points on the right of \(x=1\) move with speed (in
-part) increasing towards left, they will tend to accumulate around
-\(x=1\) so forming a discontinuity and, thus, a shock wave.  
-In order to better convince ourself of the possibility of forming a
-shock wave, we analyze the dynamics of the solution gradient along a
-characteristic curve by defining the quantity
+The left subfigure shows what above mentioned. For <img src="https://render.githubusercontent.com/render/math?math=x \in(0,1)">, the slope of the characteristic curve is positive, while, for <img src="https://render.githubusercontent.com/render/math?math=x \in(1,2)">, it is negative. The right subfigure illustrates how the points in <img src="https://render.githubusercontent.com/render/math?math=(0,1)"> move right even faster depending on the amplitude of <img src="https://render.githubusercontent.com/render/math?math=\sin(\pi x)">, while the points in <img src="https://render.githubusercontent.com/render/math?math=(1,2)"> move left even faster, once again, depending on the amplitude of <img src="https://render.githubusercontent.com/render/math?math=\sin(\pi x)">. Figure [3](#methodOfCharacteristicsFigure), moreover, suggests that, since the points to the left of <img src="https://render.githubusercontent.com/render/math?math=x=1"> move with speed (in part) increasing towards right and the points on the right of <img src="https://render.githubusercontent.com/render/math?math=x=1"> move with speed (in part) increasing towards left, they will tend to accumulate around <img src="https://render.githubusercontent.com/render/math?math=x=1"> so forming a discontinuity and, thus, a shock wave.  
+In order to better convince ourself of the possibility of forming a shock wave, we analyze the dynamics of the solution gradient along a characteristic curve by defining the quantity
 
-\[A(x(t),t)=\frac{\partial u(x(t),t)}{\partial x}.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=A(x(t),t)=\frac{\partial u(x(t),t)}{\partial x}." id="xxx">       [9]
+</p>
 
-With little algebra, it is possible to show that, along the
-characteristic curve, we have
+With little algebra, it is possible to show that, along the characteristic curve, we have
 
-\[\frac{dA}{dt}(t)=-A(t)^2\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dA}{dt}(t)=-A(t)^2." id="xxx">       [10]
+</p>
 
 which is solved, again along a characteristic curve, by
 
-\[\label{solutionGradientShockWave}
-A(t)=\frac{A_0}{1+A_0 t},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=A(t)=\frac{A_0}{1+A_0 t}," id="solutionGradientShockWave">       [11]
+</p>
 
-where \(A_0\) is the initial condition, namely \(A_0=A(0)\).  
-From ([\[solutionGradientShockWave\]](#solutionGradientShockWave)) it is
-seen that if \(A_0>0\), \(A(t)\) has a decaying behavior, while,
-opposite to that, if \(A_0 < 0\), \(A(t)\) diverges at
+where <img src="https://render.githubusercontent.com/render/math?math=A_0"> is the initial condition, namely <img src="https://render.githubusercontent.com/render/math?math=A_0=A(0)">.  
+From ([\[11\]](#solutionGradientShockWave)) it is seen that if <img src="https://render.githubusercontent.com/render/math?math=A_0>0">, <img src="https://render.githubusercontent.com/render/math?math=A(t)"> has a decaying behavior, while, opposite to that, if <img src="https://render.githubusercontent.com/render/math?math=A_0 < 0">, <img src="https://render.githubusercontent.com/render/math?math=A(t)"> diverges at
 
-\[t_{\ast}=-\frac{1}{A_0}.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=t_{\ast}=-\frac{1}{A_0}." id="xxx">       [12]
+</p>
 
-Let us complete such subsection by illustrating the characteristic
-curves relative to the case that we will consider in the numerical
-examples, namely, to the case in which the initil condition is given by
+Let us complete such subsection by illustrating the characteristic curves relative to the case that we will consider in the numerical examples, namely, to the case in which the initil condition is given by
 
-\[\label{initialConditionShockWave}
-u(x,0)=\left\{
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=u(x,0)=\left\{
                 \begin{array}{ll}
                   1 & x < 0\\
                   1 - x & 0\leq x \leq 1\\
                   0 & x > 1
                   \end{array}
-              \right..\]
+              \right.." id="initialConditionShockWave">       [13]
+</p>
 
-For this case, the characteristic curves are illustrated by the
-following figure:
+For this case, the characteristic curves are illustrated by the following figure:
 
-![Characteristic curves.](Pictures/Chapter05/characteristicCurves.png)
+<p align="center">
+  <img src="characteristicCurves.png" width="400" id="xxx">
+  <br>
+     <em>Figure 4. Characteristic curves.</em>
+</p>
 
-As it can be seen, the curve intersect at \(t=1\), suggesting that, at
-that time, a shock wave is formed.  
-In next subsection, we will illustrate the numerical scheme for the
-solution of the inviscid Burgers’ equation based on the MacCormack
-scheme`inviscid Burgers' equation!MacCormack scheme`.
+As it can be seen, the curve intersect at <img src="https://render.githubusercontent.com/render/math?math=t=1">, suggesting that, at that time, a shock wave is formed.  
+In next subsection, we will illustrate the numerical scheme for the solution of the inviscid Burgers’ equation based on the MacCormack scheme.
 
 ### Solution to the inviscid Burgers’ equation using the MacCormack method
 
