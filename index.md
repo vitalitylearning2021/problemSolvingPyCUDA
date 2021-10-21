@@ -636,6 +636,8 @@ Summarizing, the update rule for the MacCormack’s scheme for the solution of t
 
 We should now turn to the corresponding Python and PyCUDA implementations. Nevertheless, before that, we do a short detour to describe how it is possible to animate one-dimensional graphs in Python.
 
+<p align="center" id="animationsOneDimensional" >
+</p>
 ### One-dimensional animations with Python
 
 In this section, we will see how animating a simple, one-dimensional <img src="https://render.githubusercontent.com/render/math?math=\sin(2\pi(x-0.01i))"> wave in Python, where <img src="https://render.githubusercontent.com/render/math?math=i"> plays the role of time.  
@@ -745,11 +747,12 @@ x, dx = np.linspace(xmin, xmax, N + 1, retstep = True)
 
 t, dt = np.linspace(tmin, tmax, M + 1, retstep = True)
 ```
+<p align="center" id="deviceAllocAndCopies" >
+     <em>Listing 6. Space-time discretization for the solution of the inviscid Burgers' equation.</em>
+</p>
 
-As it can be seen, the function `np.linspace` is used to return also the
-discretization steps.  
-As penultimate step, the function calculating the numerical solution of
-the equation at hand is invoked, namely
+As it can be seen, the function `np.linspace` is used to return also the discretization steps.  
+As penultimate step, the function calculating the numerical solution of the equation at hand is invoked, namely
 
 ``` python
 u = maccormack(x, t, dx, dt)
@@ -777,10 +780,11 @@ def maccormack(x, t, dx, dt):
 
   return u
 ```
+<p align="center" id="deviceAllocAndCopies" >
+     <em>Listing 7. The Python implementation of the MacCormack scheme for the solution of the inviscid Burgers' equation.</em>
+</p>
 
-The first operation performed by such a function is the definition of
-the matrix `u`, of size `(M+1)X(N+1)` as described in subsection
-[1.6.3](#solutionInviscidBurgerSection), namely
+The first operation performed by such a function is the definition of the matrix `u`, of size `(M+1)X(N+1)` as described in subsection [Solution to the inviscid Burgers’ equation using the MacCormack method](#solutionInviscidBurgerSection), namely
 
 ``` python
 u = np.zeros(((M + 1), N + 1))
@@ -806,20 +810,13 @@ def unit(x):
     return u0
 ```
 
-After the enforcement of the initial condition, the `for` loop computing
-the solution at the `M` steps subsequent the initial condition is
-computed. In particular, the instruction
+After the enforcement of the initial condition, the `for` loop computing the solution at the `M` steps subsequent the initial condition is computed. In particular, the instruction
 
 ``` python
 us = u[m, 0 : N] - dt / dx * (f(u[m, 1 : N + 1]) - f(u[m, 0 : N]))
 ```
 
-calculates the *predictor*, namely, an impelmentation of the first of
-equations
-([\[updateMacCormackInviscidBurger\]](#updateMacCormackInviscidBurger)).
-The function `f` appearing in the foregoing line implements the function
-\(f(u)\) in ([\[inviscidBurgersFunction\]](#inviscidBurgersFunction))
-and is defined as
+calculates the *predictor*, namely, an impelmentation of the first of equations [\[25\]](#updateMacCormackInviscidBurger). The function `f` appearing in the foregoing line implements the function <img src="https://render.githubusercontent.com/render/math?math=f(u)"> in [\[15\]](#inviscidBurgersFunction) and is defined as
 
 ``` python
 def f(u):
@@ -827,27 +824,20 @@ def f(u):
   return 0.5 * u * u
 ```
 
-Following the computation of the predictor, the *corrector* step is
-executed by the line
+Following the computation of the predictor, the *corrector* step is executed by the line
 
 ``` python
 u[m + 1, 1 : N] = 0.5 * (u[m, 1 : N] + us[1 : N]) - 
           0.5 * dt / dx * (f(us[1 : N]) - f(us[0 : N - 1]))
 ```
 
-which is nothing else that the implementation of the second of equations
-([\[updateMacCormackInviscidBurger\]](#updateMacCormackInviscidBurger)).
-It should be noticed that, in the line shown above, it is not possible
-to update also the element with `n=0`, depending `u[m + 1, 1 : N]` from
-`us[0 : N - 1]`. However, the element with `n=0` is evaluated by the
-boundary condition at the subsequent line, namely
+which is nothing else that the implementation of the second of equations [\[25\]](#updateMacCormackInviscidBurger). It should be noticed that, in the line shown above, it is not possible to update also the element with `n=0`, depending `u[m + 1, 1 : N]` from `us[0 : N - 1]`. However, the element with `n=0` is evaluated by the boundary condition at the subsequent line, namely
 
 ``` python
 u[m + 1, 0] = 1
 ```
 
-The last part of the code regards the animation which we report in the
-following:
+The last part of the code regards the animation which we report in the following:
 
 ``` python
 fig, ax = plt.subplots()
@@ -874,14 +864,8 @@ rc('animation', html = 'jshtml')
 anim
 ```
 
-It faithfully reproduces what reported in subsection
-[1.6.4](#animationsOneDimensional), except for the fact that now the
-solution is reported with dashed style as indicated in the option
-`linestyle = 'dashed'` of the `plot` method and due to the fact that the
-`animate` function does not perform calculations, but invokes the
-l’`i`-th element of the solution `u`.  
-We finally represent, in the following figure, the time behavior of the
-solution to verify the formation of the shock wave.
+It faithfully reproduces what reported in subsection [One-dimensional animations with Python](#animationsOneDimensional), except for the fact that now the solution is reported with dashed style as indicated in the option `linestyle = 'dashed'` of the `plot` method and due to the fact that the `animate` function does not perform calculations, but invokes the l’`i`-th element of the solution `u`.  
+We finally represent, in the following figure, the time behavior of the solution to verify the formation of the shock wave.
 
 ![Space-time solution to the inviscid Burgers’ equation: formation of a
 shock wave.](Pictures/Chapter05/inviscidBurger.eps)
