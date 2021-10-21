@@ -210,6 +210,8 @@ In order to construct the five examples, we will consider different possibilitie
 The above different possibilities may have different performance so that we will incidentally assess it during the presentation.  
 Let us begin with the first possibility offered by the use of `SourceModule`.
 
+<p align="center" id="fiveDifferentVersionsVersion1" >
+</p>
 ### Version \# 1: using `SourceModule`
 
 The `SourceModule` module enables coding GPU processing by defining `__global__` functions as Python strings. As previously mentioned concerning the possibility of compiling CUDA code transparently to the User, the kernels defined as strings are compiled and then can be launched as regular Python functions. For the launch, there is only the
@@ -867,8 +869,11 @@ anim
 It faithfully reproduces what reported in subsection [One-dimensional animations with Python](#animationsOneDimensional), except for the fact that now the solution is reported with dashed style as indicated in the option `linestyle = 'dashed'` of the `plot` method and due to the fact that the `animate` function does not perform calculations, but invokes the l’`i`-th element of the solution `u`.  
 We finally represent, in the following figure, the time behavior of the solution to verify the formation of the shock wave.
 
-![Space-time solution to the inviscid Burgers’ equation: formation of a
-shock wave.](Pictures/Chapter05/inviscidBurger.eps)
+<p align="center">
+  <img src="inviscidBurger.eps" width="400" id="methodOfCharacteristicsFigure">
+  <br>
+     <em>Figure 5. Space-time solution to the inviscid Burgers’ equation: formation of a shock wave.</em>
+</p>
 
 Such a figure has been obtained using the following code snippet:
 
@@ -909,26 +914,14 @@ fig2.colorbar(surf, shrink=0.5, aspect=5)
 plt.savefig('inviscidBurger.eps', format = 'eps')
 ```
 
-We will not discuss the above snippet being outside the scope of this
-section. On commenting figure [1.5](#spaceTimeInviscid), it can be seen
-how, for \(t=0\), the initial condition can be recognized; moreover, the
-propagation of the perturbation is regular until \(t=1\); from \(t=1\)
-on, finally, the shock wave is formed.
+We will not discuss the above snippet being outside the scope of this section. On commenting figure [5](#spaceTimeInviscid), it can be seen how, for <img src="https://render.githubusercontent.com/render/math?math=t=0">, the initial condition can be recognized; moreover, the propagation of the perturbation is regular until <img src="https://render.githubusercontent.com/render/math?math=t=1">; from <img src="https://render.githubusercontent.com/render/math?math=t=1"> on, finally, the shock wave is formed.
 
 ### PyCUDA implementation of the MacCormack scheme for the solution of the inviscid Burgers’ equation
 
-Let us now discuss the implementation of the inviscid Burgers’ equation
-using PyCUDA.  
-To this end, we first mention that, in the foregoing sequential example,
-we have implicitly used double precision arithmetics, the default choice
-in Python. Opposite to that, to somewhat differentiate with what done
-before, in this example we will choose to operate single precision
-arithmetics.  
-To start with, we underline that the definition of the parameters and
-the spatio-temporal discretization are the same as those reported in
-Listings [\[parametersBurgers\]](#parametersBurgers) and
-[\[spaceTimeBurgers\]](#spaceTimeBurgers), respectively. Now, however,
-the spatial discretization is moved to GPU by
+Let us now discuss the implementation of the inviscid Burgers’ equation using PyCUDA.  
+To this end, we first mention that, in the foregoing sequential example, we have implicitly used double precision arithmetics, the default choice in Python. Opposite to that, to somewhat differentiate with what done before, in this example we will choose to operate single precision arithmetics.  
+To start with, we underline that the definition of the parameters and the spatio-temporal discretization are the same as those reported in Listings [5](#parametersBurgers) and
+[6](#spaceTimeBurgers), respectively. Now, however, the spatial discretization is moved to GPU by
 
 ``` python
 d_x = cuda.mem_alloc(x.nbytes)
@@ -936,23 +929,14 @@ d_x = cuda.mem_alloc(x.nbytes)
 cuda.memcpy_htod(d_x, x)
 ```
 
-The used method to move data from host to device has been already
-previously mentioned in subsection
-[1.5.1](#fiveDifferentVersionsVersion1). It should be noticed that, to
-clearly distinguish host and device variables, the prefix `d_` is
-used.  
+The used method to move data from host to device has been already previously mentioned in subsection [Version \# 1: using `SourceModule`](#fiveDifferentVersionsVersion1). It should be noticed that, to clearly distinguish host and device variables, the prefix `d_` is used.  
 At this point, the `maccormackGPU` function
 
 ``` python
 d_u = maccormackGPU(d_x, dx, dt, N, M)
 ```
 
-is invoked. The `maccormackGPU` function is the counterpart of the
-function defined in Listing
-[\[macCormackInviscid\]](#macCormackInviscid), with the only difference
-that the input discretization is the one moved on the device and the
-output resides on the device as well. The `maccormackGPU` function is
-defined as follows
+is invoked. The `maccormackGPU` function is the counterpart of the function defined in Listing [8](#macCormackInviscid), with the only difference that the input discretization is the one moved on the device and the output resides on the device as well. The `maccormackGPU` function is defined as follows
 
 ``` python
 def maccormackGPU(d_x, dx, dt, N, M):
@@ -985,9 +969,11 @@ def maccormackGPU(d_x, dx, dt, N, M):
 
   return d_u
 ```
+<p align="center" id="deviceAllocAndCopies" >
+     <em>Listing 8. The PyCUDA implementation of the MacCormack scheme for the solution of the inviscid Burgers' equation.</em>
+</p>
 
-The first performed operations regard the allocation of the `d_u` array
-and its zero initialization, namely
+The first performed operations regard the allocation of the `d_u` array and its zero initialization, namely
 
 ``` python
 d_u = cuda.mem_alloc((N + 1) * (M + 1) * 4)
@@ -995,42 +981,15 @@ d_u = cuda.mem_alloc((N + 1) * (M + 1) * 4)
 cuda.memset_d32(d_u, 0x00, (N + 1) * (M + 1))
 ```
 
-Actually, the zero initialization of `d_u` is not strictly necessary.
-Nevertheless, we have decided to implement it both for the sake of
-generality and for the sake of symmetry with respect to the CPU version
-and also to better highlight the use of the `cuda.mem_alloc` function.
-The Reader uninterested to details on the use of `cuda.mem_alloc` may
+Actually, the zero initialization of `d_u` is not strictly necessary. Nevertheless, we have decided to implement it both for the sake of generality and for the sake of symmetry with respect to the CPU version and also to better highlight the use of the `cuda.mem_alloc` function. The Reader uninterested to details on the use of `cuda.mem_alloc` may
 simply skip the remark below.
 
-It should be noticed that `cuda.mem_alloc` requires the overall number
-of bytes to be allocated as input. Having decided to to use single
-precision arithmetics, the number of bytes to be allocated is `(N + 1) *
-(M + 1) * 4`, being a single `float` number coded on `4` bytes.
-Moreover, the zero initialization of `d_u` is performed by
-`cuda.memset_d32`. Such a function retraces the CUDA’s `cudaMemset()`
-function, requires three input parameters and has the aim of
-initializing a certain number of array elements with a certain value. In
-particular, the first input parameter of `cuda.memset_d32` corresponds
-to the array on which one wants to operate; the second input parameter
-consists of an `unsigned int` and represents the value to assign to each
-array element and which we will shortly clarify with some examples;
-finally, the third parameter is the number of array elements that we
-want to initialize; such a number, obviously, can coincide with the
-overall number of array elements.  
-As mentioned, it is convenient to make now a small detour to clarify how
-`cuda.memset_d32` works and, in particular, the second input parameter.
-Two points must be therefore underlined:
+It should be noticed that `cuda.mem_alloc` requires the overall number of bytes to be allocated as input. Having decided to to use single precision arithmetics, the number of bytes to be allocated is `(N + 1) * (M + 1) * 4`, being a single `float` number coded on `4` bytes. Moreover, the zero initialization of `d_u` is performed by `cuda.memset_d32`. Such a function retraces the CUDA’s `cudaMemset()` function, requires three input parameters and has the aim of initializing a certain number of array elements with a certain value. In particular, the first input parameter of `cuda.memset_d32` corresponds to the array on which one wants to operate; the second input parameter
+consists of an `unsigned int` and represents the value to assign to each array element and which we will shortly clarify with some examples; finally, the third parameter is the number of array elements that we want to initialize; such a number, obviously, can coincide with the overall number of array elements.  
+As mentioned, it is convenient to make now a small detour to clarify how `cuda.memset_d32` works and, in particular, the second input parameter. Two points must be therefore underlined:
 
-  - `cuda.memset_d32` operates on elements which are `32` bits long; in
-    other words, it fills a number of words `32` bits long each with a
-    value dictated by the second of the input parameters;
-
-  - the second input parameter of `cuda.memset_d32` is an `unsigned int`
-    which, coded in bits, will be the value of the word by which all the
-    array elements will be initialized; this holds true independently
-    from the fact that the elements to initialize are integer or not;
-    from this point of view, the elements to be initialize can be also
-    `float`s.
+  - `cuda.memset_d32` operates on elements which are `32` bits long; in other words, it fills a number of words `32` bits long each with a value dictated by the second of the input parameters;
+  - the second input parameter of `cuda.memset_d32` is an `unsigned int` which, coded in bits, will be the value of the word by which all the array elements will be initialized; this holds true independently from the fact that the elements to initialize are integer or not; from this point of view, the elements to be initialize can be also `float`s.
 
 Let us make an example:
 
