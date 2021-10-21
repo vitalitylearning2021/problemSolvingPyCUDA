@@ -531,6 +531,8 @@ For this case, the characteristic curves are illustrated by the following figure
 As it can be seen, the curve intersect at <img src="https://render.githubusercontent.com/render/math?math=t=1">, suggesting that, at that time, a shock wave is formed.  
 In next subsection, we will illustrate the numerical scheme for the solution of the inviscid Burgers’ equation based on the MacCormack scheme.
 
+<p align="center" id="solutionInviscidBurgerSection" >
+</p>
 ### Solution to the inviscid Burgers’ equation using the MacCormack method
 
 In order to describe the numerical scheme associated to MacCormack’s approach , we rewrite the inviscid Burgers’ equation as
@@ -636,13 +638,8 @@ We should now turn to the corresponding Python and PyCUDA implementations. Never
 
 ### One-dimensional animations with Python
 
-In this section, we will see how animating a simple, one-dimensional
-\(\sin(2\pi(x-0.01i))\) wave in Python, where \(i\) plays the role of
-time.  
-Animations in Python are possible thanks to the `matplotlib` library. In
-particular, the idea is that of using the `animation` and the runtime
-configuration `rc` classes by exploiting the classical
-`matplotlib.pyplot` class to perform the one-dimensional graphs.  
+In this section, we will see how animating a simple, one-dimensional <img src="https://render.githubusercontent.com/render/math?math=\sin(2\pi(x-0.01i))"> wave in Python, where <img src="https://render.githubusercontent.com/render/math?math=i"> plays the role of time.  
+Animations in Python are possible thanks to the `matplotlib` library. In particular, the idea is that of using the `animation` and the runtime configuration `rc` classes by exploiting the classical `matplotlib.pyplot` class to perform the one-dimensional graphs.  
 Therefore, the first step is importing such libraries and classes
 
 ``` python
@@ -652,44 +649,31 @@ import matplotlib.pyplot as plt
 from matplotlib import animation, rc
 ```
 
-Among the imports, `numpy` serves to handle the few math operations
-involved in this example.  
-As second step, we need to create a figure window and a “line” object
-which will be modified in the animation.  
-In order to create the figure window, we will use `pyplot.subplots`
-which simultaneously creates a figure and a grid of subplots. However,
-we will exploit `subplots()` without arguments so that a figure `fig`
-and single axes `ax` are returned. The needed code rows are then
+Among the imports, `numpy` serves to handle the few math operations involved in this example.  
+As second step, we need to create a figure window and a “line” object which will be modified in the animation.  
+In order to create the figure window, we will use `pyplot.subplots` which simultaneously creates a figure and a grid of subplots. However, we will exploit `subplots()` without arguments so that a figure `fig` and single axes `ax` are returned. The needed code rows are then
 
 ``` python
 fig, ax = plt.subplots()
 plt.close()
 ```
 
-It should be noticed that the figure is closed immediately once it has
-been created. Indeed, such figure will exclusively serve for the
-animation.  
-Later on, the axes are fixed to cover the \((0,2)\) interval for the
-\(x\)-axis and the interval \((-2,2)\) for the \(y\)-axis:
+It should be noticed that the figure is closed immediately once it has been created. Indeed, such figure will exclusively serve for the animation.  
+Later on, the axes are fixed to cover the <img src="https://render.githubusercontent.com/render/math?math=(0,2)"> interval for the <img src="https://render.githubusercontent.com/render/math?math=x">-axis and the interval <img src="https://render.githubusercontent.com/render/math?math=(-2,2)"> for the <img src="https://render.githubusercontent.com/render/math?math=y">-axis:
 
 ``` python
 ax.set_xlim(( 0, 2))
 ax.set_ylim((-2, 2))
 ```
 
-To make the animated graph more appealing, we set the `linewidth` to
-`2`. This is done by drawing an empty line as
+To make the animated graph more appealing, we set the `linewidth` to `2`. This is done by drawing an empty line as
 
 ``` python
 line, = ax.plot([], [], lw = 2)  
 ```
 
 We will fill this line subsequently to realize the animation.  
-The idea behind the animation implementation is that of defining a
-function, name it `animate`, depending from a single input parameter `i`
-acting as the time. Such function is appointed to return a line drawing
-a sinusoidal function whose movement arises from multiple calls with
-increasing `i`:
+The idea behind the animation implementation is that of defining a function, name it `animate`, depending from a single input parameter `i` acting as the time. Such function is appointed to return a line drawing a sinusoidal function whose movement arises from multiple calls with increasing `i`:
 
 ``` python
 def animate(i):
@@ -699,57 +683,40 @@ def animate(i):
     return (line, )
 ```
 
-In particular, the function `animate` returns a tuple of the modified
-plot object.  
-Finally, the animation object `anim` is created using the
-`animation.FuncAnimation` function.
+In particular, the function `animate` returns a tuple of the modified plot object.  
+Finally, the animation object `anim` is created using the `animation.FuncAnimation` function.
 
 ``` python
 anim = animation.FuncAnimation(fig, animate, frames = 100, interval = 50, blit = True)
 ```
 
-The object comprises `100` frames with a `50ms` delay between the
-frames. In order to make the animation display more quickly, `blit =
-True` enables to only re-draw the part of the plot that has changed.
-Animation saving is also set as
+The object comprises `100` frames with a `50ms` delay between the frames. In order to make the animation display more quickly, `blit = True` enables to only re-draw the part of the plot that has changed. Animation saving is also set as
 
 ``` python
 anim.save('animationTest.mp4', fps = 30, extra_args=['-vcodec', 'libx264'])
 ```
 
-In particular, the file name is specified and the frames per second
-`fps` is set to `30`. As extra arguments `extra_args`, `-vcodec libx264`
-requires a video coding using the `H.264/MPEG-4 AVC` format.  
+In particular, the file name is specified and the frames per second `fps` is set to `30`. As extra arguments `extra_args`, `-vcodec libx264` requires a video coding using the `H.264/MPEG-4 AVC` format.  
 The penultimate line is specific to Google Colab. In particular,
 
 ``` python
 rc('animation', html = 'jshtml')
 ```
 
-makes the animation work on Colab, while `jshtml` creates a javascript
-animation.  
+makes the animation work on Colab, while `jshtml` creates a javascript animation.  
 Finally, the animation is run as simply as
 
 ``` python
 anim
 ```
 
-Following the illustration of animation of a one-dimensional plot, we
-are now ready to illustrate, in next subsection, a first sequential
-implementation using Python.
+Following the illustration of animation of a one-dimensional plot, we are now ready to illustrate, in next subsection, a first sequential implementation using Python.
 
 ### Python implementation of the MacCormack scheme for the solution of the inviscid Burgers’ equation
 
-In this subsection, we will solve the inviscid Burgers’ equation
-([\[burgersEquation\]](#burgersEquation)) with the initial condition
-([\[initialConditionShockWave\]](#initialConditionShockWave)) and the
-boundary condition \(u(x_0,t)=1\). We will do that by using Python
-sequential programming. We will exploit such initial condition since we
-are interested into the simulation of a shock wave in the form
-illustrated in Fig. [1.4](#characteristicCurves).  
-The first thing to be mentioned related to the sequential Python code
-concerns the imports that are linked to the `numpy` library and to the
-animation, as above described
+In this subsection, we will solve the inviscid Burgers’ equation [\[1\]](#burgersEquation) with the initial condition [\[13\]](#initialConditionShockWave) and the
+boundary condition <img src="https://render.githubusercontent.com/render/math?math=u(x_0,t)=1">. We will do that by using Python sequential programming. We will exploit such initial condition since we are interested into the simulation of a shock wave in the form illustrated in Fig. [4](#characteristicCurves).  
+The first thing to be mentioned related to the sequential Python code concerns the imports that are linked to the `numpy` library and to the animation, as above described
 
 ``` python
 import numpy as np
@@ -769,14 +736,8 @@ N           = 100           # --- Number of space mesh points
 M           = 700           # --- Number of time mesh points
 ```
 
-Here, `xmin` and `xmax` represent the boundaries of the spatial domain
-in which the equation must be solved and, in particular, `xmin`
-represents the left boundary on which the boundary condition is applied.
-Similarly, `tmin` and `tmax` represents the boundaries of the time
-interval in which the equation must be solved and, in particular, `tmin`
-represents the initial time instant in which the initial boundary
-condition is specified. Finally, `N` and `M` have the same meaning of
-subsection [1.6.3](#solutionInviscidBurgerSection).  
+Here, `xmin` and `xmax` represent the boundaries of the spatial domain in which the equation must be solved and, in particular, `xmin` represents the left boundary on which the boundary condition is applied. Similarly, `tmin` and `tmax` represents the boundaries of the time interval in which the equation must be solved and, in particular, `tmin`
+represents the initial time instant in which the initial boundary condition is specified. Finally, `N` and `M` have the same meaning of subsection [Solution to the inviscid Burgers’ equation using the MacCormack method](#solutionInviscidBurgerSection).  
 The spatio-temporal discretization is then performed using the lines:
 
 ``` python
