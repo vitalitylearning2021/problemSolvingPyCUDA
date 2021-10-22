@@ -1132,83 +1132,51 @@ so that, with reference to the functions involved in [\[16\]](#inviscidBurgerIni
 
 Regarding the spatial and temporal domains, you can assume <img src="https://render.githubusercontent.com/render/math?math=x\in(0,2\pi)m"> and <img src="https://render.githubusercontent.com/render/math?math=t\in(0,15)s">.
 
-Use the discretization in
-([\[discretizzazioneInviscid\]](#discretizzazioneInviscid)).  
+<span id="xxx" label="xxx">\[Solution\]</span>
+Use the discretization in [\[18\]](#discretizzazioneInviscid).  
 The centered differences for the time derivative are given by:
 
-\[\frac{\partial u}{\partial t}(x,t)\simeq \frac{u_n^{m+1}-u_n^{m-1}}{2\Delta t}.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u}{\partial t}(x,t)\simeq \frac{u_n^{m+1}-u_n^{m-1}}{2\Delta t}." id="xxx">       [29]
+</p>
 
-The centered differences for the spatial derivative have an analogous
-difference. The leapfrog updating rule is then:
+The centered differences for the spatial derivative have an analogous difference. The leapfrog updating rule is then:
 
-\[u_n^{m+1}=u_n^{m-1}-\alpha \left(u_{n+1}^m-u_{n-1}^m\right),\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1}=u_n^{m-1}-\alpha \left(u_{n+1}^m-u_{n-1}^m\right)," id="xxx">       [30]
+</p>
 
-where \(\alpha=v\Delta t/\Delta x\). The code can be very easily
-implemented by adapting the one developed for the inviscid Burgers’
-equation. At
-<https://github.com/CIuliusC/CUDA_Book/tree/master/Chapter%2005> , fully
-worked Python and PyCUDA versions are available.
+where <img src="https://render.githubusercontent.com/render/math?math=\alpha=v\Delta t/\Delta x">. The code can be very easily implemented by adapting the one developed for the inviscid Burgers’ equation. At <https://github.com/vitalitylearning2021/problemSolvingPyCUDA>, fully worked Python and PyCUDA versions are available.
 
 ## Setting up the solution of a simple, two-dimensional N-body problem with PyCUDA
 
-In this section, we deal with a problem completely different from the
-one considered before. The problem at hand is classical in the field of
-computation and is named as the \(N\)-body problem.  
-There exist different types of \(N\)-body problems depending on the
-involved forces. We will here consider one of the different
-possibilities, maybe the most common one, that is, the case when the
-involved forces are gravitational.  
-When the particles interact, they exert a force on the each other. The
-reciprocal forces depend on the reciprocal distance and on the particle
-masses. Due to these forces, the particles undergo an acceleration and,
-thus, they move. Due to the movement, their relative position changes,
-so that the exerted forces change and need to be recomputed. Due to the
-change of the forces, also the accelerations change and so on. The
-ingredients to solve a simple, two-dimensional \(N\)-body problem are
-two:
+In this section, we deal with a problem completely different from the one considered before. The problem at hand is classical in the field of computation and is named as the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.  
+There exist different types of <img src="https://render.githubusercontent.com/render/math?math=N">-body problems depending on the involved forces. We will here consider one of the different possibilities, maybe the most common one, that is, the case when the involved forces are gravitational.  
+When the particles interact, they exert a force on the each other. The reciprocal forces depend on the reciprocal distance and on the particle masses. Due to these forces, the particles undergo an acceleration and, thus, they move. Due to the movement, their relative position changes, so that the exerted forces change and need to be recomputed. Due to the change of the forces, also the accelerations change and so on. The ingredients to solve a simple, two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem aretwo:
 
   - Force computation;
-
   - Particles movement.
 
-We will devote next two subsections to the details of the two above
-points. The sequential Python and parallel PyCUDA implementations will
-follow.
+We will devote next two subsections to the details of the two above points. The sequential Python and parallel PyCUDA implementations will follow.
 
 ### Force computation
 
-A two-dimensional \(N\)-body problem deals with \(N\) point masses
-\(m_p\), \(p=0,1,\ldots,N-1\), having time-varying positions
-\(\underline{\rho}_p(t)\) and moving subject to mutual gravitational
-attraction. According to Newton’s second law of dynamics, the
-acceleration associated to the \(p\)-th particle is
+A two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem deals with <img src="https://render.githubusercontent.com/render/math?math=N"> point masses <img src="https://render.githubusercontent.com/render/math?math=m_p">, <img src="https://render.githubusercontent.com/render/math?math=p=0,1,\ldots,N-1">, having time-varying positions <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p(t)"> and moving subject to mutual gravitational attraction. According to Newton’s second law of dynamics, the acceleration associated to the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle is
 
-\[\underline{a}_p(t)=\frac{d^2\underline{\rho}_p(t)}{dt^2}=\frac{\underline{F}_p(t)}{m_p},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p(t)=\frac{d^2\underline{\rho}_p(t)}{dt^2}=\frac{\underline{F}_p(t)}{m_p}," id="xxx">       [31]
+</p>
 
-where \(\underline{F}_p(t)\) is the force exerted by all the other
-\(N-1\) particles over the \(p\)-th. \(\underline{F}_p(t)\), in turn,
-can be written as
+where <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p(t)"> is the force exerted by all the other <img src="https://render.githubusercontent.com/render/math?math=N-1"> particles over the <img src="https://render.githubusercontent.com/render/math?math=p">-th. <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p(t)">, in turn, can be written as
 
-\[\label{Forces}
-    \underline{F}_p(t)=G\sum_{\substack{q=0\\ q\neq p}}^{N-1}\frac{m_p m_q(\underline{\rho}_q-\underline{\rho}_p)}{|\underline{\rho}_q-\underline{\rho}_p|^2},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p(t)=G\sum_{\substack{q=0\\ q\neq p}}^{N-1}\frac{m_p m_q(\underline{\rho}_q-\underline{\rho}_p)}{|\underline{\rho}_q-\underline{\rho}_p|^2}," id="Forces">       [32]
+</p>
 
-where \(G\) is the gravitational constant. In the above equations, the
-vectors have three components in a three-dimensional problem and two in
-a two-dimensional one. In the following, as already indicated, we will
-refer to a two-dimensional case.  
-The computational cost of each force \(\underline{F}_p\) is
-\({\mathcal O}(N)\). On accounting for the need of computing \(N\) of
-such forces, the overall force computational cost in an \(N\)-body
-problem is \({\mathcal O}(N^2)\). Such cost can be prohibitive for
-problems of large dimensions so that *ad hoc* data structures capable to
-reduce the computational complexity have been developed. Nevertheless,
-the development of projects using such data structures is postponed to
-later chapters. In the present one, we will consider a brute-force
-computation of the forces ([\[Forces\]](#Forces)). Nevertheless, some
-shrewdness will be exploited to speedup the GPU processing.  
-In next section, we will shortly describe the Runge-Kutta method for the
-numerical evaluation of the motion of \(N\) particles subject to forces
-([\[Forces\]](#Forces)).
+where <img src="https://render.githubusercontent.com/render/math?math=G"> is the gravitational constant. In the above equations, the vectors have three components in a three-dimensional problem and two in a two-dimensional one. In the following, as already indicated, we will refer to a two-dimensional case.  
+The computational cost of each force <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p"> is <img src="https://render.githubusercontent.com/render/math?math={\mathcal O}(N)">. On accounting for the need of computing <img src="https://render.githubusercontent.com/render/math?math=N"> of such forces, the overall force computational cost in an <img src="https://render.githubusercontent.com/render/math?math=N">-body problem is <img src="https://render.githubusercontent.com/render/math?math={\mathcal O}(N^2)">. Such cost can be prohibitive for problems of large dimensions so that *ad hoc* data structures capable to reduce the computational complexity have been developed. Nevertheless,
+the development of projects using such data structures is postponed to later chapters. In the present one, we will consider a brute-force computation of the forces [\[32\]](#Forces). Nevertheless, some shrewdness will be exploited to speedup the GPU processing.  
+In next section, we will shortly describe the Runge-Kutta method for the numerical evaluation of the motion of <img src="https://render.githubusercontent.com/render/math?math=N"> particles subject to forces [\[32\]](#Forces).
 
 ### Runge-Kutta numerical description of particle motions in a N-body problem
 
