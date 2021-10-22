@@ -1002,18 +1002,16 @@ cuda.memcpy_dtoh(test, d_test)
 print(test)
 ```
 
-In this example, we are considering a `d_test` array made of a solitary
-element of `32` bits and, in particular, an `np.int32`. The
-initialization value of the solitary array element is set to `118`. Its
-coding is:
+In this example, we are considering a `d_test` array made of a solitary element of `32` bits and, in particular, an `np.int32`. The initialization value of the solitary array element is set to `118`. Its coding is:
 
 ``` python
 0x00000076 = 00000000 00000000 00000000 01110110
 ```
+<p align="center" id="deviceAllocAndCopies" >
+     <em>Listing 9. Hexadecimal and binary codings of `118`.</em>
+</p>
 
-where the first part, namely, that starting by `0x`, represents the
-hexadecimal coding. Since the above coding is also the coding of `118`
-in `int`, then `118` represents also the output of `print(test)`.  
+where the first part, namely, that starting by `0x`, represents the hexadecimal coding. Since the above coding is also the coding of `118` in `int`, then `118` represents also the output of `print(test)`.  
 Let us consider now the following example:
 
 ``` python
@@ -1025,25 +1023,17 @@ cuda.memcpy_dtoh(test, d_test)
 print(test)
 ```
 
-In this case, the binary number in Listing [\[hexBinary\]](#hexBinary)
-represents the coding of the number:
+In this case, the binary number in Listing [9](#hexBinary) represents the coding of the number:
 
 ``` python
 1.65353218790328414369000090828E-43
 ```
 
-in single precision floating point arithmetics, so that the output of
-`print(test)` is, this time, equal to `1.65e-43`.  
+in single precision floating point arithmetics, so that the output of `print(test)` is, this time, equal to `1.65e-43`.  
 An useful webpage for type casting is <https://www.binaryconvert.com>.
 
-Immediately after the initialization of `d_u`, the initialization of
-`d_us` is performed, namely, the initialization of the array appointed
-to contain the predictor. The initialization is performed in a way
-totally analogous to `d_u`.  
-After the initializations, the functions `uinitGPU`,
-`macCormackPredictorGPU` and `macCormackCorrectorGPU` are executed.
-These functions are the recordings of the kernel functions defined by
-using `SourceModule` like
+Immediately after the initialization of `d_u`, the initialization of `d_us` is performed, namely, the initialization of the array appointed to contain the predictor. The initialization is performed in a way totally analogous to `d_u`.  
+After the initializations, the functions `uinitGPU`, `macCormackPredictorGPU` and `macCormackCorrectorGPU` are executed. These functions are the recordings of the kernel functions defined by using `SourceModule` like
 
 ``` c++
 mod = SourceModule("""
@@ -1111,51 +1101,36 @@ macCormackPredictorGPU  = mod.get_function("macCormackPredictorKernel")
 macCormackCorrectorGPU  = mod.get_function("macCormackCorrectorKernel")
 ```
 
-From `macCormackPredictorGPU` in Listing
-[\[macCormackInviscid\]](#macCormackInviscid), it can be seen that the
-initialization function `uinitGPU` is invoked by `N+1` threads, while
-the functions `macCormackPredictorGPU` and `macCormackCorrectorGPU` by
-only `N` threads, due to the executed finite differences. The
-implementation of the corresponding kernels, namely of `uinitKernel`,
-`macCormackPredictorKernel` and `macCormackCorrectorKernel`, is totally
-analogous to their CPU versions.  
-The discussion of the above GPU code closes the implementation of the
-inviscid Burgers’ equation in Python and PyCUDA using the MacCormack
-scheme. In the following section, the solution of a two-dimensional
-\(N\)-body problem will be dealt with.
+From `macCormackPredictorGPU` in Listing [8](#macCormackInviscid), it can be seen that the initialization function `uinitGPU` is invoked by `N+1` threads, while
+the functions `macCormackPredictorGPU` and `macCormackCorrectorGPU` by only `N` threads, due to the executed finite differences. The implementation of the corresponding kernels, namely of `uinitKernel`, `macCormackPredictorKernel` and `macCormackCorrectorKernel`, is totally analogous to their CPU versions.  
+The discussion of the above GPU code closes the implementation of the inviscid Burgers’ equation in Python and PyCUDA using the MacCormack scheme. In the following section, the solution of a two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem will be dealt with.
 
-<span id="exerciseAdvection" label="exerciseAdvection">\[exerciseAdvection\]</span>
-On the basis of the experience gained in the solution of the inviscid
-Burgers’ equation, write two codes, a Python and a PyCUDA one, for the
-solution of the so-called advection equation:
+<span id="exerciseAdvection" label="exerciseAdvection">\[Solving the advection equation using Python and PyCUDA\]</span>
+On the basis of the experience gained in the solution of the inviscid Burgers’ equation, write two codes, a Python and a PyCUDA one, for the solution of the so-called advection equation:
 
-\[\frac{\partial u}{\partial t}(x,t)=-v\frac{\partial u}{\partial x}(x,t).\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u}{\partial t}(x,t)=-v\frac{\partial u}{\partial x}(x,t)." id="xxx">       [26]
+</p>
 
-To this end, use the *leapfrog* scheme using a central approximation of
-the derivatives. Concerning the initial and boundary conditions, they
-are
-([\[inviscidBurgerInitialCondition\]](#inviscidBurgerInitialCondition))
-and
-([\[inviscidBurgerBoundaryCondition\]](#inviscidBurgerBoundaryCondition)).
-As solution, assume
+To this end, use the *leapfrog* scheme using a central approximation of the derivatives. Concerning the initial and boundary conditions, they are
+[\[16\]](#inviscidBurgerInitialCondition) and [\[17\]](#inviscidBurgerBoundaryCondition). As solution, assume
 
-\[u(x,t)=e^{-\frac{(x-vt)^2}{2\left(\frac{\pi}{4}\right)^2}},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=u(x,t)=e^{-\frac{(x-vt)^2}{2\left(\frac{\pi}{4}\right)^2}}," id="xxx">       [27]
+</p>
 
-so that, with reference to the functions involved in
-([\[inviscidBurgerInitialCondition\]](#inviscidBurgerInitialCondition))
-and
-([\[inviscidBurgerBoundaryCondition\]](#inviscidBurgerBoundaryCondition)),
-we have
+so that, with reference to the functions involved in [\[16\]](#inviscidBurgerInitialCondition) and [\[17\]](#inviscidBurgerBoundaryCondition), we have
 
-\[\left\{
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
                   u_0(x)=e^{-\frac{x^2}{2\left(\frac{\pi}{4}\right)^2}}\\
                   g(t)=e^{-\frac{(vt)^2}{2\left(\frac{\pi}{4}\right)^2}}
                 \end{array}
-              \right..\]
+              \right.." id="xxx">       [28]
+</p>
 
-Regarding the spatial and temporal domains, you can assume
-\(x\in(0,2\pi)m\) and \(t\in(0,15)s\).
+Regarding the spatial and temporal domains, you can assume <img src="https://render.githubusercontent.com/render/math?math=x\in(0,2\pi)m"> and <img src="https://render.githubusercontent.com/render/math?math=t\in(0,15)s">.
 
 Use the discretization in
 ([\[discretizzazioneInviscid\]](#discretizzazioneInviscid)).  
