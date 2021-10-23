@@ -1256,50 +1256,15 @@ The fourth-order Runge-Kutta method works as follows:
   - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{1}),\underline{\rho}_1(t_{1}),\ldots,\underline{\rho}_{N-1}(t_{1})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_1">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^\prime">;
   - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute a new estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^{\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{2_{\underline{\rho}_{p}}}">;
   - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{2}),\underline{\rho}_1(t_{2}),\ldots,\underline{\rho}_{N-1}(t_{2})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_2"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime},\underline{\rho}_1^{\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)">;
+  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^{\prime\prime}=\underline{v}_{0_p}+0.5\underline{k}_{2_{\underline{v}_{p}}}">;
+  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{3}),\underline{\rho}_1(t_{3}),\ldots,\underline{\rho}_{N-1}(t_{3})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_3">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime}">;
+  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">; compute a new estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_4=t_0+\Delta t"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^{\prime\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{3_{\underline{\rho}_{p}}}">;
+  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_4"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime\prime},\underline{\rho}_1^{\prime\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)">;
+  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_4=t_0+\Delta t"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^{\prime\prime\prime}=\underline{v}_{0_p}+\underline{k}_{3_{\underline{v}_{p}}}">;
+  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_4">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime\prime}">;
 
-9.  advance time from \(t_0\) to \(t_0+\Delta t/2\); compute an estimate
-    of particle velocities at \(t_2=t_0+\Delta t/2\) as
-    \(\underline{v}_p^{\prime\prime}=\underline{v}_{0_p}+0.5\underline{k}_{2_{\underline{v}_{p}}}\);
-
-10. compute
-    \(\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{3}),\underline{\rho}_1(t_{3}),\ldots,\underline{\rho}_{N-1}(t_{3})\right)\);
-    \(\underline{k}_{3_{\underline{\rho}_{p}}}\) is computed through the
-    value of \(\underline{v}_p\) at \(t_3\); thanks to the estimate
-    calculated at the previous step, then
-    \(\underline{k}_{3_{\underline{\rho}_{p}}}\) can be computed as
-    \(\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime}\);
-
-11. advance time from \(t_0\) to \(t_0+\Delta t\); compute a new
-    estimate of particle positions at \(t_4=t_0+\Delta t\) as
-    \(\underline{\rho}_p^{\prime\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{3_{\underline{\rho}_{p}}}\);
-
-12. compute
-    \(\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)\)
-    using the estimate of the particle positions at \(t_4\) obtained at
-    the previous step; in other words,
-    \(\underline{k}_{4_{\underline{v}_{p}}}\) is estimated as
-    \(\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime\prime},\underline{\rho}_1^{\prime\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)\);
-
-13. advance time from \(t_0\) to \(t_0+\Delta t\); compute an estimate
-    of particle velocities at \(t_4=t_0+\Delta t\) as
-    \(\underline{v}_p^{\prime\prime\prime}=\underline{v}_{0_p}+\underline{k}_{3_{\underline{v}_{p}}}\);
-
-14. compute
-    \(\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)\);
-    \(\underline{k}_{4_{\underline{\rho}_{p}}}\) is computed through the
-    value of \(\underline{v}_p\) at \(t_4\); thanks to the estimate
-    calculated at the previous step, then
-    \(\underline{k}_{4_{\underline{\rho}_{p}}}\) can be computed as
-    \(\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime\prime}\);
-
-We will omit the technical details behind these steps. The Runge-Kutta
-method thus works starting from an initial condition, by advancing the
-time of \(\Delta t\) and by determining a numerical approximation of
-positions and velocities at \(t_0+\Delta t\). Such estimates will become
-the initial condition for the subsequent \(\Delta t\) interval.  
-Although it would seem a cumbersome procedure, we will shortly see how
-RK4 is not actually much complicated to be implemented. In next section,
-we will describe the set up \(N\)-body algorithm.
+We will omit the technical details behind these steps. The Runge-Kutta method thus works starting from an initial condition, by advancing the time of <img src="https://render.githubusercontent.com/render/math?math=\Delta t"> and by determining a numerical approximation of positions and velocities at <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">. Such estimates will become the initial condition for the subsequent <img src="https://render.githubusercontent.com/render/math?math=\Delta t"> interval.  
+Although it would seem a cumbersome procedure, we will shortly see how RK4 is not actually much complicated to be implemented. In next section, we will describe the set up <img src="https://render.githubusercontent.com/render/math?math=N">-body algorithm.
 
 ### The \(N\)-body problem
 
