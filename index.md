@@ -1660,27 +1660,14 @@ def checkKeyPressed():
      <em>Listing 21. Checking key-pressed function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
-`pygame.event.poll()` polls a single event. If no event is caught, then
-the routine is exited, otherwise if a key is pressed, the corresponding
-event is memorized in the `keyBuffer` dictionary.  
-On exit from `checkKeyPressed`, the caption to the simulation window is
-updated and the activation of the keys corresponding to `+` and `-` of
-the numeric pad or to `ESC` is searched for in the dictionary. In the
-former case, the `zoomFactor` is increased/decreased, respectively,
-while, in the latter case, the execution of the simulation is quit.  
-This concludes the description of the sequential \(N\)-body solver based
-on the RK4 scheme. In next section, we will describe the corresponding
-GPU parallel implementation.
+`pygame.event.poll()` polls a single event. If no event is caught, then the routine is exited, otherwise if a key is pressed, the corresponding event is memorized in the `keyBuffer` dictionary.  
+On exit from `checkKeyPressed`, the caption to the simulation window is updated and the activation of the keys corresponding to `+` and `-` of the numeric pad or to `ESC` is searched for in the dictionary. In the former case, the `zoomFactor` is increased/decreased, respectively, while, in the latter case, the execution of the simulation is quit.  
+This concludes the description of the sequential <img src="https://render.githubusercontent.com/render/math?math=N">-body solver based on the RK4 scheme. In next section, we will describe the corresponding GPU parallel implementation.
 
 ### Parallel implementation of a simple N-body problem
 
-Many parts of the parallel version are in common with the sequential one
-and therefore will not be further commented. Here, we will focus the
-attention on the specificities of the GPU case.  
-In particular, the imports in Listing
-[\[importSequentialNBody\]](#importSequentialNBody) are the same.
-Nevertheless, specifie imports for the execution of the CUDA code need
-to be added:
+Many parts of the parallel version are in common with the sequential one and therefore will not be further commented. Here, we will focus the attention on the specificities of the GPU case.  
+In particular, the imports in Listing [10](#importSequentialNBody) are the same. Nevertheless, specifie imports for the execution of the CUDA code need to be added:
 
 ``` python
 import pycuda.driver as cuda
@@ -1696,20 +1683,9 @@ import ctypes
 from ctypes import * 
 ```
 
-Such imports are needed since, to perform the sorting operations which,
-in the sequential case, were performed by the `arrayCompaction` routine,
-we will exploit the sorting-by-key primitives of the Thrust library. In
-order to enable the use of such library in a simple way under Python, a
-proper function will be devised. Such a function will be then compiled
-in a `dll`. The imports in Listing [\[importDLLNBody\]](#importDLLNBody)
-will serve to enable the link to such a `dll`.  
-The codes in Listings simulationWindowParameters, simulationParameters,
-timeSimulationParameters, arrayInitializationNBody,
-initializationSimulationWindow, initializationFunctionSimulationWindow,
-updateScreenNBody, drawingParticlesNBody and checkingKeyPressedNBody
-keep the same also for the parallel case.  
-In order to illustrate the specificities of the parallel case, let us
-begin with the main loop:
+Such imports are needed since, to perform the sorting operations which, in the sequential case, were performed by the `arrayCompaction` routine, we will exploit the sorting-by-key primitives of the Thrust library. In order to enable the use of such library in a simple way under Python, a proper function will be devised. Such a function will be then compiled in a `dll`. The imports in Listing [22](#importDLLNBody) will serve to enable the link to such a `dll`.  
+The codes in Listings [11](#simulationWindowParameters), [12](#simulationParameters), [13](#timeSimulationParameters), [14](#arrayInitializationNBody), [15](#initializationSimulationWindow), [16](#initializationFunctionSimulationWindow), [18](#updateScreenNBody), [20](#drawingParticlesNBody) and [21](#checkingKeyPressedNBody) keep the same also for the parallel case.  
+In order to illustrate the specificities of the parallel case, let us begin with the main loop:
 
 ``` python
 d_k1v = gpuarray.empty((N, 2), dtype = np.float32)
@@ -1762,6 +1738,9 @@ while True:
     if keysBuffer[pygame.K_ESCAPE]:
         break
 ```
+<p align="center" id="xxx" >
+     <em>Listing 22. The Runge-Kutta routine for the solution of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem in the parallel case.</em>
+</p>
 
 The structure of the main loop is very similar to that in Listing
 [\[NbodyMainLoop\]](#NbodyMainLoop). However, the first difference is
