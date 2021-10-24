@@ -1248,86 +1248,55 @@ are the integrands at the quadrature nodes <img src="https://render.githubuserco
 <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+0.5\Delta t"> and <img src="https://render.githubusercontent.com/render/math?math=t_3=t_0+\Delta t">. The employed quadrature rule defines a fourth-order Runge-Kutta scheme (RK4). Other Runge-Kutta schemes are possible, as, for example, second-order or fifth-order, depending on the fact that a simpler or more complicated quadrature rule is employed. Nevertheless, RK4 is very often employed in applications since it represents a good compromise between computational complexity and accuracy.  
 The fourth-order Runge-Kutta method works as follows:
 
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\(\underline{k}_{1_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{0}),\underline{\rho}_1(t_{0}),\ldots,\underline{\rho}_{N-1}(t_{0})\right)\)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{v}_{p}}}"> is an estimate of the particle velocity at <img src="https://render.githubusercontent.com/render/math?math=t_0">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{\rho}_{p}}}=\Delta t\underline{v}\left(\underline{\rho}_0(t_{0}),\underline{\rho}_1(t_{0}),\ldots,\underline{\rho}_{N-1}(t_{0})\right)=\Delta t\underline{v}_{0_p}">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{\rho}_{p}}}"> is computed directly from initial conditions;
-  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_1=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^\prime=\underline{\rho}_{0_p}+0.5\underline{k}_{1_{\underline{\rho}_{p}}}">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{1}),\underline{\rho}_1(t_{1}),\ldots,\underline{\rho}_{N-1}(t_{1})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_1"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^\prime,\underline{\rho}_1^\prime,\ldots,\underline{\rho}_{N-1}^\prime\right)">;
-  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_1=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^\prime=\underline{v}_{0_p}+0.5\underline{k}_{1_{\underline{v}_{p}}}">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{1}),\underline{\rho}_1(t_{1}),\ldots,\underline{\rho}_{N-1}(t_{1})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_1">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^\prime">;
-  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute a new estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^{\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{2_{\underline{\rho}_{p}}}">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{2}),\underline{\rho}_1(t_{2}),\ldots,\underline{\rho}_{N-1}(t_{2})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_2"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime},\underline{\rho}_1^{\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)">;
-  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^{\prime\prime}=\underline{v}_{0_p}+0.5\underline{k}_{2_{\underline{v}_{p}}}">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{3}),\underline{\rho}_1(t_{3}),\ldots,\underline{\rho}_{N-1}(t_{3})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_3">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime}">;
-  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">; compute a new estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_4=t_0+\Delta t"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^{\prime\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{3_{\underline{\rho}_{p}}}">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_4"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime\prime},\underline{\rho}_1^{\prime\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)">;
-  - advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_4=t_0+\Delta t"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^{\prime\prime\prime}=\underline{v}_{0_p}+\underline{k}_{3_{\underline{v}_{p}}}">;
-  - compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_4">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime\prime}">;
+  1. compute <img src="https://render.githubusercontent.com/render/math?math=\(\underline{k}_{1_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{0}),\underline{\rho}_1(t_{0}),\ldots,\underline{\rho}_{N-1}(t_{0})\right)\)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{v}_{p}}}"> is an estimate of the particle velocity at <img src="https://render.githubusercontent.com/render/math?math=t_0">;
+  2. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{\rho}_{p}}}=\Delta t\underline{v}\left(\underline{\rho}_0(t_{0}),\underline{\rho}_1(t_{0}),\ldots,\underline{\rho}_{N-1}(t_{0})\right)=\Delta t\underline{v}_{0_p}">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{\rho}_{p}}}"> is computed directly from initial conditions;
+  3. advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_1=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^\prime=\underline{\rho}_{0_p}+0.5\underline{k}_{1_{\underline{\rho}_{p}}}">;
+  4. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{1}),\underline{\rho}_1(t_{1}),\ldots,\underline{\rho}_{N-1}(t_{1})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_1"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^\prime,\underline{\rho}_1^\prime,\ldots,\underline{\rho}_{N-1}^\prime\right)">;
+  5. advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_1=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^\prime=\underline{v}_{0_p}+0.5\underline{k}_{1_{\underline{v}_{p}}}">;
+  6. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{1}),\underline{\rho}_1(t_{1}),\ldots,\underline{\rho}_{N-1}(t_{1})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_1">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{2_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^\prime">;
+  7. advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute a new estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^{\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{2_{\underline{\rho}_{p}}}">;
+  8. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{2}),\underline{\rho}_1(t_{2}),\ldots,\underline{\rho}_{N-1}(t_{2})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_2"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime},\underline{\rho}_1^{\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)">;
+  9. advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t/2">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+\Delta t/2"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^{\prime\prime}=\underline{v}_{0_p}+0.5\underline{k}_{2_{\underline{v}_{p}}}">;
+  10. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{3}),\underline{\rho}_1(t_{3}),\ldots,\underline{\rho}_{N-1}(t_{3})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_3">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{3_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime}">;
+  11. advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">; compute a new estimate of particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_4=t_0+\Delta t"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p^{\prime\prime\prime}=\underline{\rho}_{0_p}+0.5\underline{k}_{3_{\underline{\rho}_{p}}}">;
+  12. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)"> using the estimate of the particle positions at <img src="https://render.githubusercontent.com/render/math?math=t_4"> obtained at the previous step; in other words, <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}"> is estimated as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0^{\prime\prime\prime},\underline{\rho}_1^{\prime\prime\prime},\ldots,\underline{\rho}_{N-1}^{\prime\prime}\right)">;
+  13. advance time from <img src="https://render.githubusercontent.com/render/math?math=t_0"> to <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">; compute an estimate of particle velocities at <img src="https://render.githubusercontent.com/render/math?math=t_4=t_0+\Delta t"> as <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p^{\prime\prime\prime}=\underline{v}_{0_p}+\underline{k}_{3_{\underline{v}_{p}}}">;
+  14. compute <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_p\left(\underline{\rho}_0(t_{4}),\underline{\rho}_1(t_{4}),\ldots,\underline{\rho}_{N-1}(t_{4})\right)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}"> is computed through the value of <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> at <img src="https://render.githubusercontent.com/render/math?math=t_4">; thanks to the estimate calculated at the previous step, then <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}"> can be computed as <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{4_{\underline{\rho}_{p}}}=\Delta t\underline{v}_{p}^{\prime\prime\prime}">;
 
 We will omit the technical details behind these steps. The Runge-Kutta method thus works starting from an initial condition, by advancing the time of <img src="https://render.githubusercontent.com/render/math?math=\Delta t"> and by determining a numerical approximation of positions and velocities at <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t">. Such estimates will become the initial condition for the subsequent <img src="https://render.githubusercontent.com/render/math?math=\Delta t"> interval.  
 Although it would seem a cumbersome procedure, we will shortly see how RK4 is not actually much complicated to be implemented. In next section, we will describe the set up <img src="https://render.githubusercontent.com/render/math?math=N">-body algorithm.
 
 ### The \(N\)-body problem
 
-We will now analyze the implementation of an algorithm for the solution
-of a two-dimensional \(N\)-body problem based on the Runge-Kutta method
-and in which, at each time instant, the forces and thus the
-accelerations undergone by each body are computed using
-([\[Forces\]](#Forces)) dismissing any numerical due to particular data
-structures.  
-The dealt with problem regards a gravitational one. We assume to deal
-with \(N\) spherical celestial bodies, each having its own radius and
-mass. The celestial body with index `0` has much larger radius and mass
-than the others. We assume that all the planets and the sun have the
-same density, so that it is easy to compute the mass from the radius or
-vice versa using the formulas
+We will now analyze the implementation of an algorithm for the solution of a two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem based on the Runge-Kutta method and in which, at each time instant, the forces and thus the accelerations undergone by each body are computed using [\[32\]](#Forces) dismissing any numerical due to particular data structures.  
+The dealt with problem regards a gravitational one. We assume to deal <img src="https://render.githubusercontent.com/render/math?math=N"> spherical celestial bodies, each having its own radius and mass. The celestial body with index `0` has much larger radius and mass than the others. We assume that all the planets and the sun have the
+same density, so that it is easy to compute the mass from the radius or vice versa using the formulas
 
-\[m=4\pi d \frac{r^3}{3}\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=m=4\pi d \frac{r^3}{3}" id="xxx">       [39]
+</p>
 
 and
 
-\[\label{mass2radius}
-    r=\left(\frac{3m}{4\pi d}\right)^{\frac{1}{3}},\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=r=\left(\frac{3m}{4\pi d}\right)^{\frac{1}{3}}," id="mass2radius">       [40]
+</p>
 
-where \(r\) is the radius, \(m\) is the mass and \(d\) the density.
-Moreover, such a celestial body represents the “sun” of this fancy solar
-system and is assumed stationary while all the other particles move
-around.  
-The problem is two-dimensional since all the planets can move only on a
-plane and not in three dimensions.  
-The developed code accounts for the collisions among the planes and
-among planets and sun. When a planet collides with the sun, that is to
-say, the distance of their corresponding centers is less than the sum of
-their radii, the planet is fully absorbed by the sun and disappears from
-the scene. Its mass is then totally assigned to the sun. However, due to
-the large solar mass, the momentum conservation is not applied so that
-the sun velocity is not perturbed by the collisions and keeps vanishing
-even when it absorbs planets. Similarly, when two planets collide,
-namely, the distance between their reciprocal centers is less than the
-sum of their radii, they merge together, one of them disappears and the
-other survives. The “union” planet assumes a mass which is the total
-mass of the merged planets and is “restarted” with a speed such as to
-satisfy momentum conservation. In other words, if \(p\) and \(q\) are
-the merged planets, then the speed \(\underline{v}_{u}\) by which the
-union planet is restarted is
+where <img src="https://render.githubusercontent.com/render/math?math=r"> is the radius, <img src="https://render.githubusercontent.com/render/math?math=m"> is the mass and <img src="https://render.githubusercontent.com/render/math?math=d"> the density.
+Moreover, such a celestial body represents the “sun” of this fancy solar system and is assumed stationary while all the other particles move around.  
+The problem is two-dimensional since all the planets can move only on a plane and not in three dimensions.  
+The developed code accounts for the collisions among the planes and among planets and sun. When a planet collides with the sun, that is to say, the distance of their corresponding centers is less than the sum of their radii, the planet is fully absorbed by the sun and disappears from the scene. Its mass is then totally assigned to the sun. However, due to the large solar mass, the momentum conservation is not applied so that the sun velocity is not perturbed by the collisions and keeps vanishing even when it absorbs planets. Similarly, when two planets collide, namely, the distance between their reciprocal centers is less than the sum of their radii, they merge together, one of them disappears and the other survives. The “union” planet assumes a mass which is the total mass of the merged planets and is “restarted” with a speed such as to satisfy momentum conservation. In other words, if <img src="https://render.githubusercontent.com/render/math?math=p"> and <img src="https://render.githubusercontent.com/render/math?math=q"> are the merged planets, then the speed <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_{u}"> by which the union planet is restarted is
 
-\[\label{conservazioneQuantitàDiMoto}
-    \underline{v}_u=\frac{m_p\underline{v}_p+m_q\underline{v}_q}{m_p+m_q}.\]
+<p align="center">
+  <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_u=\frac{m_p\underline{v}_p+m_q\underline{v}_q}{m_p+m_q}." id="conservazioneQuantitàDiMoto">       [41]
+</p>
 
-In order to handle the disappearance mechanism in the sun and of the
-planet merging, at each planet a flag is assigned to determine if it is
-active or not. When a planet is deactivated, the corresponding flag is
-set to `0`. At each computation step, the array describing the planets
-are reordered so that only the first are the active ones. In this way,
-the involved functions can be launched to operate only on the active
-particles, thus having caching advantages. The dealt with \(N\)-body
-problem has thus a variable number of particles.  
-In the following, the sequential code will be illustrated and
-subsequently the GPU parallel one.
+In order to handle the disappearance mechanism in the sun and of the planet merging, at each planet a flag is assigned to determine if it is active or not. When a planet is deactivated, the corresponding flag is set to `0`. At each computation step, the array describing the planets are reordered so that only the first are the active ones. In this way, the involved functions can be launched to operate only on the active particles, thus having caching advantages. The dealt with <img src="https://render.githubusercontent.com/render/math?math=N">-body problem has thus a variable number of particles.  
+In the following, the sequential code will be illustrated and subsequently the GPU parallel one.
 
 ### Sequential implementation of a simple N-body problem
 
-The first rows of the sequential code regard the `import` of the
-libraries:
+The first rows of the sequential code regard the `import` of the libraries:
 
 ``` python
 import numpy as np
@@ -1335,14 +1304,11 @@ import random
 import pygame
 from collections import defaultdict
 ```
+<p align="center" id="xxx" >
+     <em>Listing 10. The imports for the sequential <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-Apart from the already used `numpy` library, in the above Listing we
-have the `random` library for the generation of random numbers which
-will serve for the creation of the initial conditions
-([\[initialConditions\]](#initialConditions)). We also have the `pygame`
-library which will be used for visualization purposes. Indeed, thanks to
-`pygame`, a real time visualization of the simulation evolution will be
-possible. `defaultdict` will also be functional to the visualization.  
+Apart from the already used `numpy` library, in the above Listing we have the `random` library for the generation of random numbers which will serve for the creation of the initial conditions [\[35\]](#initialConditions). We also have the `pygame` library which will be used for visualization purposes. Indeed, thanks to `pygame`, a real time visualization of the simulation evolution will be possible. `defaultdict` will also be functional to the visualization.  
 Later on, some simulation parameters are defined, namely
 
 ``` python
@@ -1351,18 +1317,13 @@ zoomFactor                = 1.0
 WIN_N, WIN_M        = 900, 600
 WIN_N2, WIN_M2      = WIN_N / 2., WIN_M / 2.
 ```
+<p align="center" id="simulationWindowParameters" >
+     <em>Listing 11. Simulation window parameters for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-In particular, `zoomFactor` is a zoom factor that regards the
-visualization and which is initialized to `1.0`. During the simulation,
-by using the numeric pad, it will be incremented or decremented to
-increase or reduce the zooming. Moreover, `WIN_N` and `WIN_M` define the
-total number of horizontal and vertical pixels, respectively, of the
-visualization window used by `pygame`, while `WIN_N2` and `WIN_M2`
-define the coordinates of the window center where the sun will be
-positioned.  
-After Listing
-[\[simulationWindowParameters\]](#simulationWindowParameters), other
-simulation parameters are defined:
+In particular, `zoomFactor` is a zoom factor that regards the visualization and which is initialized to `1.0`. During the simulation, by using the numeric pad, it will be incremented or decremented to increase or reduce the zooming. Moreover, `WIN_N` and `WIN_M` define the total number of horizontal and vertical pixels, respectively, of the
+visualization window used by `pygame`, while `WIN_N2` and `WIN_M2` define the coordinates of the window center where the sun will be positioned.  
+After Listing [11](#simulationWindowParameters), other simulation parameters are defined:
 
 ``` python
 G = 1.e4
@@ -1371,18 +1332,21 @@ D = 0.001
 
 N = 100
 ```
+<p align="center" id="xxx" >
+     <em>Listing 12. Simulation parameters for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-where `G` is the gravitational constant, `D` is the planet density and
-`N` is the number of bodies. Being a “fancy” world, the gravitational
-constant is chosen differently from the natural one.  
+where `G` is the gravitational constant, `D` is the planet density and `N` is the number of bodies. Being a “fancy” world, the gravitational constant is chosen differently from the natural one.  
 Finally
 
 ``` python
 t, dt                       = 0., 0.1  
 ```
+<p align="center" id="xxx" >
+     <em>Listing 13. Time simulation parameters for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-represent the time, initialized to `0`, and the time step of the
-simulation, respectively.  
+represent the time, initialized to `0`, and the time step of the simulation, respectively.  
 The first performed operations are reported in the snippet below
 
 ``` python
@@ -1408,35 +1372,22 @@ mass[0, 0]                  = 100.
 rad[0, 0]                   = (3. * mass[0] / (D * 4. * np.pi))**(0.3333)
 active[0, 0]                = 1
 ```
+<p align="center" id="xxx" >
+     <em>Listing 14. Array initialization for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-The first group of operations initializes the position coordinates array
-(`pos`), the velocities array (`vel`), the planet radii array (`rad`)
-and the planet masses array (`mass`) to zero. Of course, the first two
-arrays are two-dimensional since they represent \(x\) and \(y\)
-coordinates of vectors, while the last three arrays are one-dimensional
-since they represent scalar quantities. Moreover, the flag array
-indicating whether the particles are active or not is initialized to
-zero. Such an array could be dealt with as a `bool` array, but here it
-is dealt with as a `int32` one for the sake of simplicity. The
-interested Reader can modify the code to improve efficiency in this
-sense.  
-The second group of operations randomly initializes the positions,
-velocties and radii. The masses are then calculated starting from the
-radii and using the density and finally all the particles are
-initialized to active.  
-The last group of operations regards the particle having `0` index
-representing the “sun”. In this case, the position is initialized to the
-center of the visualization window, the velocity is initialized to zero
-and will remain zero for the whole simulation, the mass is initialized
-to a large value, much larger than the mass associated to the planets,
-and the `active` flag is initialized to `1` and will keep `1` for the
-whole simulation, namely, the sun never disappears from the scene.  
-The first performed operation is the initialization of the visualization
-window by
+The first group of operations initializes the position coordinates array (`pos`), the velocities array (`vel`), the planet radii array (`rad`) and the planet masses array (`mass`) to zero. Of course, the first two arrays are two-dimensional since they represent <img src="https://render.githubusercontent.com/render/math?math=x"> and <img src="https://render.githubusercontent.com/render/math?math=y"> coordinates of vectors, while the last three arrays are one-dimensional since they represent scalar quantities. Moreover, the flag array indicating whether the particles are active or not is initialized to zero. Such an array could be dealt with as a `bool` array, but here it
+is dealt with as a `int32` one for the sake of simplicity. The interested Reader can modify the code to improve efficiency in this sense.  
+The second group of operations randomly initializes the positions, velocties and radii. The masses are then calculated starting from the radii and using the density and finally all the particles are initialized to active.  
+The last group of operations regards the particle having `0` index representing the “sun”. In this case, the position is initialized to the center of the visualization window, the velocity is initialized to zero and will remain zero for the whole simulation, the mass is initialized to a large value, much larger than the mass associated to the planets, and the `active` flag is initialized to `1` and will keep `1` for the whole simulation, namely, the sun never disappears from the scene.  
+The first performed operation is the initialization of the visualization window by
 
 ``` python
 simulWindow, keysBuffer = initSimulWindow(N)
 ```
+<p align="center" id="xxx" >
+     <em>Listing 15. Initialization of the simulation window for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
 The `initSimulWindow()` function is reported below:
 
@@ -1452,19 +1403,13 @@ def initSimulWindow(N):
 
     return simulWindow, keysBuffer
 ```
+<p align="center" id="xxx" >
+     <em>Listing 16. Simulation window initialization function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-The `pygame.init()` function initializes all imported `pygame` modules
-while the `pygame.display.set_mode()` function initializes the window
-for display. The latter returns `simulWindow`, namely, an object of the
-`pygame.Surface` class which represents the simulation window. Moreover,
-`defaultdict` initializes a dictionary that will serve in the
-visualization. In particular, the idea is that of using the keys of the
-numeric keypad to zoom in or out the visualization window. The
-dictionary will serve to create a dictionary of admitted keys
-corresponding to actions on the simulation window. Finally,
-`pygame.display.set_caption` adds a caption in the figure.  
-Basically, the code for the simulation of the \(N\)-body problem
-executes the loop in the following Listing
+The `pygame.init()` function initializes all imported `pygame` modules while the `pygame.display.set_mode()` function initializes the window for display. The latter returns `simulWindow`, namely, an object of the `pygame.Surface` class which represents the simulation window. Moreover, `defaultdict` initializes a dictionary that will serve in the
+visualization. In particular, the idea is that of using the keys of the numeric keypad to zoom in or out the visualization window. The dictionary will serve to create a dictionary of admitted keys corresponding to actions on the simulation window. Finally, `pygame.display.set_caption` adds a caption in the figure.  
+Basically, the code for the simulation of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem executes the loop in the following Listing
 
 ``` python
 while True:
@@ -1493,11 +1438,12 @@ while True:
     if keysBuffer[pygame.K_ESCAPE]:
         break
 ```
+<p align="center" id="NbodyMainLoop" >
+     <em>Listing 17. The <img src="https://render.githubusercontent.com/render/math?math=N">-body main loop for the sequential case.</em>
+</p>
 
-The first operation consists of updating the time by accounting for the
-temporal discretization step `dt`.  
-As second operation, the update of the simulation by the
-`updateScreen()` function reported in the below Listing is performed:
+The first operation consists of updating the time by accounting for the temporal discretization step `dt`.  
+As second operation, the update of the simulation by the `updateScreen()` function reported in the below Listing is performed:
 
 ``` python
 def updateScreen():
@@ -1508,21 +1454,19 @@ def updateScreen():
 
     simulWindow.lock()
 ```
+<p align="center" id="xxx" >
+     <em>Listing 18. Simulation window update function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-The actual update is performed by the `pygame.display.flip()` function
-while the `simulWindow.fill((0, 0, 0))` adds a black background to the
-image. The handling of the `pygame` visualization windows takes place by
-surface objects. In order to put `pygame` in a position to draw onto a
-surface, the surface itself has first to be locked. In this way,
-`pygame` has full control over the surface and no other process can use
-it . An example of updated simulation window is reported below
+The actual update is performed by the `pygame.display.flip()` function while the `simulWindow.fill((0, 0, 0))` adds a black background to the image. The handling of the `pygame` visualization windows takes place by surface objects. In order to put `pygame` in a position to draw onto a surface, the surface itself has first to be locked. In this way, `pygame` has full control over the surface and no other process can use it . An example of updated simulation window is reported below
 
-![The \(N\)-body problem.](Pictures/Chapter05/NBody.JPG)
+<p align="center">
+  <img src="NBody.JPG" width="400" id="xxx">
+  <br>
+     <em>Figure 6. The <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-The first actual computational step is represented by the `rk4` function
-invocation which computes the updated values of positions, velocities,
-radii, masses and active flags. The `rk4` function is reported in the
-following Listing:
+The first actual computational step is represented by the `rk4` function invocation which computes the updated values of positions, velocities, radii, masses and active flags. The `rk4` function is reported in the following Listing:
 
 ``` python
 def rk4(pos, vel, rad, mass, active, N):
@@ -1576,9 +1520,11 @@ def rk4(pos, vel, rad, mass, active, N):
 
     return pos, vel, rad, mass, active
 ```
+<p align="center" id="rk4" >
+     <em>Listing 19. The Runge-Kutta routine for the solution of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem for the sequential case.</em>
+</p>
 
-The first performed operation is the merging between the planets and the
-sun by the following `mergeWithSun` function:
+The first performed operation is the merging between the planets and the sun by the following `mergeWithSun` function:
 
 ``` python
 def mergeWithSun(pos, rad, mass, active, N):
@@ -1591,14 +1537,8 @@ def mergeWithSun(pos, rad, mass, active, N):
             active[p] = False
 ```
 
-the `computeDistances` computes, in this case, the distance `dr` between
-sun and the planet with index `p`. As it can be seen from the function
-`mergeWithSun` and as already announced in the foregoing subsection, if
-the distance `dr` is less than the sum of the radii of the two involved
-celestial bodies, then planet `p` disappears and its mass is added to
-that of the sun.  
-The second operation performed by the `rk4` function is the call of
-`mergeWithPlanet` reported in the below Listing
+the `computeDistances` computes, in this case, the distance `dr` between sun and the planet with index `p`. As it can be seen from the function `mergeWithSun` and as already announced in the foregoing subsection, if the distance `dr` is less than the sum of the radii of the two involved celestial bodies, then planet `p` disappears and its mass is added to that of the sun.  
+The second operation performed by the `rk4` function is the call of `mergeWithPlanet` reported in the below Listing
 
 ``` python
 def mergeWithPlanet(pos, vel, rad, mass, active, N):
@@ -1621,24 +1561,10 @@ def mergeWithPlanet(pos, vel, rad, mass, active, N):
                         active[q] = False
 ```
 
-As it can be seen, all the particles are examined provided that
-`active[p]` is true, that is to say, if the `p`-th particle is active.
-If the distance between the centers of particles `p` and `q` is less
-than the sum of their radii, particle `q` is deactivated, the momentum
-conservation
-([\[conservazioneQuantitàDiMoto\]](#conservazioneQuantitàDiMoto)) is
-applied to compute the new velocity of particle `p` and the mass `q`
-summed up to that of `p`. Once computed the new mass of `p`, equation
-([\[mass2radius\]](#mass2radius)) is applied for the recomputation of
-its radius.  
-Turning back to Listing [\[rk4\]](#rk4), immediately after the merging,
-the arrays involved in the update of positions and velocities in the RK4
-scheme are initialized. They are: `forcesx` and `forcesy` which are two
-`N x N` arrays, `k1x`, `k2x`, `k3x`, `k4x` used in the update of the
-positions and `k1v`, `k2v`, `k3v`, `k4v` used in the update of the
+As it can be seen, all the particles are examined provided that `active[p]` is true, that is to say, if the `p`-th particle is active. If the distance between the centers of particles `p` and `q` is less than the sum of their radii, particle `q` is deactivated, the momentum conservation [\[41\]](#conservazioneQuantitàDiMoto) is applied to compute the new velocity of particle `p` and the mass `q` summed up to that of `p`. Once computed the new mass of `p`, equation [\[40\]](#mass2radius) is applied for the recomputation of its radius.  
+Turning back to Listing [19](#rk4), immediately after the merging, the arrays involved in the update of positions and velocities in the RK4 scheme are initialized. They are: `forcesx` and `forcesy` which are two `N x N` arrays, `k1x`, `k2x`, `k3x`, `k4x` used in the update of the positions and `k1v`, `k2v`, `k3v`, `k4v` used in the update of the
 velocities. These latter arrays are `N x 2`.  
-The function in Listing [\[rk4\]](#rk4) uses, in turn, other two
-functions: `computeForces` and `updatekv`. The first is reported below:
+The function in Listing [19](#rk4) uses, in turn, other two functions: `computeForces` and `updatekv`. The first is reported below:
 
 ``` python
 def computeForces(pos, mass, active, forcesx, forcesy, N):
@@ -1655,20 +1581,7 @@ def computeForces(pos, mass, active, forcesx, forcesy, N):
                             (dsq + 1e-14)) * dy / (dr + 1e-7)
 ```
 
-Such function implements the term within the summation in
-([\[Forces\]](#Forces)). It should only be noticed that the computation
-occurs only if the particles `p` and `q` are active and if the particle
-exerting the force, namely, particle `q`, is different from particle
-`p`. It should also be underlined that, when the particles are very
-close each other, the distance `dr` and the squared distance `dsq`
-become very close and this can lead to overflow issues. To prevent
-overflow, small quantities are summed up to them. Another point to
-highlight is that the force that particle `q` exerts on particle `p` is
-equal and opposite to that exerted by particle `p` on particle `q`. This
-means that matrices `forcesx` and `forcesy` could be partially filled
-while the remaining parts determined by symmetry. The shown code does
-not exploit such an expedient, thus uselessly burdening the computation.
-This choice owes to simplicity.  
+Such function implements the term within the summation in [\[32\]](#Forces). It should only be noticed that the computation occurs only if the particles `p` and `q` are active and if the particle exerting the force, namely, particle `q`, is different from particle `p`. It should also be underlined that, when the particles are very close each other, the distance `dr` and the squared distance `dsq` become very close and this can lead to overflow issues. To prevent overflow, small quantities are summed up to them. Another point to highlight is that the force that particle `q` exerts on particle `p` is equal and opposite to that exerted by particle `p` on particle `q`. This means that matrices `forcesx` and `forcesy` could be partially filled while the remaining parts determined by symmetry. The shown code does not exploit such an expedient, thus uselessly burdening the computation. This choice owes to simplicity.  
 The second used function is `updatekv` reported below
 
 ``` python
@@ -1681,22 +1594,13 @@ def updatekv(kv, forcesx, forcesy, mass, active, dt, N):
                     kv[p, 1]   += dt * forcesy[p, q] / mass[p]
 ```
 
-It first computes the accelerations by summing the forces particle-wise
-and by dividing them by the corresponding masses. Finally, an update of
-the velocity is computed.  
-In Listing [\[rk4\]](#rk4):
+It first computes the accelerations by summing the forces particle-wise and by dividing them by the corresponding masses. Finally, an update of the velocity is computed.  
+In Listing [19](#rk4):
 
-  - the first group of operations (`Compute k1v, k1x`) executes points
-    1. and 2. of RK4;
-
-  - the second group of operations (`Compute k2v, k2x`) executes points
-    3. 4., 5. and 6. of RK4;
-
-  - the third group of operations (`Compute k3v, k3x`) executes points
-    7., 8., 9. and 10. of RK4;
-
-  - the third group of operations (`Compute k4v, k4x`) executes points
-    7., 8., 9. and 10. of RK4;
+  - the first group of operations (`Compute k1v, k1x`) executes points 1. and 2. of RK4;
+  - the second group of operations (`Compute k2v, k2x`) executes points 3. 4., 5. and 6. of RK4;
+  - the third group of operations (`Compute k3v, k3x`) executes points 7., 8., 9. and 10. of RK4;
+  - the third group of operations (`Compute k4v, k4x`) executes points 7., 8., 9. and 10. of RK4;
 
 The last two lines of the `rk4` routine, namely
 
@@ -1705,12 +1609,8 @@ vel[0 : N] = vel[0 : N] + (1. / 6.) * (k1v + 2. * k2v + 2. * k3v + k4v)
     pos[0 : N] = pos[0 : N] + (1. / 6.) * (k1x + 2. * k2x + 2. * k3x + k4x)
 ```
 
-implement equations
-([\[quadraturaRungeKutta\]](#quadraturaRungeKutta)).  
-Concerning the main loop of the \(N\)-body solver, namely Listing
-[\[NbodyMainLoop\]](#NbodyMainLoop), the operation following the RK4
-update is the invocation of the `arrayCompaction` function reported
-below:
+implement equations [\[37\]](#quadraturaRungeKutta).  
+Concerning the main loop of the <img src="https://render.githubusercontent.com/render/math?math=N">-body solver, namely Listing [17](#NbodyMainLoop), the operation following the RK4 update is the invocation of the `arrayCompaction` function reported below:
 
 ``` python
 def arrayCompaction(pos, vel, rad, mass, active, N):
@@ -1725,19 +1625,9 @@ def arrayCompaction(pos, vel, rad, mass, active, N):
     return pos, vel, rad, mass, active, N
 ```
 
-The purpose of such a function is that of reordering the arrays
-describing the particles by using the `active` flag as key. In this way,
-the active particles will appear ahead of the different arrays. In
-particular, the key is ordered first by the `numpy` `argsort` function
-so obtaining an array of `indices` describing the performed sorting.
-Then, the `pos`, `vel`, `mass` and `rad` arrays are sorted according to
-such indices. The number `N` of active particles is simply counted by
-reducing the `active` array. It can be seen that `-active` appears as
-argument of `argsort`. This is due to the fact that the sorting must be
-performed in reverse order, namely, by having the \(1\)’ ahead and the
-\(0\)’s at the end.  
-Once completed the computation, the particles drawing by the below
-reported function `drawParticles()` is performed:
+The purpose of such a function is that of reordering the arrays describing the particles by using the `active` flag as key. In this way, the active particles will appear ahead of the different arrays. In particular, the key is ordered first by the `numpy` `argsort` function so obtaining an array of `indices` describing the performed sorting.
+Then, the `pos`, `vel`, `mass` and `rad` arrays are sorted according to such indices. The number `N` of active particles is simply counted by reducing the `active` array. It can be seen that `-active` appears as argument of `argsort`. This is due to the fact that the sorting must be performed in reverse order, namely, by having the <img src="https://render.githubusercontent.com/render/math?math=1">’ ahead and the <img src="https://render.githubusercontent.com/render/math?math=0">’s at the end.  
+Once completed the computation, the particles drawing by the below reported function `drawParticles()` is performed:
 
 ``` python
 def drawParticles():
@@ -1750,14 +1640,12 @@ def drawParticles():
                 (pos[p, 1] - WIN_M2) / WIN_M2)), int(rad[p] * 
                     zoomFactor), 0)
 ```
+<p align="center" id="xxx" >
+     <em>Listing 20. The drawing particles function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
-`pygame.draw.circle` draws a circle inside `simulWindow` having while
-color (`(255, 255, 255)`). The center of the circle is given by the
-particle position magnified by the `zoomFactor`. The last parameter
-forces the circle to be filled.  
-After having drawn the particles, the simulation window is unlocked and
-a check is performed on the event that the User has pressed a key, see
-the below Listing
+`pygame.draw.circle` draws a circle inside `simulWindow` having while color (`(255, 255, 255)`). The center of the circle is given by the particle position magnified by the `zoomFactor`. The last parameter forces the circle to be filled.  
+After having drawn the particles, the simulation window is unlocked and a check is performed on the event that the User has pressed a key, see the below Listing
 
 ``` python
 def checkKeyPressed():
@@ -1768,6 +1656,9 @@ def checkKeyPressed():
         elif evt.type in [pygame.KEYDOWN, pygame.KEYUP]:
             keysBuffer[evt.key] = evt.type == pygame.KEYDOWN
 ```
+<p align="center" id="xxx" >
+     <em>Listing 21. Checking key-pressed function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
 `pygame.event.poll()` polls a single event. If no event is caught, then
 the routine is exited, otherwise if a key is pressed, the corresponding
