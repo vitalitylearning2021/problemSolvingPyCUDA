@@ -1682,6 +1682,9 @@ Moreover, we need other two imports, namely
 import ctypes
 from ctypes import * 
 ```
+<p align="center" id="xxx" >
+     <em>Listing 22. The imports for linking a `dll` library for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
+</p>
 
 Such imports are needed since, to perform the sorting operations which, in the sequential case, were performed by the `arrayCompaction` routine, we will exploit the sorting-by-key primitives of the Thrust library. In order to enable the use of such library in a simple way under Python, a proper function will be devised. Such a function will be then compiled in a `dll`. The imports in Listing [22](#importDLLNBody) will serve to enable the link to such a `dll`.  
 The codes in Listings [11](#simulationWindowParameters), [12](#simulationParameters), [13](#timeSimulationParameters), [14](#arrayInitializationNBody), [15](#initializationSimulationWindow), [16](#initializationFunctionSimulationWindow), [18](#updateScreenNBody), [20](#drawingParticlesNBody) and [21](#checkingKeyPressedNBody) keep the same also for the parallel case.  
@@ -1739,19 +1742,11 @@ while True:
         break
 ```
 <p align="center" id="xxx" >
-     <em>Listing 22. The Runge-Kutta routine for the solution of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem in the parallel case.</em>
+     <em>Listing 23. The Runge-Kutta routine for the solution of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem in the parallel case.</em>
 </p>
 
-The structure of the main loop is very similar to that in Listing
-[\[NbodyMainLoop\]](#NbodyMainLoop). However, the first difference is
-that the quadrature coefficients `d_k1v`, `d_k2v`, `d_k3v` and `d_k4v`
-are allocated on GPU outside of the loop and also the particle
-device-side arrays `d_pos`, `d_vel`, `d_mass`, `d_rad` and `d_active`
-are allocated and initialized by their host counterparts. Obviously, a
-direct initialization of such arrays on the device would be possible.  
-Within each loop, following the `updateScreen()` function invocation,
-the quadrature weights are reinitialized to zero and the `rk4GPU`
-routine, reported in the following Listing, invoked:
+The structure of the main loop is very similar to that in Listing [17](#NbodyMainLoop). However, the first difference is that the quadrature coefficients `d_k1v`, `d_k2v`, `d_k3v` and `d_k4v` are allocated on GPU outside of the loop and also the particle device-side arrays `d_pos`, `d_vel`, `d_mass`, `d_rad` and `d_active` are allocated and initialized by their host counterparts. Obviously, a direct initialization of such arrays on the device would be possible.  
+Within each loop, following the `updateScreen()` function invocation, the quadrature weights are reinitialized to zero and the `rk4GPU` routine, reported in the following Listing, invoked:
 
 ``` python
 def rk4GPU(d_pos, d_vel, d_rad, d_mass, d_active, d_k1v, d_k2v, d_k3v, d_k4v, N):
@@ -1790,12 +1785,11 @@ def rk4GPU(d_pos, d_vel, d_rad, d_mass, d_active, d_k1v, d_k2v, d_k3v, d_k4v, N)
 
     return d_pos, d_vel, d_rad, d_mass, d_active
 ```
+<p align="center" id="rk4GPU" >
+     <em>Listing 24. The Runge-Kutta routine for the solution of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem in the parallel case.</em>
+</p>
 
-As it can be seen from Listing [\[rk4GPU\]](#rk4GPU), the
-`mergeWithSunGPU`, `mergeWithPlanetGPU` and `computeForcesGPU` routines
-replace the `mergeWithSun`, `mergeWithPlanet` and `computeForces`
-routines, respectively. In particular, such routines are implemented by
-CUDA kernels according to the above illustrated guidelines.  
+As it can be seen from Listing [24](#rk4GPU), the `mergeWithSunGPU`, `mergeWithPlanetGPU` and `computeForcesGPU` routines replace the `mergeWithSun`, `mergeWithPlanet` and `computeForces` routines, respectively. In particular, such routines are implemented by CUDA kernels according to the above illustrated guidelines.  
 The CUDA kernel realizing the merging with the sun is reported now:
 
 ``` c++
@@ -1817,13 +1811,8 @@ __global__ void mergeWithSunKernel(const float2 * __restrict__ d_pos,
 }
 ```
 
-It is seen that each thread deals with a different particle. Moreover,
-the `computeDistances` function, used in the sequential case, has now no
-parallel counterpart being the related code directly nestled within the
-kernel. This will occur also for other kernel functions.  
-The kernel implementing the planet merging and the computation of the
-forces is reported below. In particular, we first show
-`mergeWithPlanetKernel`:
+It is seen that each thread deals with a different particle. Moreover, the `computeDistances` function, used in the sequential case, has now no parallel counterpart being the related code directly nestled within the kernel. This will occur also for other kernel functions.  
+The kernel implementing the planet merging and the computation of the forces is reported below. In particular, we first show `mergeWithPlanetKernel`:
 
 ``` c++
 __global__ void mergeWithPlanetKernel(const float2 * __restrict__ d_pos, 
@@ -1882,27 +1871,13 @@ __global__ void computeForcesKernel(const float2 * __restrict__ d_pos,
     d_force[p].y = dt * fy;
 }
 ```
+<p align="center" id="computeForcesKernel" >
+     <em>Listing 25. The kernel to compute reciprocal forces.</em>
+</p>
 
-Actually, there is a small variation between `computeForcesKernel` and
-its sequential counterpart since the mentioned kernel, despite of its
-name, is not used to compute the forces, but instead to directly update
-`d_k1v`, `d_k2v`, `d_k3v` and `d_k4v`. Indeed, these arrays are the
-inputs of `d_force`, as it can be seen from Listing
-[\[rk4GPU\]](#rk4GPU).  
-Another point to highlight in Listing [\[rk4GPU\]](#rk4GPU) is that the
-updates of `d_k1x`, `d_k2x`, `d_k3x` and `d_k4x`, as well as those of
-`d_vel` and `d_pos`, could be performed by using appropriate kernels,
-but actually the facilities offered by PyCUDA to implement these
-operations with a natural mathematical syntax are exploited.  
-Once performed the update of the particle arrays by Listing
-[\[rk4GPU\]](#rk4GPU), it is needed to sort them using `d_active` as
-key, much like for the sequential case. This is done by using the
-primitives of the Thrust library. Despite the interoperability between
-Thrust and PyCUDA has been dealt with in , we have found simpler to
-create a library containing a function internally exploiting the Thrust
-primitives. Such a function is then invoked within the Python code by
-using the `ctypes` library. In particular, the code compiled in a `.dll`
-is the following
+Actually, there is a small variation between `computeForcesKernel` and its sequential counterpart since the mentioned kernel, despite of its name, is not used to compute the forces, but instead to directly update `d_k1v`, `d_k2v`, `d_k3v` and `d_k4v`. Indeed, these arrays are the inputs of `d_force`, as it can be seen from Listing [24](#rk4GPU).  
+Another point to highlight in Listing [24](#rk4GPU) is that the updates of `d_k1x`, `d_k2x`, `d_k3x` and `d_k4x`, as well as those of `d_vel` and `d_pos`, could be performed by using appropriate kernels, but actually the facilities offered by PyCUDA to implement these operations with a natural mathematical syntax are exploited.  
+Once performed the update of the particle arrays by Listing [24](#rk4GPU), it is needed to sort them using `d_active` as key, much like for the sequential case. This is done by using the primitives of the Thrust library. Despite the interoperability between Thrust and PyCUDA has been dealt with in , we have found simpler to create a library containing a function internally exploiting the Thrust primitives. Such a function is then invoked within the Python code by using the `ctypes` library. In particular, the code compiled in a `.dll` is the following
 
 ``` c++
 #include <cuda.h>
@@ -1949,6 +1924,9 @@ DELLEXPORT int arrayCompactionGPU(int *d_active, float2 *d_pos,
 
 }
 ```
+<p align="center" id="arrayCompactionGPU" >
+     <em>Listing 26. The external library for the array compaction for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem in the parallel case.</em>
+</p>
 
 The first operations of the `arrayCompactionGPU` routine, namely
 
@@ -1960,14 +1938,8 @@ thrust::device_ptr<float>   d_rad_dev_ptr    = thrust::device_pointer_cast(d_rad
 thrust::device_ptr<float>   d_mass_dev_ptr   = thrust::device_pointer_cast(d_mass); 
 ```
 
-perform a type cast from a Python pointer to a Thrust device pointer
-`device_ptr` so that such cast pointers can be used as inputs of the
-Thrust primitives. Indeed, the `sort_by_key` routine accepts the
-iterators (see chapter 2) of the key as input, `d_active` in our case,
-and of the array to be sorted according to the key. For the case of our
-interest, we have multiple arrays to order. For this reason, it is
-necessary to zip the corresponding operators. To this end, we define, by
-`typedef`, a `float` iterator first, namely
+perform a type cast from a Python pointer to a Thrust device pointer `device_ptr` so that such cast pointers can be used as inputs of the Thrust primitives. Indeed, the `sort_by_key` routine accepts the iterators (see [Numerical quadrature in CUDA with reusable software](https://vitalitylearning2021.github.io/quadratureCUDA/)) of the key as input, `d_active` in our case, and of the array to be sorted according to the key. For the case of our interest, we have multiple arrays to order. For this reason, it is
+necessary to zip the corresponding operators. To this end, we define, by `typedef`, a `float` iterator first, namely
 
 ``` c++
 typedef thrust::device_vector<float>::iterator  FloatIterator;
@@ -1985,30 +1957,16 @@ a tuple of `(float2, float2, float, float)` namely
 typedef thrust::zip_iterator<iteratorTuple> ZippedFloat2Iterator;
 ```
 
-and finally a zipped iterator which we will directly use in
-`sort_by_key`. It should be noticed that, in the call to
-`thrust::sort_by_key`, the sorting order is `thrust::greater<int>()`.
-This occurs because, as for the sequential case, the sorting must put
-\(0\)’s and \(1\)’s in reverse order. At
-<https://github.com/CIuliusC/CUDA_Book/tree/master/Chapter%2005> , a
-fully working, simple example of using Thrust’s sort-by-key can be also
-found.  
-The last performed operation is the reduction of the `d_active` array to
-count the new `Nactive` number of active particles.  
-The operations in Listing [\[arrayCompactionGPU\]](#arrayCompactionGPU)
-are contained in the `arrayCompactionGPUDLL.cu` file. To create a
-`.dll`, such file is compiled as
+and finally a zipped iterator which we will directly use in `sort_by_key`. It should be noticed that, in the call to `thrust::sort_by_key`, the sorting order is `thrust::greater<int>()`. This occurs because, as for the sequential case, the sorting must put <img src="https://render.githubusercontent.com/render/math?math=0">’s and <img src="https://render.githubusercontent.com/render/math?math=1">’s in reverse order. At <https://github.com/vitalitylearning2021/problemSolvingPyCUDA>, a fully working, simple example of using Thrust’s sort-by-key can be also found.  
+The last performed operation is the reduction of the `d_active` array to count the new `Nactive` number of active particles.  
+The operations in Listing [26](#arrayCompactionGPU) are contained in the `arrayCompactionGPUDLL.cu` file. To create a `.dll`, such file is compiled as
 
 ``` bash
 nvcc -Xcompiler -gencode arch=compute_52,code=compute_52 
    -O3 -shared -o arrayCompactionGPUDLL.dll arrayCompactionGPUDLL.cu
 ```
 
-The `-gencode arch=compute_52,code=compute_52` options serve to compile
-the code for a specific architecture, namely, that with compute
-capability `5.2` corresponding to the Maxwell architecture. Of course,
-such options must be changed according to the needs. Moreover, the `-O3`
-option compiles the code in `release` mode which is necessary when the
+The `-gencode arch=compute_52,code=compute_52` options serve to compile the code for a specific architecture, namely, that with compute capability `5.2` corresponding to the Maxwell architecture. Of course, such options must be changed according to the needs. Moreover, the `-O3` option compiles the code in `release` mode which is necessary when the
 Thrust library is used.  
 In the Windows case, you will receive the following warning
 
@@ -2016,12 +1974,8 @@ In the Windows case, you will receive the following warning
 cl : Command line warning D9002 : ignoring unknown option '-fPIC'
 ```
 
-since the `-fPIC` option is available only under Linux but not under
-Windows. The result of the compilation is the
-`arrayCompactionGPUDLL.dll` file.  
-The `arrayCompactionGPU` function contained in
-`arrayCompactionGPUDLL.dll` is then imported and transformed in a
-regular Python function by the following Listing
+since the `-fPIC` option is available only under Linux but not under Windows. The result of the compilation is the `arrayCompactionGPUDLL.dll` file.  
+The `arrayCompactionGPU` function contained in `arrayCompactionGPUDLL.dll` is then imported and transformed in a regular Python function by the following Listing
 
 ``` python
 class FLOAT2(Structure):
@@ -2035,20 +1989,9 @@ def get_array_compaction_GPU():
     return func
 ```
 
-In particular, the `get_array_compaction_GPU` function does the job. We
-will tell shortly about the `FLOAT2` class. Concerning the
-`get_array_compaction_GPU` function, first the `.dll` is loaded thanks
-to `ctypes.windll.LoadLibrary` and later on the `arrayCompactionGPU`
-function contained within the `.dll`, namely `dll.arrayCompactionGPU`,
-is assigned to the `func` function. Moreover, the types of the input
-arguments of such a function are defined, where `POINTER` means that the
-input is a pointer. The `FLOAT2` has been created to this purpose. As
-penultimate operation, the output type is defined by
-`dll.arrayCompactionGPU.restype`. Finally, the
-`get_array_compaction_GPU` function returns the handle to the Python
-function loaded from the library.  
-Coming back to the main loop [\[rk4GPU\]](#rk4GPU), after having updated
-the particle arrays, the positions are moved from GPU to CPU by
+In particular, the `get_array_compaction_GPU` function does the job. We will tell shortly about the `FLOAT2` class. Concerning the `get_array_compaction_GPU` function, first the `.dll` is loaded thanks to `ctypes.windll.LoadLibrary` and later on the `arrayCompactionGPU` function contained within the `.dll`, namely `dll.arrayCompactionGPU`,
+is assigned to the `func` function. Moreover, the types of the input arguments of such a function are defined, where `POINTER` means that the input is a pointer. The `FLOAT2` has been created to this purpose. As penultimate operation, the output type is defined by `dll.arrayCompactionGPU.restype`. Finally, the `get_array_compaction_GPU` function returns the handle to the Python function loaded from the library.  
+Coming back to the main loop [24](#rk4GPU), after having updated the particle arrays, the positions are moved from GPU to CPU by
 
 ``` python
 class FLOAT2(Structure):
@@ -2058,31 +2001,14 @@ def get_array_compaction_GPU():
     pos     = d_pos.get()    
 ```
 
-They are then plotted using the `drawParticles()` routine. The rest of
-the loop is the same as for the sequential case.
+They are then plotted using the `drawParticles()` routine. The rest of the loop is the same as for the sequential case.
 
 #### Improvement using shared memory
 
-Let us conclude this chapter with a small improvement to the
-`computeForcesKernel` kernel obtained by using the so-called *shared
-memory* .  
-To understand the reason for the variation that will be presented, let
-us consider again the `computeForcesKernel` kernel. As it can be seen
-from the code, due to the presence of the `for` loop, all the threads
-need to access all the elements of the `d_pos` and `d_mass` arrays.
-These arrays are stored in the global memory which, as known, has a long
-latency. Fortunately, the GPUs have a caching mechanisms which avoids
-the need of performing continuous global memory accesses and to search
-the required data in the L1 cache first. The L1 cache is indeed
-*on-chip* and has much shorter latencies. Nevertheless, the L1 caching
-mechanism is not under the User’s control. Once again fortunately, an
-*on-chip* caching mechanism, known as `shared memory` and controllable
-by the User, exists. Shared memory can be seen as a portion of L1 cache
-controllable by the User. In other words, the idea is appointing the
-threads to explicitly withdraw the data from global memory and storing
-them into shared memory. The data stored into the shared memory can be
-read by all the threads belonging to the same thread block. Let us
-consider the example in the following Listing:
+Let us conclude this chapter with a small improvement to the `computeForcesKernel` kernel obtained by using the so-called *shared memory* .  
+To understand the reason for the variation that will be presented, let us consider again the `computeForcesKernel` kernel. As it can be seen from the code, due to the presence of the `for` loop, all the threads need to access all the elements of the `d_pos` and `d_mass` arrays. These arrays are stored in the global memory which, as known, has a long
+latency. Fortunately, the GPUs have a caching mechanisms which avoids the need of performing continuous global memory accesses and to search the required data in the L1 cache first. The L1 cache is indeed *on-chip* and has much shorter latencies. Nevertheless, the L1 caching mechanism is not under the User’s control. Once again fortunately, an
+*on-chip* caching mechanism, known as `shared memory` and controllable by the User, exists. Shared memory can be seen as a portion of L1 cache controllable by the User. In other words, the idea is appointing the threads to explicitly withdraw the data from global memory and storing them into shared memory. The data stored into the shared memory can be read by all the threads belonging to the same thread block. Let us consider the example in the following Listing:
 
 ``` c++
 __global__ void computeForcesSharedKernel(const float2 * __restrict__ 
@@ -2123,13 +2049,8 @@ __global__ void computeForcesSharedKernel(const float2 * __restrict__
 }
 ```
 
-As it can be seen, the particles are divided in *tiles* of `BLOCKSIZE`
-dimension each. This appears because the only `for` loop that was
-showing in Listing [\[computeForcesKernel\]](#computeForcesKernel) is
-now divided in an “external” loop and an “internal” one. The external
-loop involves the tiles while the internal loop regards the elements of
-a tile. For each tile (external loop) two static arrays in shared memory
-are defined, namely, `s_pos` and `s_mass`, each of `BLOCKSIZE` length.
+As it can be seen, the particles are divided in *tiles* of `BLOCKSIZE` dimension each. This appears because the only `for` loop that was showing in Listing [25](#computeForcesKernel) is now divided in an “external” loop and an “internal” one. The external loop involves the tiles while the internal loop regards the elements of
+a tile. For each tile (external loop) two static arrays in shared memory are defined, namely, `s_pos` and `s_mass`, each of `BLOCKSIZE` length.
 Later on, using the instructions
 
 ``` c++
@@ -2137,26 +2058,9 @@ s_pos[threadIdx.x]  = d_pos[tile * blockDim.x + threadIdx.x];
 s_mass[threadIdx.x] = d_mass[tile * blockDim.x + threadIdx.x];
 ```
 
-each thread loads the corresponding tile element in shared memory.
-Following the two loadings, using the `__syncthreads()` barrier is
-necessary making all the threads of the same block stop at this barrier.
-Indeed, not only the individual element loaded by the corresponding
-thread, but *all* the elements loaded in shared memory must be available
-to *all* the threads of a block. Since the different threads of a block
-can complete the loading operation in shared memory in different times,
-then it is necessary that all the threads of a block wait that all the
-block threads have completed the loading in shared memory. If they
-don’t, a thread could access shared memory locations in which the
+each thread loads the corresponding tile element in shared memory. Following the two loadings, using the `__syncthreads()` barrier is necessary making all the threads of the same block stop at this barrier. Indeed, not only the individual element loaded by the corresponding thread, but *all* the elements loaded in shared memory must be available
+to *all* the threads of a block. Since the different threads of a block can complete the loading operation in shared memory in different times, then it is necessary that all the threads of a block wait that all the block threads have completed the loading in shared memory. If they don’t, a thread could access shared memory locations in which the
 loading has not yet been completed by the corresponding thread.  
-Once completed the shared memory loading, the update of the forces per
-tile occurs exactly as for Listing
-[\[computeForcesKernel\]](#computeForcesKernel), with the only
-difference that the data are not withdrawn from global memory, but
-directly from shared memory. The last thing to notice is that a
-`__syncthreads()` barrier is lastly necessary also following the update
-of the forces corresponding to each tile before proceeding to the
-loading in shared memory of the next tile. Without this barrier, a
-thread could load in shared memory an element of next tile before the
-other threads have finished the update of the forces using the previous
-tile. In other words, the latter could read shared memory data not
+Once completed the shared memory loading, the update of the forces per tile occurs exactly as for Listing [25](#computeForcesKernel), with the only difference that the data are not withdrawn from global memory, but directly from shared memory. The last thing to notice is that a `__syncthreads()` barrier is lastly necessary also following the update
+of the forces corresponding to each tile before proceeding to the loading in shared memory of the next tile. Without this barrier, a thread could load in shared memory an element of next tile before the other threads have finished the update of the forces using the previous tile. In other words, the latter could read shared memory data not
 corresponding to the tile they are working on.
