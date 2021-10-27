@@ -2067,5 +2067,5 @@ corresponding to the tile they are working on.
 # REFERENCES
 <p align="center" id="PYCUDA1" >
 </p>
-[1] [A. Kl<span>ö</span>ckner, N. Pinto, Y. Lee, B. Catanzaro, P. Ivanov, A. Fasih, "PyCUDA and PyOpenCL: A scripting-based approach to GPU run-time code generation," Parallel Computing, vol. 38, n. 3, pp. 157-174, Mar. 2012](https://www.sciencedirect.com/science/article/pii/S0167819111001281?casa_token=G53x49PrRhoAAAAA:Ja-Tx5GDwAuW8cbOLGfk3xJYPvUsUHnBW994JWNgJERexBcqKbT2QJ14lAZxRh890fw6pKW-2zs).
+[1] A. Kl<span>ö</span>ckner, N. Pinto, Y. Lee, B. Catanzaro, P. Ivanov, A. Fasih, "[PyCUDA and PyOpenCL: A scripting-based approach to GPU run-time code generation](https://www.sciencedirect.com/science/article/pii/S0167819111001281?casa_token=G53x49PrRhoAAAAA:Ja-Tx5GDwAuW8cbOLGfk3xJYPvUsUHnBW994JWNgJERexBcqKbT2QJ14lAZxRh890fw6pKW-2zs)," Parallel Computing, vol. 38, n. 3, pp. 157-174, Mar. 2012.
 
