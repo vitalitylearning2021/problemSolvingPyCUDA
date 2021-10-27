@@ -29,7 +29,7 @@ We begin, in the following section, to introduce the PyCUDA library.
 
 ## What is PyCUDA?
 
-PyCUDA is a library developed by Andreas Kl<span>ö</span>ckner *et al.* allowing to write CUDA codes and compiling, optimizing and using them as ordinary Python functions in a totally transparent way to the User. The User, indeed, does not need to manage the CUDA compiler unless he explicitly requests it.  
+PyCUDA is a library developed by Andreas Kl<span>ö</span>ckner *et al.* [1](#PYCUDA1) allowing to write CUDA codes and compiling, optimizing and using them as ordinary Python functions in a totally transparent way to the User. The User, indeed, does not need to manage the CUDA compiler unless he explicitly requests it.  
 PyCUDA uses the concept of GPU run-time code generation (RTCG) enabling the execution of low-level code launched by the high-level scripting language offered by Python. The use of RTCG increases the User’s productivity from different points of view.  
 A first advantage of RTCG is related to the possibility of a low-level programming by writing CUDA kernels only for the portions of the code to be accelerated while using, for the remaining ones, all the functionalities of a high-level language, as graphics or I/O. RTCG enables a run-time code optimization instead of a compile-time one. The
 former occurs at a more favorable time, when all the information on the machine on which the code must be executed is available. Also, the result of the compilation process is cached and reused if possible, initiating recompilation only when necessary. This is illustrated in figure [1](#PyCUDA_flow) where the compilation and caching operations in the gray box are performed transparently to the User. Finally, it is possible to fully exploit the potentialities of CUDA libraries thanks to the readiness of many wrappers in publicly available libraries or to construct such wrappers by oneself. In next chapters, we will provide an example of the wrapper availability for using the cuFFT library and of wrapper constructability for exploiting the cuSparse library. 
@@ -59,8 +59,7 @@ The first screen that is visualized when Google Colab is launched is a welcome p
 
 It is possible to create a new notebook, for example in `Python 3.6`, by selecting `New notebook` from the `File` menu. To enable the current session to use the GPU, it is enough to click on `Change runtime type` of the `Runtime` menu and select `GPU` from the `Hardware accelerator` drop down menu. It is understood that, from now on, such selection should be operated to correctly run the shown examples. Obviously, the examples that will be described could also be executed locally on a PC.
 In the Windows case, the use of `Visual Studio Code` is highly recommended.  
-In next section, we will see how it is possible to list the properties
-of the GPU on which the computation is performed.
+In next section, we will see how it is possible to list the properties of the GPU on which the computation is performed.
 
 ## Dumping the GPU properties
 
@@ -2064,3 +2063,9 @@ loading has not yet been completed by the corresponding thread.
 Once completed the shared memory loading, the update of the forces per tile occurs exactly as for Listing [25](#computeForcesKernel), with the only difference that the data are not withdrawn from global memory, but directly from shared memory. The last thing to notice is that a `__syncthreads()` barrier is lastly necessary also following the update
 of the forces corresponding to each tile before proceeding to the loading in shared memory of the next tile. Without this barrier, a thread could load in shared memory an element of next tile before the other threads have finished the update of the forces using the previous tile. In other words, the latter could read shared memory data not
 corresponding to the tile they are working on.
+
+# REFERENCES
+<p align="center" id="PYCUDA1" >
+</p>
+[1] [A. Kl<span>ö</span>ckner, N. Pinto, Y. Lee, B. Catanzaro, P. Ivanov, A. Fasih, "PyCUDA and PyOpenCL: A scripting-based approach to GPU run-time code generation," Parallel Computing, vol. 38, n. 3, pp. 157-174, Mar. 2012](https://www.sciencedirect.com/science/article/pii/S0167819111001281?casa_token=G53x49PrRhoAAAAA:Ja-Tx5GDwAuW8cbOLGfk3xJYPvUsUHnBW994JWNgJERexBcqKbT2QJ14lAZxRh890fw6pKW-2zs).
+
