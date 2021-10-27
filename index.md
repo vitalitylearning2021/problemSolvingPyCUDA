@@ -32,7 +32,7 @@ We begin, in the following section, to introduce the PyCUDA library.
 PyCUDA is a library developed by Andreas Kl<span>ö</span>ckner *et al.* [\[1\]](#PYCUDA1) allowing to write CUDA codes and compiling, optimizing and using them as ordinary Python functions in a totally transparent way to the User. The User, indeed, does not need to manage the CUDA compiler unless he explicitly requests it.  
 PyCUDA uses the concept of GPU run-time code generation (RTCG) enabling the execution of low-level code launched by the high-level scripting language offered by Python. The use of RTCG increases the User’s productivity from different points of view.  
 A first advantage of RTCG is related to the possibility of a low-level programming by writing CUDA kernels only for the portions of the code to be accelerated while using, for the remaining ones, all the functionalities of a high-level language, as graphics or I/O. RTCG enables a run-time code optimization instead of a compile-time one. The
-former occurs at a more favorable time, when all the information on the machine on which the code must be executed is available. Also, the result of the compilation process is cached and reused if possible, initiating recompilation only when necessary. This is illustrated in figure [1](#PyCUDA_flow) where the compilation and caching operations in the gray box are performed transparently to the User. Finally, it is possible to fully exploit the potentialities of CUDA libraries thanks to the readiness of many wrappers in publicly available libraries or to construct such wrappers by oneself. In next chapters, we will provide an example of the wrapper availability for using the cuFFT library and of wrapper constructability for exploiting the cuSparse library. 
+former occurs at a more favorable time, when all the information on the machine on which the code must be executed is available. Also, the result of the compilation process is cached and reused if possible, initiating recompilation only when necessary. This is illustrated in figure [1](#PyCUDA_flow) where the compilation and caching operations in the gray box are performed transparently to the User. Finally, it is possible to fully exploit the potentialities of CUDA libraries thanks to the readiness of many wrappers in publicly available libraries or to construct such wrappers by oneself. 
 A second advantage of RTCG is associated to the possibility of using, within certain limits, a high-level, mathematical-like syntax for GPU executions.  
 In order to illustrate the potentialities of the PyCUDA library, for didactic purposes, we illustrate some simple examples prior to move to true projects. However, first, some words are given on the environment which we will use to develop some of the examples and the projects below, namely, Google Colaboratory.
 
@@ -44,8 +44,8 @@ In order to illustrate the potentialities of the PyCUDA library, for didactic pu
 
 ## Google Colaboratory
 
-Google Colaboratory, or Colab, is a totally free development environment based on Notebook Jupiter.  
-Jupyter notebook is an open-source, free web application permitting to create and share documents containing codes, equations, text, plots, tables and images and that enables sharing codes on the GitHub platform. In particular, the code is any time modifiable and executable in real time. What implemented can be later exported as Python or `ipynb`
+Google Colaboratory, or Colab, is a totally free development environment based on Jupyter notebook.  
+Jupyter notebook is an open-source, free web application permitting to create and share documents containing codes, equations, text, plots, tables and images and that enables sharing codes on the GitHub platform. In particular, the code is at any moment modifiable and executable in real time. What implemented can be later exported as Python or `ipynb`
 source, where `ipynb` is a format capable to host all the content of the Jupyter Notebook web application session and including the inputs and outputs of the computations, the images and the comments and that can be finally exported as `html`, `pdf` and `LaTeX`.  
 Google Colab supports `Python 2.7` and `3.6` at the time of writing, does not request any configuration and accommodates the CPU, GPU or Tensor Processing Unit (TPU) execution, depending on the needs. It hosts libraries like PyTorch, TensorFlow, Keras and OpenCV, so that it is much used for Machine Learning, Deep Learning and also experiments for Computer Vision. It is possible, however, to install also other modules if necessary.  
 In order to exploit Google Colab, it is enough to have a Google account and all the work can be saved on Google Drive.  
@@ -63,7 +63,7 @@ In next section, we will see how it is possible to list the properties of the GP
 
 ## Dumping the GPU properties
 
-The first, very simple example that we will show in this chapter enables to dump the properties of the GPU card in use. The example is entirely shown in Listing [\[dumpPyCUDA\]](#dumpPyCUDA).
+The first, very simple example that we will show in this chapter enables to dump the properties of the GPU card in use. The example is entirely shown in Listing [1](#dumpPyCUDA).
 
 ``` python
 import pycuda.driver as cuda
@@ -95,7 +95,7 @@ However, before launching the code, it is necessary to install PyCUDA under the 
 Going back to the code in Listing [1](#dumpPyCUDA), it permits to illustrate the normal workflow of a PyCUDA code.  
 In particular, the first step is to load the libraries as in a standard Python code. In the above example, two libraries are imported:
 
-1.  `pycuda.driver`: contains functions for memory handling, as allocation, deallocation and transfers, for the dumping of information on the GPU card etc.; in the example, the `cuda` shorthand is given to `pycuda.driver`;
+1.  `pycuda.driver`: contains functions for memory handling, as allocation, deallocation and transfers, for the dumping of information on the GPU card, etc.; in the example, the `cuda` shorthand is given to `pycuda.driver`;
 2.  `pycuda.autoinit`: does not use a shorthand notation and this call serves for the device initialization, memory cleanup and context creation;
 
 The first operation performed in Listing [1](#dumpPyCUDA) is that of counting the number of available devices by means of `cuda.Device.count()`.  
@@ -197,7 +197,7 @@ Device: %s Tesla P100-PCIE-16GB
 
 In the following section, we will provide more details of PyCUDA programming, showing five different ways to perform an elementwise vector summation.
 
-## Getting started with PyCUDA: five different ways to sum vectors in PyCUDA
+## Getting started with PyCUDA: five different ways to sum vectors
 
 In order to construct the five examples, we will consider different possibilities offered by PyCUDA. In particular:
 
