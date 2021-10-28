@@ -493,7 +493,7 @@ In order to better convince ourself of the possibility of forming a shock wave, 
 With little algebra, it is possible to show that, along the characteristic curve, we have
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\frac{dA}{dt}(t)=-A(t)^2." id="xxx">       [10]
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dA}{dt}(t)=-A(t)^2" id="xxx">       [10]
 </p>
 
 which is solved, again along a characteristic curve, by
@@ -503,7 +503,7 @@ which is solved, again along a characteristic curve, by
 </p>
 
 where <img src="https://render.githubusercontent.com/render/math?math=A_0"> is the initial condition, namely <img src="https://render.githubusercontent.com/render/math?math=A_0=A(0)">.  
-From ([\[11\]](#solutionGradientShockWave)) it is seen that if <img src="https://render.githubusercontent.com/render/math?math=A_0>0">, <img src="https://render.githubusercontent.com/render/math?math=A(t)"> has a decaying behavior, while, opposite to that, if <img src="https://render.githubusercontent.com/render/math?math=A_0 < 0">, <img src="https://render.githubusercontent.com/render/math?math=A(t)"> diverges at
+From [\[11\]](#solutionGradientShockWave) it is seen that, if <img src="https://render.githubusercontent.com/render/math?math=A_0>0">, <img src="https://render.githubusercontent.com/render/math?math=A(t)"> has a decaying behavior, while, opposite to that, if <img src="https://render.githubusercontent.com/render/math?math=A_0 < 0">, <img src="https://render.githubusercontent.com/render/math?math=A(t)"> diverges at
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=t_{\ast}=-\frac{1}{A_0}." id="xxx">       [12]
@@ -512,13 +512,7 @@ From ([\[11\]](#solutionGradientShockWave)) it is seen that if <img src="https:/
 Let us complete such subsection by illustrating the characteristic curves relative to the case that we will consider in the numerical examples, namely, to the case in which the initil condition is given by
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u(x,0)=\left\{
-                \begin{array}{ll}
-                  1 & x < 0\\
-                  1 - x & 0\leq x \leq 1\\
-                  0 & x > 1
-                  \end{array}
-              \right.." id="initialConditionShockWave">       [13]
+   <img src="equation_13.png" width="200" id="initialConditionShockWave">     [13]
 </p>
 
 For this case, the characteristic curves are illustrated by the following figure:
