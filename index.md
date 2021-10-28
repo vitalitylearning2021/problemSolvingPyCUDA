@@ -360,7 +360,7 @@ The full code is contained in the `fiveDifferentWays_version2.py` file.
 ### Version \# 3: using `gpuarray`s
 
 In the third version, GPU arrays are dealt with by the `gpuarray` class.  
-By such a class, PyCUDA is capable to automatically manage memory allocations, deallocations, data transfers and cleanup based on the lifetime in a transparent way to the User, so that there is no need to worry about freeing `gpuarray` objects where we are done with them.  
+By such a class, PyCUDA is capable to automatically manage memory allocations, deallocations, data transfers and cleanup based on the lifetime in a transparent way to the User, so that there is no need to worry about freeing `gpuarray` objects when we are done with them.  
 `gpuarray` works similarly to `numpy` and integrates with it. For example, to automatically create a `gpuarray` object and transfer a `numpy` array from host to device, it is enough to use the `to_gpu` method.  
 Using the `gpuarray` class, the up to now discussed code is even simpler:
 
@@ -420,7 +420,7 @@ Burgers’ equation can be derived as simplification of the Navier-Stokes equati
   <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u(x,t)}{\partial t}=-u(x,t)\frac{\partial u(x,t)}{\partial x}," id="burgersEquation">       [1]
 </p>
 
-where <img src="https://render.githubusercontent.com/render/math?math=u(x,t)"> is the flow velocity, <img src="https://render.githubusercontent.com/render/math?math=x"> is the space and <img src="https://render.githubusercontent.com/render/math?math=t"> is the time. Such equation is thus a first order, nonlinear Partial Differential Equation.  
+where <img src="https://render.githubusercontent.com/render/math?math=u(x,t)"> is the flow velocity, <img src="https://render.githubusercontent.com/render/math?math=x"> is the space and <img src="https://render.githubusercontent.com/render/math?math=t"> is the time. Such equation is thus a first order, nonlinear Partial Differential Equation (PDE).  
 In next subsection, we will see how this equation can give rise to the so-called shock waves.
 
 ### The inviscid Burgers’ equation and the shock waves
@@ -468,17 +468,17 @@ In order to illustrate the meaning of the method of characteristics and by assum
   <img src="https://render.githubusercontent.com/render/math?math=u(x,0)=u_0\sin(\pi x)." id="xxx">       [7]
 </p>
 
-In this case, equation ([\[6\]](#methodOfCharacteristicsSolution)), at <img src="https://render.githubusercontent.com/render/math?math=t=0">, rewrites as 
+In this case, equation [\[6\]](#methodOfCharacteristicsSolution), at <img src="https://render.githubusercontent.com/render/math?math=t=0">, rewrites as 
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}(0)=u_0\sin(\pi x)." id="methodOfCharacteristicsInitial">       [8]
 </p>
 
-Equation ([\[8\]](#methodOfCharacteristicsInitial)) has a precise meaning: for <img src="https://render.githubusercontent.com/render/math?math=x\in(0,1)">, <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}"> is positive so that, at those points, the perturbation moves in the positive direction of the <img src="https://render.githubusercontent.com/render/math?math=x"> axis, while for <img src="https://render.githubusercontent.com/render/math?math=x\in(1,2)">, <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}"> is negative so that, at those points, the perturbation moves along the negative direction of the <img src="https://render.githubusercontent.com/render/math?math=x"> axis. Moreover, as long as the amplitude of <img src="https://render.githubusercontent.com/render/math?math=sin(\pi x)"> increases, the perturbation moves faster.  
+Equation [\[8\]](#methodOfCharacteristicsInitial) has a precise meaning: for <img src="https://render.githubusercontent.com/render/math?math=x\in(0,1)">, <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}"> is positive so that, at those points, the perturbation moves in the positive direction of the <img src="https://render.githubusercontent.com/render/math?math=x"> axis, while, for <img src="https://render.githubusercontent.com/render/math?math=x\in(1,2)">, <img src="https://render.githubusercontent.com/render/math?math=\frac{dx}{dt}"> is negative so that, at those points, the perturbation moves along the negative direction of the <img src="https://render.githubusercontent.com/render/math?math=x"> axis. Moreover, as long as the amplitude of <img src="https://render.githubusercontent.com/render/math?math=sin(\pi x)"> increases, the perturbation moves faster.  
 The method of characteristics, for the examined case, is illustrated in the following figure [3](#methodOfCharacteristicsFigure):
 
 <p align="center">
-  <img src="shockWave.png" width="400" id="methodOfCharacteristicsFigure">
+  <img src="shockWave.png" width="500" id="methodOfCharacteristicsFigure">
   <br>
      <em>Figure 3. Illustrating the method of characteristics.</em>
 </p>
