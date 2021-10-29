@@ -547,7 +547,7 @@ Actually, equation [\[14\]](#conservationLaw) represents a more general *conserv
 Moreover, on assuming to solve equation [\[14\]](#conservationLaw) for <img src="https://render.githubusercontent.com/render/math?math=t\geq t_0"> and <img src="https://render.githubusercontent.com/render/math?math=x\geq x_0">, where <img src="https://render.githubusercontent.com/render/math?math=t_0"> is the initial time and <img src="https://render.githubusercontent.com/render/math?math=x_0"> is the left boundary of the domain of interest, we will flank Burgers’ equation with the initial condition
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u(x,t_0)=u_0(x), \;\;\; x\geq x_0" id="inviscidBurgerInitialCondition">       [16]
+  <img src="https://render.githubusercontent.com/render/math?math=u(x,t_0)=u_0(x)"> <img src="https://render.githubusercontent.com/render/math?math=x\geq x_0" id="inviscidBurgerInitialCondition">       [16]
 </p>
 
 and the boundary condition
