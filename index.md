@@ -559,7 +559,7 @@ and the boundary condition
 To research a numerical solution, let us define the following spatio-temporal discretization:
 
 <p align="center">
-   <img src="equation_18.png" width="200" id="discretizzazioneInviscid">     [18]
+   <img src="equation_18.png" width="300" id="discretizzazioneInviscid">     [18]
 </p>
 
 We have therefore <img src="https://render.githubusercontent.com/render/math?math=N+1"> spatial discretization points and <img src="https://render.githubusercontent.com/render/math?math=M+1"> temporal discretization points, so that we are going to solve the equation of interest in a finite spatio-temporal domain. The unknowns of the problem are therefore the samples <img src="https://render.githubusercontent.com/render/math?math=u(x_n,t_m)">, <img src="https://render.githubusercontent.com/render/math?math=n=0,1,\ldots,N"> and <img src="https://render.githubusercontent.com/render/math?math=m=0,1,\ldots,M">. For the sake of simplicity, in the following, we will denote such samples by <img src="https://render.githubusercontent.com/render/math?math=u_n^m">, understanding that the subscript
