@@ -440,7 +440,7 @@ and search for a solution of the following equation
 namely
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\frac{dg}{ds}(s)=\frac{dx}{ds}(s)\frac{\partial u}{\partial x}(x(s), t(s))+\frac{dt}{ds}(s)\frac{\partial u}{\partial t}(x(s),t(s))=0." id="methodOfCharacteristics">       [4]
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{dg}{ds}(s)=\frac{dx}{ds}(s)\frac{\partial u}{\partial x}(x(s), t(s)) %2B \frac{dt}{ds}(s)\frac{\partial u}{\partial t}(x(s),t(s))=0." id="methodOfCharacteristics">       [4]
 </p>
 
 Equation [\[4\]](#methodOfCharacteristics) is verified if we force
@@ -499,7 +499,7 @@ With little algebra, it is possible to show that, along the characteristic curve
 which is solved, again along a characteristic curve, by
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=A(t)=\frac{A_0}{1+A_0 t}," id="solutionGradientShockWave">       [11]
+  <img src="https://render.githubusercontent.com/render/math?math=A(t)=\frac{A_0}{1 %2B A_0 t}," id="solutionGradientShockWave">       [11]
 </p>
 
 where <img src="https://render.githubusercontent.com/render/math?math=A_0"> is the initial condition, namely <img src="https://render.githubusercontent.com/render/math?math=A_0=A(0)">.  
@@ -574,43 +574,43 @@ MacCormack’s scheme consists of a two steps approach:
 The predictor step consists of approximating the time and space derivatives by forward differencing as
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\frac{u_n^{\overline{m+1}}-u_{n}^{m}}{\Delta t}= -\frac{f(u_{n+1}^{\overline{m+1}})-f(u_{n}^{\overline{m+1}})}{\Delta x}," id="discretizzazioneInviscid">       [19]
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{u_n^{\overline{m %2B 1}}-u_{n}^{m}}{\Delta t}= -\frac{f(u_{n %2B 1}^{\overline{m %2B 1}})-f(u_{n}^{\overline{m %2B 1}})}{\Delta x}," id="discretizzazioneInviscid">       [19]
 </p>
 
-where <img src="https://render.githubusercontent.com/render/math?math=u_n^{\overline{m+1}}"> is a “provisional” estimate of <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1}">. Accordingly, the following update rule is set up:
+where <img src="https://render.githubusercontent.com/render/math?math=u_n^{\overline{m %2B 1}}"> is a “provisional” estimate of <img src="https://render.githubusercontent.com/render/math?math=u_n^{m %2B 1}">. Accordingly, the following update rule is set up:
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u_n^{\overline{m+1}}=u_{n}^{m}-\frac{\Delta t}{\Delta x}\left[\frac{f(u_{n+1}^{\overline{m+1}})-f(u_{n}^{\overline{m+1}})}{\Delta x}\right]." id="xxx">       [20]
+  <img src="https://render.githubusercontent.com/render/math?math=u_n^{\overline{m %2B 1}}=u_{n}^{m}-\frac{\Delta t}{\Delta x}\left[\frac{f(u_{n %2B 1}^{\overline{m %2B 1}})-f(u_{n}^{\overline{m %2B 1}})}{\Delta x}\right]." id="xxx">       [20]
 </p>
 
 #### The corrector step
 
-The corrector step consists of approximating the time and space derivatives by backward differences. In particular, the backward time derivative is computed by using auxiliary grid points <img src="https://render.githubusercontent.com/render/math?math=m+1/2">. These points are interlaced with spacing <img src="https://render.githubusercontent.com/render/math?math=\Delta t/2"> from those of the previously discussed computational grid and are “auxiliary” in the sense
+The corrector step consists of approximating the time and space derivatives by backward differences. In particular, the backward time derivative is computed by using auxiliary grid points <img src="https://render.githubusercontent.com/render/math?math=m %2B 1/2">. These points are interlaced with spacing <img src="https://render.githubusercontent.com/render/math?math=\Delta t/2"> from those of the previously discussed computational grid and are “auxiliary” in the sense
 that they are necessary to the derivation of the method only, but do not correspond to problem unknowns. The backward differences lead to
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\frac{u_n^{m+1}-u_n^{m+1/2}}{\Delta t/2}=-\frac{f(u_n^{\overline{m+1}})-f(u_{n-1}^{\overline{m+1}})}{\Delta x}," id="correctorStep">       [21]
+  <img src="https://render.githubusercontent.com/render/math?math=\frac{u_n^{m %2B 1}-u_n^{m %2B 1/2}}{\Delta t/2}=-\frac{f(u_n^{\overline{m %2B 1}})-f(u_{n-1}^{\overline{m %2B 1}})}{\Delta x}," id="correctorStep">       [21]
 </p>
 
-where the presence of <img src="https://render.githubusercontent.com/render/math?math=\Delta t/2"> on the left hand side is justified by the fact that the time <img src="https://render.githubusercontent.com/render/math?math=m+1/2"> increments of <img src="https://render.githubusercontent.com/render/math?math=\Delta t/2"> to
-become <img src="https://render.githubusercontent.com/render/math?math=m+1">. Equation [\[21\]](#correctorStep) leads to the following update rule
+where the presence of <img src="https://render.githubusercontent.com/render/math?math=\Delta t/2"> on the left hand side is justified by the fact that the time <img src="https://render.githubusercontent.com/render/math?math=m %2B 1/2"> increments of <img src="https://render.githubusercontent.com/render/math?math=\Delta t/2"> to
+become <img src="https://render.githubusercontent.com/render/math?math=m %2B 1">. Equation [\[21\]](#correctorStep) leads to the following update rule
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1}=u_n^{m+1/2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m+1}})-f(u_{n-1}^{\overline{m+1}})}{\Delta x}\right]." id="updateCorrectorStep">       [22]
+  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m %2B 1}=u_n^{m %2B 1/2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m %2B 1}})-f(u_{n-1}^{\overline{m %2B 1}})}{\Delta x}\right]." id="updateCorrectorStep">       [22]
 </p>
 
 #### The final update rule
 
-In order to link the samples on the auxiliary grid to those of the computational grid defining the unknowns of the problem and, in particular, to the predictor samples, <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1/2}"> is approximated with the average of the closest samples on the grid of interest, namely
+In order to link the samples on the auxiliary grid to those of the computational grid defining the unknowns of the problem and, in particular, to the predictor samples, <img src="https://render.githubusercontent.com/render/math?math=u_n^{m %2B 1/2}"> is approximated with the average of the closest samples on the grid of interest, namely
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1/2}=\frac{u_n^{\overline{m+1}}+u_n^m}{2}." id="xxx">       [23]
+  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m %2B 1/2}=\frac{u_n^{\overline{m %2B 1}} %2B u_n^m}{2}." id="xxx">       [23]
 </p>
 
 Equation [\[22\]](#updateCorrectorStep) thus becomes
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1}=\frac{u_n^{\overline{m+1}}+u_n^m}{2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m+1}})-f(u_{n-1}^{\overline{m+1}})}{\Delta x}\right]." id="xxx">       [24]
+  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m %2B 1}=\frac{u_n^{\overline{m %2B 1}} %2B u_n^m}{2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m %2B 1}})-f(u_{n-1}^{\overline{m %2B 1}})}{\Delta x}\right]." id="xxx">       [24]
 </p>
 
 Summarizing, the update rule for the MacCormack’s scheme for the solution of the inviscid Burgers’ equation is therefore the following:
@@ -618,8 +618,8 @@ Summarizing, the update rule for the MacCormack’s scheme for the solution of t
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=    \left\{
                 \begin{array}{ll}
-                  u_n^{\overline{m+1}}=u_{n}^{m}-\frac{\Delta t}{\Delta x}\left[\frac{f(u_{n+1}^{\overline{m+1}})-f(u_{n}^{\overline{m+1}})}{\Delta x}\right]\\
-                  u_n^{m+1}=\frac{u_n^{\overline{m+1}}+u_n^m}{2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m+1}})-f(u_{n-1}^{\overline{m+1}})}{\Delta x}\right]
+                  u_n^{\overline{m %2B 1}}=u_{n}^{m}-\frac{\Delta t}{\Delta x}\left[\frac{f(u_{n %2B 1}^{\overline{m %2B 1}})-f(u_{n}^{\overline{m %2B 1}})}{\Delta x}\right]\\
+                  u_n^{m %2B 1}=\frac{u_n^{\overline{m %2B 1}} %2B u_n^m}{2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m %2B 1}})-f(u_{n-1}^{\overline{m %2B 1}})}{\Delta x}\right]
                 \end{array}
               \right.." id="updateMacCormackInviscidBurger">       [25]
 </p>
