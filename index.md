@@ -547,13 +547,13 @@ Actually, equation [\[14\]](#conservationLaw) represents a more general *conserv
 Moreover, on assuming to solve equation [\[14\]](#conservationLaw) for <img src="https://render.githubusercontent.com/render/math?math=t\geq t_0"> and <img src="https://render.githubusercontent.com/render/math?math=x\geq x_0">, where <img src="https://render.githubusercontent.com/render/math?math=t_0"> is the initial time and <img src="https://render.githubusercontent.com/render/math?math=x_0"> is the left boundary of the domain of interest, we will flank Burgers’ equation with the initial condition
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u(x,t_0)=u_0(x)"> <img src="https://render.githubusercontent.com/render/math?math=x\geq x_0" id="inviscidBurgerInitialCondition">       [16]
+  <img src="https://render.githubusercontent.com/render/math?math=u(x,t_0)=u_0(x)">  <img src="https://render.githubusercontent.com/render/math?math=x\geq x_0" id="inviscidBurgerInitialCondition">       [16]
 </p>
 
 and the boundary condition
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u(x_0, t)=g(t)"><img src="https://render.githubusercontent.com/render/math?math=t\geq t_0." id="inviscidBurgerBoundaryCondition">       [17]
+  <img src="https://render.githubusercontent.com/render/math?math=u(x_0, t)=g(t)">   <img src="https://render.githubusercontent.com/render/math?math=t\geq t_0." id="inviscidBurgerBoundaryCondition">       [17]
 </p>
 
 To research a numerical solution, let us define the following spatio-temporal discretization:
@@ -563,7 +563,7 @@ To research a numerical solution, let us define the following spatio-temporal di
 </p>
 
 We have therefore <img src="https://render.githubusercontent.com/render/math?math=N %2B 1"> spatial discretization points and <img src="https://render.githubusercontent.com/render/math?math=M %2B 1"> temporal discretization points, so that we are going to solve the equation of interest in a finite spatio-temporal domain. The unknowns of the problem are therefore the samples <img src="https://render.githubusercontent.com/render/math?math=u(x_n,t_m)">, <img src="https://render.githubusercontent.com/render/math?math=n=0,1,\ldots,N"> and <img src="https://render.githubusercontent.com/render/math?math=m=0,1,\ldots,M">. For the sake of simplicity, in the following, we will denote such samples by <img src="https://render.githubusercontent.com/render/math?math=u_n^m">, understanding that the subscript
-<img src="https://render.githubusercontent.com/render/math?math=n"> refers to the spatial discretization, while the superscript <img src="https://render.githubusercontent.com/render/math?math=m"> to the temporal one. Consequently, in order to store the solution at all spatial locations and all times, we will use a <img src="https://render.githubusercontent.com/render/math?math=(M+1)\times (N+1)"> matrix. The first row of the matrix, namely that with index <img src="https://render.githubusercontent.com/render/math?math=0">, hosts the initial condition, while the first column, again that with index <img src="https://render.githubusercontent.com/render/math?math=0">, hosts the boundary condition at the left border.  
+<img src="https://render.githubusercontent.com/render/math?math=n"> refers to the spatial discretization, while the superscript <img src="https://render.githubusercontent.com/render/math?math=m"> to the temporal one. Consequently, in order to store the solution at all spatial locations and all times, we will use a <img src="https://render.githubusercontent.com/render/math?math=(M %2B 1)\times (N %2B 1)"> matrix. The first row of the matrix, namely that with index <img src="https://render.githubusercontent.com/render/math?math=0">, hosts the initial condition, while the first column, again that with index <img src="https://render.githubusercontent.com/render/math?math=0">, hosts the boundary condition at the left border.  
 MacCormack’s scheme consists of a two steps approach:
 
 1.  a predictor step;
