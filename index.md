@@ -553,18 +553,13 @@ Moreover, on assuming to solve equation [\[14\]](#conservationLaw) for <img src=
 and the boundary condition
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u(x_0, t)=g(t), \;\;\; t\geq t_0." id="inviscidBurgerBoundaryCondition">       [17]
+  <img src="https://render.githubusercontent.com/render/math?math=u(x_0, t)=g(t)"><img src="https://render.githubusercontent.com/render/math?math=t\geq t_0." id="inviscidBurgerBoundaryCondition">       [17]
 </p>
 
 To research a numerical solution, let us define the following spatio-temporal discretization:
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=   \left\{
-                \begin{array}{ll}
-                  x_n=x_0+n\Delta x & n=0,1,\ldots, N\\
-                  t_m=t_0+m\Delta t & m=0,1,\ldots,M
-                \end{array}
-              \right.." id="discretizzazioneInviscid">       [18]
+   <img src="equation_18.png" width="200" id="discretizzazioneInviscid">     [18]
 </p>
 
 We have therefore <img src="https://render.githubusercontent.com/render/math?math=N+1"> spatial discretization points and <img src="https://render.githubusercontent.com/render/math?math=M+1"> temporal discretization points, so that we are going to solve the equation of interest in a finite spatio-temporal domain. The unknowns of the problem are therefore the samples <img src="https://render.githubusercontent.com/render/math?math=u(x_n,t_m)">, <img src="https://render.githubusercontent.com/render/math?math=n=0,1,\ldots,N"> and <img src="https://render.githubusercontent.com/render/math?math=m=0,1,\ldots,M">. For the sake of simplicity, in the following, we will denote such samples by <img src="https://render.githubusercontent.com/render/math?math=u_n^m">, understanding that the subscript
