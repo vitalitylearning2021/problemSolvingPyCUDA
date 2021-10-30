@@ -993,7 +993,7 @@ In this example, we are considering a `d_test` array made of a solitary element 
 ``` python
 0x00000076 = 00000000 00000000 00000000 01110110
 ```
-<p align="center" id="deviceAllocAndCopies" >
+<p align="center" id="hexBinary" >
      <em>Listing 9. Hexadecimal and binary codings of `118`.</em>
 </p>
 
