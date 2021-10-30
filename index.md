@@ -616,7 +616,7 @@ Equation [\[22\]](#updateCorrectorStep) thus becomes
 Summarizing, the update rule for the MacCormack’s scheme for the solution of the inviscid Burgers’ equation is therefore the following:
 
 <p align="center">
-   <img src="equation_25.png" width="250" id="updateMacCormackInviscidBurger">     [25]
+   <img src="equation_25.png" width="300" id="updateMacCormackInviscidBurger">     [25]
 </p>
 
 We should now turn to the corresponding Python and PyCUDA implementations. Nevertheless, before that, we do a short detour to describe how it is possible to animate one-dimensional graphs in Python.
