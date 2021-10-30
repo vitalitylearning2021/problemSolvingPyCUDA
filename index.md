@@ -975,7 +975,7 @@ consists of an `unsigned int` and represents the value to assign to each array e
 As mentioned, it is convenient to make now a small detour to clarify how `cuda.memset_d32` works and, in particular, the second input parameter. Two points must be therefore underlined:
 
   - `cuda.memset_d32` operates on elements which are `32` bits long; in other words, it fills a number of words `32` bits long each with a value dictated by the second of the input parameters;
-  - the second input parameter of `cuda.memset_d32` is an `unsigned int` which, coded in bits, will be the value of the word by which all the array elements will be initialized; this holds true independently from the fact that the elements to initialize are integer or not; from this point of view, the elements to be initialize can be also `float`s.
+  - the second input parameter of `cuda.memset_d32` is an `unsigned int` which, coded in bits, will be the value of the word by which all the array elements will be initialized; this holds true independently from the fact that the elements to initialize are integer or not; from this point of view, the elements to be initialized can be also `float`s.
 
 Let us make an example:
 
