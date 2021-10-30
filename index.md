@@ -518,7 +518,7 @@ Let us complete such subsection by illustrating the characteristic curves relati
 For this case, the characteristic curves are illustrated by the following figure:
 
 <p align="center">
-  <img src="characteristicCurves.png" width="400" id="xxx">
+  <img src="characteristicCurves.png" width="400" id="characteristicCurves">
   <br>
      <em>Figure 4. Characteristic curves.</em>
 </p>
