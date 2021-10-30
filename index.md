@@ -1129,7 +1129,7 @@ The centered differences for the time derivative are given by:
 The centered differences for the spatial derivative have an analogous difference. The leapfrog updating rule is then:
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m+1}=u_n^{m-1}-\alpha \left(u_{n+1}^m-u_{n-1}^m\right)," id="xxx">       [30]
+  <img src="https://render.githubusercontent.com/render/math?math=u_n^{m %2B 1}=u_n^{m-1}-\alpha \left(u_{n+1}^m-u_{n-1}^m\right)," id="xxx">       [30]
 </p>
 
 where <img src="https://render.githubusercontent.com/render/math?math=\alpha=v\Delta t/\Delta x">. The code can be very easily implemented by adapting the one developed for the inviscid Burgers’ equation. At <https://github.com/vitalitylearning2021/problemSolvingPyCUDA>, fully worked Python and PyCUDA versions are available.
