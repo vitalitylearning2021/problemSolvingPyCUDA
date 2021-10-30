@@ -853,7 +853,7 @@ It faithfully reproduces what reported in subsection [One-dimensional animations
 We finally represent, in the following figure, the time behavior of the solution to verify the formation of the shock wave.
 
 <p align="center">
-  <img src="inviscidBurger.png" width="400" id="methodOfCharacteristicsFigure">
+  <img src="inviscidBurger.png" width="400" id="spaceTimeInviscid">
   <br>
      <em>Figure 5. Space-time solution to the inviscid Burgers’ equation: formation of a shock wave.</em>
 </p>
