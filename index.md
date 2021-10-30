@@ -1138,16 +1138,16 @@ where <img src="https://render.githubusercontent.com/render/math?math=\alpha=v\D
 
 In this section, we deal with a problem completely different from the one considered before. The problem at hand is classical in the field of computation and is named as the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.  
 There exist different types of <img src="https://render.githubusercontent.com/render/math?math=N">-body problems depending on the involved forces. We will here consider one of the different possibilities, maybe the most common one, that is, the case when the involved forces are gravitational.  
-When the particles interact, they exert a force on the each other. The reciprocal forces depend on the reciprocal distances and on the particle masses. Due to these forces, the particles undergo an acceleration and, thus, they move. Due to the movement, their relative position changes, so that the exerted forces change and need to be recomputed. Due to the change of the forces, also the accelerations change and so on. The ingredients to solve a simple, two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem aretwo:
+When the particles interact, they exert a force on the each other. The reciprocal forces depend on the reciprocal distances and on the particle masses. Due to these forces, the particles undergo an acceleration and, thus, they move. Due to the movement, their relative positions change, so that the exerted forces change and need to be recomputed. Due to the change of the forces, also the accelerations change and so on. The ingredients to solve a simple, two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem are two:
 
-  - Force computation;
+  - Forces computation;
   - Particles movement.
 
 We will devote next two subsections to the details of the two above points. The sequential Python and parallel PyCUDA implementations will follow.
 
 ### Force computation
 
-A two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem deals with <img src="https://render.githubusercontent.com/render/math?math=N"> point masses <img src="https://render.githubusercontent.com/render/math?math=m_p">, <img src="https://render.githubusercontent.com/render/math?math=p=0,1,\ldots,N-1">, having time-varying positions <img src="https://render.githubusercontent.com/render/math?math=\underline{\rho}_p(t)"> and moving subject to mutual gravitational attraction. According to Newton’s second law of dynamics, the acceleration associated to the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle is
+A two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem deals with <img src="https://render.githubusercontent.com/render/math?math=N"> point masses <img src="https://render.githubusercontent.com/render/math?math=m_p">, <img src="https://render.githubusercontent.com/render/math?math=p=0,1,\ldots,N-1">, having time-varying positions <img src="https://render.githubusercontent.com/render/math?math=\mathbf{\rho}_p(t)"> and moving subject to mutual gravitational attraction. According to Newton’s second law of dynamics, the acceleration associated to the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle is
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p(t)=\frac{d^2\underline{\rho}_p(t)}{dt^2}=\frac{\underline{F}_p(t)}{m_p}," id="xxx">       [31]
