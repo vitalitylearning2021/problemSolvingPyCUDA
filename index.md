@@ -722,6 +722,9 @@ tmax        = 1.1           # --- Final time
 N           = 100           # --- Number of space mesh points
 M           = 700           # --- Number of time mesh points
 ```
+<p align="center" id="parametersBurgers" >
+     <em>Listing 5. Parameters definition for the solution of the inviscid Burgers' equation.</em>
+</p>
 
 Here, `xmin` and `xmax` represent the boundaries of the spatial domain in which the equation must be solved and, in particular, `xmin` represents the left boundary on which the boundary condition is applied. Similarly, `tmin` and `tmax` represents the boundaries of the time interval in which the equation must be solved and, in particular, `tmin`
 represents the initial time instant in which the initial boundary condition is specified. Finally, `N` and `M` have the same meaning of subsection [Solution to the inviscid Burgers’ equation using the MacCormack method](#solutionInviscidBurgerSection).  
@@ -732,7 +735,7 @@ x, dx = np.linspace(xmin, xmax, N + 1, retstep = True)
 
 t, dt = np.linspace(tmin, tmax, M + 1, retstep = True)
 ```
-<p align="center" id="deviceAllocAndCopies" >
+<p align="center" id="spaceTimeBurgers" >
      <em>Listing 6. Space-time discretization for the solution of the inviscid Burgers' equation.</em>
 </p>
 
