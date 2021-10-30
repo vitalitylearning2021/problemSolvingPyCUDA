@@ -616,12 +616,7 @@ Equation [\[22\]](#updateCorrectorStep) thus becomes
 Summarizing, the update rule for the MacCormack’s scheme for the solution of the inviscid Burgers’ equation is therefore the following:
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=    \left\{
-                \begin{array}{ll}
-                  u_n^{\overline{m %2B 1}}=u_{n}^{m}-\frac{\Delta t}{\Delta x}\left[\frac{f(u_{n %2B 1}^{\overline{m %2B 1}})-f(u_{n}^{\overline{m %2B 1}})}{\Delta x}\right]\\
-                  u_n^{m %2B 1}=\frac{u_n^{\overline{m %2B 1}} %2B u_n^m}{2}-\frac{\Delta t}{2\Delta x}\left[\frac{f(u_n^{\overline{m %2B 1}})-f(u_{n-1}^{\overline{m %2B 1}})}{\Delta x}\right]
-                \end{array}
-              \right.." id="updateMacCormackInviscidBurger">       [25]
+   <img src="equation_25.png" width="250" id="updateMacCormackInviscidBurger">     [25]
 </p>
 
 We should now turn to the corresponding Python and PyCUDA implementations. Nevertheless, before that, we do a short detour to describe how it is possible to animate one-dimensional graphs in Python.
