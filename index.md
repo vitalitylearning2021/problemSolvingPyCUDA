@@ -955,7 +955,7 @@ def maccormackGPU(d_x, dx, dt, N, M):
 
   return d_u
 ```
-<p align="center" id="deviceAllocAndCopies" >
+<p align="center" id="macCormackInviscid" >
      <em>Listing 8. The PyCUDA implementation of the MacCormack scheme for the solution of the inviscid Burgers' equation.</em>
 </p>
 
