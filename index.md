@@ -1177,10 +1177,10 @@ The Runge-Kutta method for the numerical description of the particles motion sol
               \right., p=0,1,\ldots,N-1." id="sistemaODE">       [33]
 </p>
 
-In equations [\[33\]](#sistemaODE), <img src="https://render.githubusercontent.com/render/math?math=t"> represents the time, the superscript ' denotes the time derivative, <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> is the speed of the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle and <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p"> is the acceleration undergone by the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle. Such an acceleration can be computed from equation [\[32\]](#Forces) as
+In equations [\[33\]](#sistemaODE), <img src="https://render.githubusercontent.com/render/math?math=t"> represents the time, the superscript <img src="https://render.githubusercontent.com/render/math?math=^\prime"> denotes the time derivative, <img src="https://render.githubusercontent.com/render/math?math=\mathbf{v}_p"> is the speed of the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle and <img src="https://render.githubusercontent.com/render/math?math=\mathbf{a}_p"> is the acceleration undergone by the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle. Such an acceleration can be computed from equation [\[32\]](#Forces) as
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p(t)=\frac{\underline{F}_p(t)}{m_p}." id="accelerazioneParticella">       [34]
+  <img src="https://render.githubusercontent.com/render/math?math=\mathbf{a}_p(t)=\frac{\mathbf{F}_p(t)}{m_p}." id="accelerazioneParticella">       [34]
 </p>
 
 Of course, by equation [\[32\]](#Forces), the acceleration undergone by the particle depends on the position of all the other particles. Due to the acceleration, the particles move so that positions, velocities and accelerations depend on time, as indicated in [\[33\]](#sistemaODE).  
@@ -1189,19 +1189,19 @@ In order to uniquely solve the system [\[33\]](#sistemaODE), it is necessary to 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \underline{\rho}_{0_p}=\underline{\rho}_p(t_0)\\
-                  \underline{v}_{0_p}=\underline{v}_p(t_0)\\
+                  \mathbf{\rho}_{0_p}=\mathbf{\rho}_p(t_0)\\
+                  \mathbf{v}_{0_p}=\mathbf{v}_p(t_0)\\
 \end{array}
               \right., p=0,1,\ldots,N-1." id="initialConditions">       [35]
 </p>
 
-In order to determine positions and velocities at a certain instant <img src="https://render.githubusercontent.com/render/math?math=t_0+\Delta t"> starting from the initial condition at <img src="https://render.githubusercontent.com/render/math?math=t_0">, equations [\[33\]](#sistemaODE) can be integrated giving rise to
+In order to determine positions and velocities at a certain instant <img src="https://render.githubusercontent.com/render/math?math=t_0 %2B \Delta t"> starting from the initial condition at <img src="https://render.githubusercontent.com/render/math?math=t_0">, equations [\[33\]](#sistemaODE) can be integrated giving rise to
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \underline{\rho}_p(t_0+\Delta t)=\underline{\rho}_{0_p}+\int_{t_0}^{t_0+\Delta t}\underline{v}_p\left(\underline{a}_p\left[\underline{\rho}_0(t),\underline{\rho}_1(t),\ldots,\underline{\rho}_{N-1}(t)\right]\right)dt\\
-                  \underline{v}_p(t_0+\Delta t)=\underline{v}_{0_p}+\int_{t_0}^{t_0+\Delta t}\underline{a}_p\left(\underline{\rho}_0(t),\underline{\rho}_1(t),\ldots,\underline{\rho}_{N-1}(t)\right)dt\\
+                  \mathbf{\rho}_p(t_0+\Delta t)=\mathbf{\rho}_{0_p}+\int_{t_0}^{t_0+\Delta t}\mathbf{v}_p\left(\mathbf{a}_p\left[\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right]\right)dt\\
+                  \mathbf{v}_p(t_0+\Delta t)=\mathbf{v}_{0_p}+\int_{t_0}^{t_0+\Delta t}\mathbf{a}_p\left(\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right)dt\\
 \end{array}
               \right., p=0,1,\ldots,N-1." id="integralePosizioneVelocità">       [36]
 </p>
@@ -1212,8 +1212,8 @@ The integrals in [\[36\]](#integralePosizioneVelocità) can be rewritten using q
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \underline{\rho}_p(t_0+\Delta t)=\underline{\rho}_{0_p}+\left[c_1\underline{k}_{1_{\underline{\rho}_{p}}}+c_2\underline{k}_{2_{\underline{\rho}_{p}}}+c_3 \underline{k}_{3_{\underline{\rho}_{p}}}+c_4\underline{k}_{4_{\underline{\rho}_{p}}}\right]\\
-                  \underline{v}_p(t_0+\Delta t)=\underline{v}_{0_p}+\left[c_1\underline{k}_{1_{\underline{v}_{p}}}+c_2\underline{k}_{2_{\underline{v}_{p}}}+c_3 \underline{k}_{3_{\underline{v}_{p}}}+c_4\underline{k}_{4_{\underline{v}_{p}}}\right]\\
+                  \mathbf{\rho}_p(t_0+\Delta t)=\mathbf{\rho}_{0_p}+\left[c_1\mathbf{k}_{1_{\mathbf{\rho}_{p}}}+c_2\mathbf{k}_{2_{\mathbf{\rho}_{p}}}+c_3 \mathbf{k}_{3_{\mathbf{\rho}_{p}}}+c_4\mathbf{k}_{4_{\mathbf{\rho}_{p}}}\right]\\
+                  \mathbf{v}_p(t_0+\Delta t)=\mathbf{v}_{0_p}+\left[c_1\mathbf{k}_{1_{\mathbf{v}_{p}}}+c_2\mathbf{k}_{2_{\mathbf{v}_{p}}}+c_3 \mathbf{k}_{3_{\mathbf{v}_{p}}}+c_4\mathbf{k}_{4_{\mathbf{v}_{p}}}\right]\\
 \end{array}
               \right., p=0,1,\ldots,N-1," id="quadraturaRungeKutta">       [37]
 </p>
