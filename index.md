@@ -1177,7 +1177,7 @@ The Runge-Kutta method for the numerical description of the particles motion sol
               \right., p=0,1,\ldots,N-1." id="sistemaODE">       [33]
 </p>
 
-In equations [\[33\]](#sistemaODE), <img src="https://render.githubusercontent.com/render/math?math=t"> represents the time, the superscript <img src="https://render.githubusercontent.com/render/math?math=^\prime"> denotes the time derivative, <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> is the speed of the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle and <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p"> is the acceleration undergone by the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle. Such an acceleration can be computed from equation [\[32\]](#Forces) as
+In equations [\[33\]](#sistemaODE), <img src="https://render.githubusercontent.com/render/math?math=t"> represents the time, the superscript ' denotes the time derivative, <img src="https://render.githubusercontent.com/render/math?math=\underline{v}_p"> is the speed of the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle and <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p"> is the acceleration undergone by the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle. Such an acceleration can be computed from equation [\[32\]](#Forces) as
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p(t)=\frac{\underline{F}_p(t)}{m_p}." id="accelerazioneParticella">       [34]
