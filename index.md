@@ -1223,7 +1223,7 @@ where the quadrature weights are <img src="https://render.githubusercontent.com/
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \mathbf{k}_{n_{\mathbf{\rho}_{p}}} = \Delta t\mathbf{v}_p\left(\mathbf{a}_p\left[\mathbf{\rho}_0(t_{n-1}),\mathbf{\rho}_1(t_{n-1}),\ldots,\mathbf{\rho}_{N-1}(t_{n-1})\right]\\
+                  \mathbf{k}_{n_{\mathbf{\rho}_{p}}} = \Delta t\mathbf{v}_p\left(\mathbf{a}_p\left[\mathbf{\rho}_0(t_{n-1}),\mathbf{\rho}_1(t_{n-1}),\ldots,\mathbf{\rho}_{N-1}(t_{n-1})\right]\right)\\
                   \mathbf{k}_{1_{\mathbf{v}_{p}}}=\Delta t \mathbf{a}_p\left(\mathbf{\rho}_0(t_{n-1}),\mathbf{\rho}_1(t_{n-1}),\ldots,\mathbf{\rho}_{N-1}(t_{n-1})\right)\\
 \end{array}
               \right., p=0,1,\ldots,N-1, n=1,\ldots,4" id="rungeKuttaTerms">       [38]
