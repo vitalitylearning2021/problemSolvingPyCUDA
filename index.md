@@ -1150,18 +1150,17 @@ We will devote next two subsections to the details of the two above points. The 
 A two-dimensional <img src="https://render.githubusercontent.com/render/math?math=N">-body problem deals with <img src="https://render.githubusercontent.com/render/math?math=N"> point masses <img src="https://render.githubusercontent.com/render/math?math=m_p">, <img src="https://render.githubusercontent.com/render/math?math=p=0,1,\ldots,N-1">, having time-varying positions <img src="https://render.githubusercontent.com/render/math?math=\mathbf{\rho}_p(t)"> and moving subject to mutual gravitational attraction. According to Newton’s second law of dynamics, the acceleration associated to the <img src="https://render.githubusercontent.com/render/math?math=p">-th particle is
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\underline{a}_p(t)=\frac{d^2\underline{\rho}_p(t)}{dt^2}=\frac{\underline{F}_p(t)}{m_p}," id="xxx">       [31]
+  <img src="https://render.githubusercontent.com/render/math?math=\mathbf{a}_p(t)=\frac{d^2\mathbf{\rho}_p(t)}{dt^2}=\frac{\mathbf{F}_p(t)}{m_p}," id="xxx">       [31]
 </p>
 
-where <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p(t)"> is the force exerted by all the other <img src="https://render.githubusercontent.com/render/math?math=N-1"> particles over the <img src="https://render.githubusercontent.com/render/math?math=p">-th. <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p(t)">, in turn, can be written as
+where <img src="https://render.githubusercontent.com/render/math?math=\mathbf{F}_p(t)"> is the force exerted by all the other <img src="https://render.githubusercontent.com/render/math?math=N-1"> particles over the <img src="https://render.githubusercontent.com/render/math?math=p">-th. <img src="https://render.githubusercontent.com/render/math?math=\mathbf{F}_p(t)">, in turn, can be written as
 
 <p align="center">
-  <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p(t)=G\sum_{\substack{q=0\\ q\neq p}}^{N-1}\frac{m_p m_q(\underline{\rho}_q-\underline{\rho}_p)}{|\underline{\rho}_q-\underline{\rho}_p|^2}," id="Forces">       [32]
+  <img src="https://render.githubusercontent.com/render/math?math=\mathbf{F}_p(t)=G\sum_{\substack{q=0\\ q\neq p}}^{N-1}\frac{m_p m_q(\mathbf{\rho}_q-\mathbf{\rho}_p)}{|\mathbf{\rho}_q-\mathbf{\rho}_p|^2}," id="Forces">       [32]
 </p>
 
 where <img src="https://render.githubusercontent.com/render/math?math=G"> is the gravitational constant. In the above equations, the vectors have three components in a three-dimensional problem and two in a two-dimensional one. In the following, as already indicated, we will refer to a two-dimensional case.  
-The computational cost of each force <img src="https://render.githubusercontent.com/render/math?math=\underline{F}_p"> is <img src="https://render.githubusercontent.com/render/math?math={\mathcal O}(N)">. On accounting for the need of computing <img src="https://render.githubusercontent.com/render/math?math=N"> of such forces, the overall force computational cost in an <img src="https://render.githubusercontent.com/render/math?math=N">-body problem is <img src="https://render.githubusercontent.com/render/math?math={\mathcal O}(N^2)">. Such cost can be prohibitive for problems of large dimensions so that *ad hoc* data structures capable to reduce the computational complexity have been developed. Nevertheless,
-the development of projects using such data structures is postponed to later chapters. In the present one, we will consider a brute-force computation of the forces [\[32\]](#Forces). Nevertheless, some shrewdness will be exploited to speedup the GPU processing.  
+The computational cost of each force <img src="https://render.githubusercontent.com/render/math?math=\mathbf{F}_p"> is <img src="https://render.githubusercontent.com/render/math?math={\mathcal O}(N)">. On accounting for the need of computing <img src="https://render.githubusercontent.com/render/math?math=N"> of such forces, the overall force computational cost in an <img src="https://render.githubusercontent.com/render/math?math=N">-body problem is <img src="https://render.githubusercontent.com/render/math?math={\mathcal O}(N^2)">. Such cost can be prohibitive for problems of large dimensions so that *ad hoc* data structures capable to reduce the computational complexity have been developed. In the present project, we will consider a brute-force computation of the forces [\[32\]](#Forces). Nevertheless, some shrewdness will be exploited to speedup the GPU processing.  
 In next section, we will shortly describe the Runge-Kutta method for the numerical evaluation of the motion of <img src="https://render.githubusercontent.com/render/math?math=N"> particles subject to forces [\[32\]](#Forces).
 
 ### Runge-Kutta numerical description of particle motions in a N-body problem
@@ -1171,8 +1170,8 @@ The Runge-Kutta method for the numerical description of the particles motion sol
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \underline{\rho}_p^\prime(t)=\underline{v}_p\left[\underline{a}_p\left(\underline{\rho}_0(t),\underline{\rho}_1(t),\ldots,\underline{\rho}_{N-1}(t)\right)\right]\\
-                  \underline{v}_p^\prime(t)=\underline{a}_p\left(\underline{\rho}_0(t),\underline{\rho}_1(t),\ldots,\underline{\rho}_{N-1}(t)\right)
+                  \mathbf{\rho}_p^\prime(t)=\mathbf{v}_p\left[\mathbf{a}_p\left(\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right)\right]\\
+                  \mathbf{v}_p^\prime(t)=\mathbf{a}_p\left(\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right)
                   
                   \end{array}
               \right., p=0,1,\ldots,N-1." id="sistemaODE">       [33]
