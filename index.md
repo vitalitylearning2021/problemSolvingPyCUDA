@@ -1200,8 +1200,8 @@ In order to determine positions and velocities at a certain instant <img src="ht
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \mathbf{\rho}_p(t_0+\Delta t)=\mathbf{\rho}_{0_p}+\int_{t_0}^{t_0+\Delta t}\mathbf{v}_p\left(\mathbf{a}_p\left[\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right]\right)dt\\
-                  \mathbf{v}_p(t_0+\Delta t)=\mathbf{v}_{0_p}+\int_{t_0}^{t_0+\Delta t}\mathbf{a}_p\left(\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right)dt\\
+                  \mathbf{\rho}_p(t_0 %2B \Delta t)=\mathbf{\rho}_{0_p} %2B \int_{t_0}^{t_0 %2B \Delta t}\mathbf{v}_p\left(\mathbf{a}_p\left[\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right]\right)dt\\
+                  \mathbf{v}_p(t_0 %2B \Delta t)=\mathbf{v}_{0_p} %2B \int_{t_0}^{t_0 %2B \Delta t}\mathbf{a}_p\left(\mathbf{\rho}_0(t),\mathbf{\rho}_1(t),\ldots,\mathbf{\rho}_{N-1}(t)\right)dt\\
 \end{array}
               \right., p=0,1,\ldots,N-1." id="integralePosizioneVelocità">       [36]
 </p>
@@ -1212,8 +1212,8 @@ The integrals in [\[36\]](#integralePosizioneVelocità) can be rewritten using q
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \mathbf{\rho}_p(t_0+\Delta t)=\mathbf{\rho}_{0_p}+\left[c_1\mathbf{k}_{1_{\mathbf{\rho}_{p}}}+c_2\mathbf{k}_{2_{\mathbf{\rho}_{p}}}+c_3 \mathbf{k}_{3_{\mathbf{\rho}_{p}}}+c_4\mathbf{k}_{4_{\mathbf{\rho}_{p}}}\right]\\
-                  \mathbf{v}_p(t_0+\Delta t)=\mathbf{v}_{0_p}+\left[c_1\mathbf{k}_{1_{\mathbf{v}_{p}}}+c_2\mathbf{k}_{2_{\mathbf{v}_{p}}}+c_3 \mathbf{k}_{3_{\mathbf{v}_{p}}}+c_4\mathbf{k}_{4_{\mathbf{v}_{p}}}\right]\\
+                  \mathbf{\rho}_p(t_0 %2B \Delta t)=\mathbf{\rho}_{0_p} %2B \left[c_1\mathbf{k}_{1_{\mathbf{\rho}_{p}}} %2B c_2\mathbf{k}_{2_{\mathbf{\rho}_{p}}} %2B c_3 \mathbf{k}_{3_{\mathbf{\rho}_{p}}} %2B c_4\mathbf{k}_{4_{\mathbf{\rho}_{p}}}\right]\\
+                  \mathbf{v}_p(t_0 %2B \Delta t)=\mathbf{v}_{0_p} %2B \left[c_1\mathbf{k}_{1_{\mathbf{v}_{p}}} %2B c_2\mathbf{k}_{2_{\mathbf{v}_{p}}} %2B c_3 \mathbf{k}_{3_{\mathbf{v}_{p}}} %2B c_4\mathbf{k}_{4_{\mathbf{v}_{p}}}\right]\\
 \end{array}
               \right., p=0,1,\ldots,N-1," id="quadraturaRungeKutta">       [37]
 </p>
