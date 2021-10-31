@@ -1223,14 +1223,14 @@ where the quadrature weights are <img src="https://render.githubusercontent.com/
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
                 \begin{array}{ll}
-                  \underline{k}_{n_{\underline{\rho}_{p}}} = \Delta t\underline{v}_p\left(\underline{a}_p\left[\underline{\rho}_0(t_{n-1}),\underline{\rho}_1(t_{n-1}),\ldots,\underline{\rho}_{N-1}(t_{n-1})\right]\\
-                  \underline{k}_{1_{\underline{v}_{p}}}=\Delta t \underline{a}_p\left(\underline{\rho}_0(t_{n-1}),\underline{\rho}_1(t_{n-1}),\ldots,\underline{\rho}_{N-1}(t_{n-1})\right)\\
+                  \mathbf{k}_{n_{\mathbf{\rho}_{p}}} = \Delta t\mathbf{v}_p\left(\mathbf{a}_p\left[\mathbf{\rho}_0(t_{n-1}),\mathbf{\rho}_1(t_{n-1}),\ldots,\mathbf{\rho}_{N-1}(t_{n-1})\right]\\
+                  \mathbf{k}_{1_{\mathbf{v}_{p}}}=\Delta t \mathbf{a}_p\left(\mathbf{\rho}_0(t_{n-1}),\mathbf{\rho}_1(t_{n-1}),\ldots,\mathbf{\rho}_{N-1}(t_{n-1})\right)\\
 \end{array}
               \right., p=0,1,\ldots,N-1, n=1,\ldots,4" id="rungeKuttaTerms">       [38]
 </p>
 
-are the integrands at the quadrature nodes <img src="https://render.githubusercontent.com/render/math?math=t_{n-1}"> and the quadrature nodes are <img src="https://render.githubusercontent.com/render/math?math=t_0">, <img src="https://render.githubusercontent.com/render/math?math=t_1=t_0+0.5\Delta t">,
-<img src="https://render.githubusercontent.com/render/math?math=t_2=t_0+0.5\Delta t"> and <img src="https://render.githubusercontent.com/render/math?math=t_3=t_0+\Delta t">. The employed quadrature rule defines a fourth-order Runge-Kutta scheme (RK4). Other Runge-Kutta schemes are possible, as, for example, second-order or fifth-order, depending on the fact that a simpler or more complicated quadrature rule is employed. Nevertheless, RK4 is very often employed in applications since it represents a good compromise between computational complexity and accuracy.  
+are the integrands at the quadrature nodes <img src="https://render.githubusercontent.com/render/math?math=t_{n-1}"> and the quadrature nodes are <img src="https://render.githubusercontent.com/render/math?math=t_0">, <img src="https://render.githubusercontent.com/render/math?math=t_1=t_0 %2B 0.5\Delta t">,
+<img src="https://render.githubusercontent.com/render/math?math=t_2=t_0 %2B 0.5\Delta t"> and <img src="https://render.githubusercontent.com/render/math?math=t_3=t_0 %2B \Delta t">. The employed quadrature rule defines a fourth-order Runge-Kutta scheme (RK4). Other Runge-Kutta schemes are possible, as, for example, second-order or fifth-order, depending on the fact that a simpler or more complicated quadrature rule is employed. Nevertheless, RK4 is very often employed in applications since it represents a good compromise between computational complexity and accuracy.  
 The fourth-order Runge-Kutta method works as follows:
 
   1. compute <img src="https://render.githubusercontent.com/render/math?math=\(\underline{k}_{1_{\underline{v}_{p}}}=\Delta t\underline{a}_p\left(\underline{\rho}_0(t_{0}),\underline{\rho}_1(t_{0}),\ldots,\underline{\rho}_{N-1}(t_{0})\right)\)">; <img src="https://render.githubusercontent.com/render/math?math=\underline{k}_{1_{\underline{v}_{p}}}"> is an estimate of the particle velocity at <img src="https://render.githubusercontent.com/render/math?math=t_0">;
