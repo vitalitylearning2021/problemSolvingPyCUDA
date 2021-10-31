@@ -1279,7 +1279,7 @@ The developed code accounts for the collisions among the planes and among planet
 In order to handle the disappearance mechanism in the sun and of the planet merging, at each planet a flag is assigned to determine if it is active or not. When a planet is deactivated, the corresponding flag is set to `0`. At each computation step, the array describing the planets are reordered so that only the first are the active ones. In this way, the involved functions can be launched to operate only on the active particles, thus having caching advantages. The dealt with <img src="https://render.githubusercontent.com/render/math?math=N">-body problem has thus a variable number of particles.  
 In the following, the sequential code will be illustrated and subsequently the GPU parallel one.
 
-### Sequential implementation of a simple N-body problem
+### Sequential implementation of a simple <img src="https://render.githubusercontent.com/render/math?math=N">-body problem
 
 The first rows of the sequential code regard the `import` of the libraries:
 
@@ -1289,7 +1289,7 @@ import random
 import pygame
 from collections import defaultdict
 ```
-<p align="center" id="xxx" >
+<p align="center" id="importSequentialNBody" >
      <em>Listing 10. The imports for the sequential <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1317,7 +1317,7 @@ D = 0.001
 
 N = 100
 ```
-<p align="center" id="xxx" >
+<p align="center" id="simulationParameters" >
      <em>Listing 12. Simulation parameters for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1327,7 +1327,7 @@ Finally
 ``` python
 t, dt                       = 0., 0.1  
 ```
-<p align="center" id="xxx" >
+<p align="center" id="timeSimulationParameters" >
      <em>Listing 13. Time simulation parameters for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1357,7 +1357,7 @@ mass[0, 0]                  = 100.
 rad[0, 0]                   = (3. * mass[0] / (D * 4. * np.pi))**(0.3333)
 active[0, 0]                = 1
 ```
-<p align="center" id="xxx" >
+<p align="center" id="arrayInitializationNBody" >
      <em>Listing 14. Array initialization for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1370,7 +1370,7 @@ The first performed operation is the initialization of the visualization window 
 ``` python
 simulWindow, keysBuffer = initSimulWindow(N)
 ```
-<p align="center" id="xxx" >
+<p align="center" id="initializationSimulationWindow" >
      <em>Listing 15. Initialization of the simulation window for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1388,12 +1388,12 @@ def initSimulWindow(N):
 
     return simulWindow, keysBuffer
 ```
-<p align="center" id="xxx" >
+<p align="center" id="initializationFunctionSimulationWindow" >
      <em>Listing 16. Simulation window initialization function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
 The `pygame.init()` function initializes all imported `pygame` modules while the `pygame.display.set_mode()` function initializes the window for display. The latter returns `simulWindow`, namely, an object of the `pygame.Surface` class which represents the simulation window. Moreover, `defaultdict` initializes a dictionary that will serve in the
-visualization. In particular, the idea is that of using the keys of the numeric keypad to zoom in or out the visualization window. The dictionary will serve to create a dictionary of admitted keys corresponding to actions on the simulation window. Finally, `pygame.display.set_caption` adds a caption in the figure.  
+visualization. In particular, the idea is that of using the keys of the numeric keypad to zoom in or out the visualization window. The dictionary will serve to create a dictionary of admitted keys corresponding to actions on the simulation window. Finally, `pygame.display.set_caption` adds a caption to the figure.  
 Basically, the code for the simulation of the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem executes the loop in the following Listing
 
 ``` python
@@ -1439,7 +1439,7 @@ def updateScreen():
 
     simulWindow.lock()
 ```
-<p align="center" id="xxx" >
+<p align="center" id="updateScreenNBody" >
      <em>Listing 18. Simulation window update function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1583,7 +1583,7 @@ It first computes the accelerations by summing the forces particle-wise and by d
 In Listing [19](#rk4):
 
   - the first group of operations (`Compute k1v, k1x`) executes points 1. and 2. of RK4;
-  - the second group of operations (`Compute k2v, k2x`) executes points 3. 4., 5. and 6. of RK4;
+  - the second group of operations (`Compute k2v, k2x`) executes points 3., 4., 5. and 6. of RK4;
   - the third group of operations (`Compute k3v, k3x`) executes points 7., 8., 9. and 10. of RK4;
   - the third group of operations (`Compute k4v, k4x`) executes points 7., 8., 9. and 10. of RK4;
 
@@ -1611,7 +1611,7 @@ def arrayCompaction(pos, vel, rad, mass, active, N):
 ```
 
 The purpose of such a function is that of reordering the arrays describing the particles by using the `active` flag as key. In this way, the active particles will appear ahead of the different arrays. In particular, the key is ordered first by the `numpy` `argsort` function so obtaining an array of `indices` describing the performed sorting.
-Then, the `pos`, `vel`, `mass` and `rad` arrays are sorted according to such indices. The number `N` of active particles is simply counted by reducing the `active` array. It can be seen that `-active` appears as argument of `argsort`. This is due to the fact that the sorting must be performed in reverse order, namely, by having the <img src="https://render.githubusercontent.com/render/math?math=1">’ ahead and the <img src="https://render.githubusercontent.com/render/math?math=0">’s at the end.  
+Then, the `pos`, `vel`, `mass` and `rad` arrays are sorted according to such indices. The number `N` of active particles is simply counted by reducing the `active` array. It can be seen that `active` appears as argument of `argsort`. This is due to the fact that the sorting must be performed in reverse order, namely, by having the <img src="https://render.githubusercontent.com/render/math?math=1">’s ahead and the <img src="https://render.githubusercontent.com/render/math?math=0">’s at the end.  
 Once completed the computation, the particles drawing by the below reported function `drawParticles()` is performed:
 
 ``` python
@@ -1625,11 +1625,11 @@ def drawParticles():
                 (pos[p, 1] - WIN_M2) / WIN_M2)), int(rad[p] * 
                     zoomFactor), 0)
 ```
-<p align="center" id="xxx" >
+<p align="center" id="drawingParticlesNBody" >
      <em>Listing 20. The drawing particles function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
-`pygame.draw.circle` draws a circle inside `simulWindow` having while color (`(255, 255, 255)`). The center of the circle is given by the particle position magnified by the `zoomFactor`. The last parameter forces the circle to be filled.  
+`pygame.draw.circle` draws a circle inside `simulWindow` having white color (`(255, 255, 255)`). The center of the circle is given by the particle position magnified by the `zoomFactor`. The last parameter forces the circle to be filled.  
 After having drawn the particles, the simulation window is unlocked and a check is performed on the event that the User has pressed a key, see the below Listing
 
 ``` python
@@ -1641,7 +1641,7 @@ def checkKeyPressed():
         elif evt.type in [pygame.KEYDOWN, pygame.KEYUP]:
             keysBuffer[evt.key] = evt.type == pygame.KEYDOWN
 ```
-<p align="center" id="xxx" >
+<p align="center" id="checkingKeyPressedNBody" >
      <em>Listing 21. Checking key-pressed function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
@@ -1649,10 +1649,10 @@ def checkKeyPressed():
 On exit from `checkKeyPressed`, the caption to the simulation window is updated and the activation of the keys corresponding to `+` and `-` of the numeric pad or to `ESC` is searched for in the dictionary. In the former case, the `zoomFactor` is increased/decreased, respectively, while, in the latter case, the execution of the simulation is quit.  
 This concludes the description of the sequential <img src="https://render.githubusercontent.com/render/math?math=N">-body solver based on the RK4 scheme. In next section, we will describe the corresponding GPU parallel implementation.
 
-### Parallel implementation of a simple N-body problem
+### Parallel implementation of a simple <img src="https://render.githubusercontent.com/render/math?math=N">-body problem
 
 Many parts of the parallel version are in common with the sequential one and therefore will not be further commented. Here, we will focus the attention on the specificities of the GPU case.  
-In particular, the imports in Listing [10](#importSequentialNBody) are the same. Nevertheless, specifie imports for the execution of the CUDA code need to be added:
+In particular, the imports in Listing [10](#importSequentialNBody) are the same. Nevertheless, specific imports for the execution of the CUDA code need to be added:
 
 ``` python
 import pycuda.driver as cuda
@@ -1667,7 +1667,7 @@ Moreover, we need other two imports, namely
 import ctypes
 from ctypes import * 
 ```
-<p align="center" id="xxx" >
+<p align="center" id="importDLLNBody" >
      <em>Listing 22. The imports for linking a `dll` library for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
