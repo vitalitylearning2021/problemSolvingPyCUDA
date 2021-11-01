@@ -337,7 +337,7 @@ and the context `printf` buffer is flushed. Without flushing, no printout may be
 cuda.Context.synchronize()
 ```
 
-It should be noticed that, to consistently measure the processing time, a first empty warm up  execution must be performed for the `deviceAdd` function. The execution time for the `deviceAdd` function has been `0.000102s`.
+It should be noticed that, to consistently measure the processing time, a first empty warm up [\[2\]](#WARMUP) execution must be performed for the `deviceAdd` function. The execution time for the `deviceAdd` function has been `0.000102s`.
 
 ### Version \# 2: using `SourceModule` and copying data from host to device on-the-fly
 
@@ -413,8 +413,8 @@ It is now time for short recalls on the inviscid Burgers’ equation.
 
 ### The inviscid Burgers’ equation
 
-Burgers’ equation, also known as Bateman–Burgers equation, is a non-linear partial differential equation arising in many application fields as fluid mechanics and nonlinear heat transfer, nonlinear acoustics, gas dynamics and traffic flow.  
-Burgers’ equation can be derived as simplification of the Navier-Stokes equations. On assuming the viscosity of the fluid vanishing, the Burgers’ equation particularizes in its *inviscid* version, for a simple one-dimensional problem, as
+Burgers’ equation, also known as Bateman–Burgers equation, is a non-linear partial differential equation arising in many application fields as fluid mechanics and nonlinear heat transfer [\[3\]](#BURGERS_FLUIDDYNAMICS), nonlinear acoustics [\[4\]](#BURGERS_ACOUSTICS), gas dynamics [\[5\]](#BURGERS_GASDYNAMICS) and traffic flow [\[6\]](#TRAFFICFLOW).  
+Burgers’ equation can be derived as simplification of the Navier-Stokes equations [\[7\]](#BURGERS_NAVIER_STOKES). On assuming the viscosity of the fluid vanishing, the Burgers’ equation particularizes in its *inviscid* version, for a simple one-dimensional problem, as
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u(x,t)}{\partial t}=-u(x,t)\frac{\partial u(x,t)}{\partial x}," id="burgersEquation">       [1]
@@ -530,7 +530,7 @@ In next subsection, we will illustrate the numerical scheme for the solution of 
 </p>
 ### Solution to the inviscid Burgers’ equation using the MacCormack method
 
-In order to describe the numerical scheme associated to MacCormack’s approach , we rewrite the inviscid Burgers’ equation as
+In order to describe the numerical scheme associated to MacCormack’s approach [\[8\]](#COMPUTATIONAL_FLUID_DYNAMICS), we rewrite the inviscid Burgers’ equation as
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\frac{\partial u}{\partial t}=-\frac{\partial f}{\partial x}(u(x, t))," id="conservationLaw">       [14]
@@ -1207,7 +1207,7 @@ In order to determine positions and velocities at a certain instant <img src="ht
 </p>
 
 
-The integrals in [\[36\]](#integralePosizioneVelocità) can be rewritten using quadrature rules as 
+The integrals in [\[36\]](#integralePosizioneVelocità) can be rewritten using quadrature rules as [\[9\]](#RUNGE_KUTTA_QUADRATURE)
 
 <p align="center">
   <img src="https://render.githubusercontent.com/render/math?math=\left\{
@@ -1443,7 +1443,7 @@ def updateScreen():
      <em>Listing 18. Simulation window update function for the <img src="https://render.githubusercontent.com/render/math?math=N">-body problem.</em>
 </p>
 
-The actual update is performed by the `pygame.display.flip()` function while the `simulWindow.fill((0, 0, 0))` adds a black background to the image. The handling of the `pygame` visualization windows takes place by surface objects. In order to put `pygame` in a position to draw onto a surface, the surface itself has first to be locked. In this way, `pygame` has full control over the surface and no other process can use it . An example of updated simulation window is reported below
+The actual update is performed by the `pygame.display.flip()` function while the `simulWindow.fill((0, 0, 0))` adds a black background to the image. The handling of the `pygame` visualization windows takes place by surface objects. In order to put `pygame` in a position to draw onto a surface, the surface itself has first to be locked. In this way, `pygame` has full control over the surface and no other process can use it [\[10\]](#PYGAME). An example of updated simulation window is reported below
 
 <p align="center">
   <img src="NBody.JPG" width="400" id="xxx">
@@ -1862,7 +1862,7 @@ __global__ void computeForcesKernel(const float2 * __restrict__ d_pos,
 
 Actually, there is a small variation between `computeForcesKernel` and its sequential counterpart since the mentioned kernel, despite of its name, is not used to compute the forces, but instead to directly update `d_k1v`, `d_k2v`, `d_k3v` and `d_k4v`. Indeed, these arrays are the inputs of `d_force`, as it can be seen from Listing [24](#rk4GPU).  
 Another point to highlight in Listing [24](#rk4GPU) is that the updates of `d_k1x`, `d_k2x`, `d_k3x` and `d_k4x`, as well as those of `d_vel` and `d_pos`, could be performed by using appropriate kernels, but actually the facilities offered by PyCUDA to implement these operations with a natural mathematical syntax are exploited.  
-Once performed the update of the particle arrays by Listing [24](#rk4GPU), it is needed to sort them using `d_active` as key, much like for the sequential case. This is done by using the primitives of the Thrust library. Despite the interoperability between Thrust and PyCUDA has been dealt with in , we have found simpler to create a library containing a function internally exploiting the Thrust primitives. Such a function is then invoked within the Python code by using the `ctypes` library. In particular, the code compiled in a `.dll` is the following
+Once performed the update of the particle arrays by Listing [24](#rk4GPU), it is needed to sort them using `d_active` as key, much like for the sequential case. This is done by using the primitives of the Thrust library. Despite the interoperability between Thrust and PyCUDA has been dealt with in [\[11\]](#THRUST_PYCUDA), we have found simpler to create a library containing a function internally exploiting the Thrust primitives. Such a function is then invoked within the Python code by using the `ctypes` library. In particular, the code compiled in a `.dll` is the following
 
 ``` c++
 #include <cuda.h>
@@ -1990,7 +1990,7 @@ They are then plotted using the `drawParticles()` routine. The rest of the loop 
 
 #### Improvement using shared memory
 
-Let us conclude this chapter with a small improvement to the `computeForcesKernel` kernel obtained by using the so-called *shared memory* .  
+Let us conclude this chapter with a small improvement to the `computeForcesKernel` kernel obtained by using the so-called *shared memory* [\[12\]](#SHARED_MEMORY).  
 To understand the reason for the variation that will be presented, let us consider again the `computeForcesKernel` kernel. As it can be seen from the code, due to the presence of the `for` loop, all the threads need to access all the elements of the `d_pos` and `d_mass` arrays. These arrays are stored in the global memory which, as known, has a long
 latency. Fortunately, the GPUs have a caching mechanisms which avoids the need of performing continuous global memory accesses and to search the required data in the L1 cache first. The L1 cache is indeed *on-chip* and has much shorter latencies. Nevertheless, the L1 caching mechanism is not under the User’s control. Once again fortunately, an
 *on-chip* caching mechanism, known as `shared memory` and controllable by the User, exists. Shared memory can be seen as a portion of L1 cache controllable by the User. In other words, the idea is appointing the threads to explicitly withdraw the data from global memory and storing them into shared memory. The data stored into the shared memory can be read by all the threads belonging to the same thread block. Let us consider the example in the following Listing:
@@ -2054,4 +2054,48 @@ corresponding to the tile they are working on.
 <p align="center" id="PYCUDA1" >
 </p>
 [1] A. Kl<span>ö</span>ckner, N. Pinto, Y. Lee, B. Catanzaro, P. Ivanov, A. Fasih, "PyCUDA and PyOpenCL: A scripting-based approach to GPU run-time code generation," Parallel Computing, vol. 38, n. 3, pp. 157-174, Mar. 2012.
+
+<p align="center" id="WARMUP" >
+</p>
+[2] Y. Sugimoto, F. Ino, K. Hagihara, "Is the warmup code necessary when measuring CUDA kernel running time?," StackOverflow, Dec. 2016.
+
+<p align="center" id="BURGERS_FUIDDYNAMICS" >
+</p>
+[3] M.P. Bonkile, A. Awasthi, C. Lakshmi, V. Mukundan, V.S. Aswin, "A systematic literature review of Burgers’ equation with recent advances," Pramana – J. Phys., vol. 90, n. 69, pp. 1-21, Apr. 2018.
+
+<p align="center" id="BURGERS_ACOUSTICS" >
+</p>
+[4] B. Lombard, D. Matignon, "Diffusive approximation of a time-fractional Burger’s equation in nonlinear acoustics," SIAM J. Appl. Math., vol. 76, n. 6, pp. 1765-1791, 2016.
+
+<p align="center" id="BURGERS_GASDYNAMICS" >
+</p>
+[5] R. Arora, Md. J. Siddiqui, V.P. Singh, "Solutions of inviscid Burgers’ and equal width wave equations by RDTM," Int. J. Appl. Phys. Math., vol. 2, n. 3, pp. 212-214, May. 2012.
+
+<p align="center" id="BURGERS_GASDYNAMICS" >
+</p>
+[6] T. Nagatani, H. Emmerich, K. Nakanishi, "Burgers equation for kinetic clustering in traffic flow," Physica A: Statistical Mech. Appl., vol. 255, n. 1-2, pp. 158-162, Jun. 1998.
+
+<p align="center" id="BURGERS_NAVIER_STOKES" >
+</p>
+[7] M. Landajuela, "Burgers equation," Physica A: Statistical Mech. Appl., pp. 1-20, 2011.
+
+<p align="center" id="{COMPUTATIONAL_FLUID_DYNAMICS," >
+</p>
+[8] J.D. Anderson, "Computational Fluid Dynamics: the Basics with Applications," McGraw Hill, 1995.
+
+<p align="center" id="{RUNGE_KUTTA_QUADRATURE," >
+</p>
+[9] J.S. Rosen, G.C. Marshall, "The Runge-Kutta Equations by Quadrature Methods," NASA Technical Report, NASA TR R-275, Nov. 1967.
+
+<p align="center" id="{PYGAME," >
+</p>
+[10] H. Kinsley, W. McGugan, "Beginning Python Games Development with PyGame, 2nd Ed.," Apress, 2015.
+
+<p align="center" id="{THRUST_PYCUDA," >
+</p>
+[11] B. Catanzaro, "Thrust-PyCUDA interoperability".
+
+<p align="center" id="SHARED_MEMORY" >
+</p>
+[12] M. Harris, "Using Shared Memory in CUDA C/C++," NVIDIA Corporation, Jan. 2013.
 
