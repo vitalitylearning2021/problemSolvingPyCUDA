@@ -413,7 +413,7 @@ It is now time for short recalls on the inviscid Burgers’ equation.
 
 ### The inviscid Burgers’ equation
 
-Burgers’ equation, also known as Bateman–Burgers equation, is a non-linear partial differential equation arising in many application fields as fluid mechanics and nonlinear heat transfer [\[3\]](#BURGERS_FLUIDDYNAMICS), nonlinear acoustics [\[4\]](#BURGERS_ACOUSTICS), gas dynamics [\[5\]](#BURGERS_GASDYNAMICS) and traffic flow [\[6\]](#TRAFFICFLOW).  
+Burgers’ equation, also known as Bateman–Burgers equation, is a non-linear partial differential equation arising in many application fields as fluid mechanics and nonlinear heat transfer [\[3\]](#BURGERSFD), nonlinear acoustics [\[4\]](#BURGERS_ACOUSTICS), gas dynamics [\[5\]](#BURGERSGD) and traffic flow [\[6\]](#TRAFFICFLOW).  
 Burgers’ equation can be derived as simplification of the Navier-Stokes equations [\[7\]](#BURGERS_NAVIER_STOKES). On assuming the viscosity of the fluid vanishing, the Burgers’ equation particularizes in its *inviscid* version, for a simple one-dimensional problem, as
 
 <p align="center">
@@ -2071,7 +2071,7 @@ corresponding to the tile they are working on.
 </p>
 [5] R. Arora, Md. J. Siddiqui, V.P. Singh, "Solutions of inviscid Burgers’ and equal width wave equations by RDTM," Int. J. Appl. Phys. Math., vol. 2, n. 3, pp. 212-214, May. 2012.
 
-<p align="center" id="BURGERS_GASDYNAMICS" >
+<p align="center" id="TRAFFICFLOW" >
 </p>
 [6] T. Nagatani, H. Emmerich, K. Nakanishi, "Burgers equation for kinetic clustering in traffic flow," Physica A: Statistical Mech. Appl., vol. 255, n. 1-2, pp. 158-162, Jun. 1998.
 
