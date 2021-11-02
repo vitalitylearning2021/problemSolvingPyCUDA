@@ -2079,19 +2079,19 @@ corresponding to the tile they are working on.
 </p>
 [7] M. Landajuela, "Burgers equation," Physica A: Statistical Mech. Appl., pp. 1-20, 2011.
 
-<p align="center" id="{COMPUTATIONAL_FLUID_DYNAMICS," >
+<p align="center" id="COMPUTATIONAL_FLUID_DYNAMICS" >
 </p>
 [8] J.D. Anderson, "Computational Fluid Dynamics: the Basics with Applications," McGraw Hill, 1995.
 
-<p align="center" id="{RUNGE_KUTTA_QUADRATURE," >
+<p align="center" id="RUNGE_KUTTA_QUADRATURE" >
 </p>
 [9] J.S. Rosen, G.C. Marshall, "The Runge-Kutta Equations by Quadrature Methods," NASA Technical Report, NASA TR R-275, Nov. 1967.
 
-<p align="center" id="{PYGAME," >
+<p align="center" id="PYGAME" >
 </p>
 [10] H. Kinsley, W. McGugan, "Beginning Python Games Development with PyGame, 2nd Ed.," Apress, 2015.
 
-<p align="center" id="{THRUST_PYCUDA," >
+<p align="center" id="THRUST_PYCUDA" >
 </p>
 [11] B. Catanzaro, "Thrust-PyCUDA interoperability".
 
