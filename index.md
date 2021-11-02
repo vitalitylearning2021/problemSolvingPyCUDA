@@ -2059,7 +2059,7 @@ corresponding to the tile they are working on.
 </p>
 [2] Y. Sugimoto, F. Ino, K. Hagihara, "Is the warmup code necessary when measuring CUDA kernel running time?," StackOverflow, Dec. 2016.
 
-<p align="center" id="BURGERS_FUIDDYNAMICS" >
+<p align="center" id="BURGERSFD" >
 </p>
 [3] M.P. Bonkile, A. Awasthi, C. Lakshmi, V. Mukundan, V.S. Aswin, "A systematic literature review of Burgers’ equation with recent advances," Pramana – J. Phys., vol. 90, n. 69, pp. 1-21, Apr. 2018.
 
@@ -2067,7 +2067,7 @@ corresponding to the tile they are working on.
 </p>
 [4] B. Lombard, D. Matignon, "Diffusive approximation of a time-fractional Burger’s equation in nonlinear acoustics," SIAM J. Appl. Math., vol. 76, n. 6, pp. 1765-1791, 2016.
 
-<p align="center" id="BURGERS_GASDYNAMICS" >
+<p align="center" id="BURGERSGD" >
 </p>
 [5] R. Arora, Md. J. Siddiqui, V.P. Singh, "Solutions of inviscid Burgers’ and equal width wave equations by RDTM," Int. J. Appl. Phys. Math., vol. 2, n. 3, pp. 212-214, May. 2012.
 
